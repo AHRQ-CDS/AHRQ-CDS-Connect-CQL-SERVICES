@@ -1,17 +1,35 @@
 {
-  "name": "cql-exec-service",
-  "version": "0.0.0",
+  "name": "cql-execution",
+  "version": "1.0.0",
+  "description": "A RESTful CQL execution service",
   "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.mitre.org:cds-connect/cql-exec-service.git"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "./node_modules/.bin/mocha --reporter spec --recursive",
+    "test:watch": "npm test -- --watch",
+    "test:debug": "./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
+    "lint": "./node_modules/.bin/eslint .",
+    "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
+    "cql-execution": "file:./localDependencies/cql-execution-0.0.6-5e40f508ae80dfae451864773b40ea2d3c02a8c7.tgz",
+    "cql-fhir": "file:./localDependencies/cql-fhir-1.0.0-f5c6e296efa9ed76cabd4ab33c1bbf487222f447.tgz",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "morgan": "~1.7.0",
     "pug": "~2.0.0-beta10",
     "serve-favicon": "~2.3.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.6.1",
+    "mocha": "^3.2.0"
   }
 }
