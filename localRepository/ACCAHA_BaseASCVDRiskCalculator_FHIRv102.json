@@ -1,0 +1,1895 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "ACCAHA_BaseASCVDRiskCalculator_FHIRv102",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "1.0.2"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "1.0.2"
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "LOINC",
+            "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "HL7 v3 Race",
+            "id" : "http://hl7.org/fhir/v3/Race",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Total Cholesterol",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1013",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "HDL Cholesterol",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Systolic Blood Pressure",
+            "id" : "2.16.840.1.113883.3.526.3.1032",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Anti-Hypertensive Medication",
+            "id" : "2.16.840.1.113883.3.600.1476",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Current Tobacco Smoker",
+            "id" : "2.16.840.1.113883.3.600.2390",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "White",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "White",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "2106-3",
+                  "system" : {
+                     "name" : "HL7 v3 Race"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Black or African American",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Black or African American",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "2054-5",
+                  "system" : {
+                     "name" : "HL7 v3 Race"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Tobacco smoking status",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Tobacco smoking status",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "72166-2",
+                  "system" : {
+                     "name" : "LOINC"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "PatientRace",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ToConcept",
+               "libraryName" : "FHIRHelpers",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "path" : "valueCodeableConcept",
+                  "type" : "Property",
+                  "source" : {
+                     "type" : "SingletonFrom",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "Ext",
+                           "expression" : {
+                              "path" : "extension",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "url",
+                              "scope" : "Ext",
+                              "type" : "Property"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "http://hl7.org/fhir/StructureDefinition/us-core-race",
+                              "type" : "Literal"
+                           } ]
+                        }
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "LastSystolicBPValue",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "O",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Systolic Blood Pressure",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "final",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "In",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "unit",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "type" : "List",
+                              "element" : [ {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "mm[Hg]",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "mmHg",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "mm Hg",
+                                 "type" : "Literal"
+                              } ]
+                           } ]
+                        }, {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "mm[Hg]",
+                              "type" : "Literal"
+                           } ]
+                        } ]
+                     } ]
+                  },
+                  "return" : {
+                     "expression" : {
+                        "name" : "ToDecimal",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "valueQuantity",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  },
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "asc",
+                        "type" : "ByExpression",
+                        "expression" : {
+                           "path" : "issued",
+                           "scope" : "O",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "LastTotalCholesterolValue",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "O",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Total Cholesterol",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "final",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "unit",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "mg/dL",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "mg/dL",
+                              "type" : "Literal"
+                           } ]
+                        } ]
+                     } ]
+                  },
+                  "return" : {
+                     "expression" : {
+                        "name" : "ToDecimal",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "valueQuantity",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  },
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "asc",
+                        "type" : "ByExpression",
+                        "expression" : {
+                           "path" : "issued",
+                           "scope" : "O",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "LastHDLCholesterolValue",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "O",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "HDL Cholesterol",
+                           "type" : "ValueSetRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "final",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "unit",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "mg/dL",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "Equal",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "valueQuantity",
+                                    "scope" : "O",
+                                    "type" : "Property"
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "mg/dL",
+                              "type" : "Literal"
+                           } ]
+                        } ]
+                     } ]
+                  },
+                  "return" : {
+                     "expression" : {
+                        "name" : "ToDecimal",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "valueQuantity",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        } ]
+                     }
+                  },
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "asc",
+                        "type" : "ByExpression",
+                        "expression" : {
+                           "path" : "issued",
+                           "scope" : "O",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "LastSmokingStatus",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Last",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "O",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "And",
+                     "operand" : [ {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "O",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Tobacco smoking status",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "final",
+                           "type" : "Literal"
+                        } ]
+                     } ]
+                  },
+                  "return" : {
+                     "expression" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "valueCodeableConcept",
+                           "scope" : "O",
+                           "type" : "Property"
+                        } ]
+                     }
+                  },
+                  "sort" : {
+                     "by" : [ {
+                        "direction" : "asc",
+                        "type" : "ByExpression",
+                        "expression" : {
+                           "path" : "issued",
+                           "scope" : "O",
+                           "type" : "Property"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "PatientSmoker",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "LastSmokingStatus",
+                     "type" : "ExpressionRef"
+                  },
+                  "valueset" : {
+                     "name" : "Current Tobacco Smoker"
+                  }
+               },
+               "then" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "PatientDiabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "D",
+                        "expression" : {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Diabetes",
+                              "type" : "ValueSetRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equal",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "verificationStatus",
+                              "scope" : "D",
+                              "type" : "Property"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "confirmed",
+                           "type" : "Literal"
+                        } ]
+                     }
+                  }
+               },
+               "then" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "PatientTreatedHighBloodPressure",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "M",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                              "codeProperty" : "medicationCodeableConcept",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Anti-Hypertensive Medication",
+                                 "type" : "ValueSetRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "In",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "status",
+                                 "scope" : "M",
+                                 "type" : "Property"
+                              }
+                           }, {
+                              "type" : "List",
+                              "element" : [ {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "active",
+                                 "type" : "Literal"
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "completed",
+                                 "type" : "Literal"
+                              } ]
+                           } ]
+                        }
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "M",
+                           "expression" : {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Anti-Hypertensive Medication",
+                                 "type" : "ValueSetRef"
+                              }
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "where" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "status",
+                                       "scope" : "M",
+                                       "type" : "Property"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "active",
+                                    "type" : "Literal"
+                                 } ]
+                              }, {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "IsTrue",
+                                    "operand" : {
+                                       "name" : "ToBoolean",
+                                       "libraryName" : "FHIRHelpers",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "wasNotTaken",
+                                          "scope" : "M",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }
+                              } ]
+                           }, {
+                              "type" : "IsNull",
+                              "operand" : {
+                                 "path" : "end",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "effectivePeriod",
+                                    "scope" : "M",
+                                    "type" : "Property"
+                                 }
+                              }
+                           } ]
+                        }
+                     }
+                  } ]
+               },
+               "then" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "1",
+                  "type" : "Literal"
+               },
+               "else" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               }
+            }
+         }, {
+            "name" : "BaseModelParams",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "PatientRace",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "White",
+                        "type" : "ExpressionRef"
+                     } ]
+                  },
+                  "then" : {
+                     "type" : "Case",
+                     "comparand" : {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "gender",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     },
+                     "caseItem" : [ {
+                        "when" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "male",
+                           "type" : "Literal"
+                        },
+                        "then" : {
+                           "type" : "Tuple",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "value" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "12.344",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "11.853",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "2.664",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "7.990",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.769",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.797",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.764",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "7.837",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "1.795",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.658",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "0.9144",
+                                 "type" : "Literal"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "61.18",
+                                 "type" : "Literal"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "when" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "female",
+                           "type" : "Literal"
+                        },
+                        "then" : {
+                           "type" : "Tuple",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "value" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "29.799",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "4.884",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "13.540",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "3.114",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "13.578",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "3.149",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "2.019",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.957",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "7.574",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "1.665",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.661",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "0.9665",
+                                 "type" : "Literal"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "value" : {
+                                 "type" : "Negate",
+                                 "operand" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "29.18",
+                                    "type" : "Literal"
+                                 }
+                              }
+                           } ]
+                        }
+                     } ],
+                     "else" : {
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "type" : "TupleTypeSpecifier",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "type" : {
+                                 "type" : "ListTypeSpecifier",
+                                 "elementType" : {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "PatientRace",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "Black or African American",
+                        "type" : "ExpressionRef"
+                     } ]
+                  },
+                  "then" : {
+                     "type" : "Case",
+                     "comparand" : {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "gender",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
+                           }
+                        }
+                     },
+                     "caseItem" : [ {
+                        "when" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "male",
+                           "type" : "Literal"
+                        },
+                        "then" : {
+                           "type" : "Tuple",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "value" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "2.469",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.302",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "0.307",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.916",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "1.809",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.549",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.645",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "0.8954",
+                                 "type" : "Literal"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "19.54",
+                                 "type" : "Literal"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "when" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "female",
+                           "type" : "Literal"
+                        },
+                        "then" : {
+                           "type" : "Tuple",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "value" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "17.114",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.940",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "18.920",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "4.475",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "29.291",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "6.432",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "27.820",
+                                    "type" : "Literal"
+                                 }, {
+                                    "type" : "Negate",
+                                    "operand" : {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                       "value" : "6.087",
+                                       "type" : "Literal"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.691",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.0",
+                                    "type" : "Literal"
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "value" : "0.874",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "0.9533",
+                                 "type" : "Literal"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "value" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "value" : "86.61",
+                                 "type" : "Literal"
+                              }
+                           } ]
+                        }
+                     } ],
+                     "else" : {
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "type" : "TupleTypeSpecifier",
+                           "element" : [ {
+                              "name" : "Coeffs",
+                              "type" : {
+                                 "type" : "ListTypeSpecifier",
+                                 "elementType" : {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              }
+                           }, {
+                              "name" : "BaselineSurvival",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           }, {
+                              "name" : "PopulationLogHazard",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }
+                  }
+               } ],
+               "else" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Coeffs",
+                        "type" : {
+                           "type" : "ListTypeSpecifier",
+                           "elementType" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "BaselineSurvival",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "PopulationLogHazard",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "PatientLogAge",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Ln",
+               "operand" : {
+                  "type" : "ToDecimal",
+                  "operand" : {
+                     "precision" : "Year",
+                     "type" : "CalculateAge",
+                     "operand" : {
+                        "path" : "birthDate.value",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "PatientLogChol",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Ln",
+               "operand" : {
+                  "name" : "LastTotalCholesterolValue",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "PatientLogHdl",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Ln",
+               "operand" : {
+                  "name" : "LastHDLCholesterolValue",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "PatientLogSysBP",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Ln",
+               "operand" : {
+                  "name" : "LastSystolicBPValue",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "PatientRiskVector",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Tuple",
+               "element" : [ {
+                  "name" : "LogAge",
+                  "value" : {
+                     "name" : "PatientLogAge",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "LogAge_x_LogAge",
+                  "value" : {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               }, {
+                  "name" : "LogTotChol",
+                  "value" : {
+                     "name" : "PatientLogChol",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "LogTotChol_x_LogAge",
+                  "value" : {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "name" : "PatientLogChol",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               }, {
+                  "name" : "LogHdl",
+                  "value" : {
+                     "name" : "PatientLogHdl",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "LogHdl_x_LogAge",
+                  "value" : {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "name" : "PatientLogHdl",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               }, {
+                  "name" : "LogSysBP",
+                  "value" : {
+                     "name" : "PatientLogSysBP",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "LogSysBP_x_LogAge",
+                  "value" : {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "name" : "PatientLogSysBP",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               }, {
+                  "name" : "Smoker",
+                  "value" : {
+                     "name" : "PatientSmoker",
+                     "type" : "ExpressionRef"
+                  }
+               }, {
+                  "name" : "Smoker_x_LogAge",
+                  "value" : {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "type" : "ToDecimal",
+                        "operand" : {
+                           "name" : "PatientSmoker",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "PatientLogAge",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               }, {
+                  "name" : "Diabetic",
+                  "value" : {
+                     "name" : "PatientDiabetes",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "PatientLogHazard",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Add",
+               "operand" : [ {
+                  "type" : "Add",
+                  "operand" : [ {
+                     "type" : "Add",
+                     "operand" : [ {
+                        "type" : "Add",
+                        "operand" : [ {
+                           "type" : "Add",
+                           "operand" : [ {
+                              "type" : "Add",
+                              "operand" : [ {
+                                 "type" : "Add",
+                                 "operand" : [ {
+                                    "type" : "Add",
+                                    "operand" : [ {
+                                       "type" : "Add",
+                                       "operand" : [ {
+                                          "type" : "Add",
+                                          "operand" : [ {
+                                             "type" : "Multiply",
+                                             "operand" : [ {
+                                                "type" : "Indexer",
+                                                "operand" : [ {
+                                                   "path" : "Coeffs",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "name" : "BaseModelParams",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                }, {
+                                                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value" : "0",
+                                                   "type" : "Literal"
+                                                } ]
+                                             }, {
+                                                "path" : "LogAge",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "name" : "PatientRiskVector",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             } ]
+                                          }, {
+                                             "type" : "Multiply",
+                                             "operand" : [ {
+                                                "type" : "Indexer",
+                                                "operand" : [ {
+                                                   "path" : "Coeffs",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "name" : "BaseModelParams",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                }, {
+                                                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                                   "value" : "1",
+                                                   "type" : "Literal"
+                                                } ]
+                                             }, {
+                                                "path" : "LogAge_x_LogAge",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "name" : "PatientRiskVector",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             } ]
+                                          } ]
+                                       }, {
+                                          "type" : "Multiply",
+                                          "operand" : [ {
+                                             "type" : "Indexer",
+                                             "operand" : [ {
+                                                "path" : "Coeffs",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "name" : "BaseModelParams",
+                                                   "type" : "ExpressionRef"
+                                                }
+                                             }, {
+                                                "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                                "value" : "2",
+                                                "type" : "Literal"
+                                             } ]
+                                          }, {
+                                             "path" : "LogTotChol",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "PatientRiskVector",
+                                                "type" : "ExpressionRef"
+                                             }
+                                          } ]
+                                       } ]
+                                    }, {
+                                       "type" : "Multiply",
+                                       "operand" : [ {
+                                          "type" : "Indexer",
+                                          "operand" : [ {
+                                             "path" : "Coeffs",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "BaseModelParams",
+                                                "type" : "ExpressionRef"
+                                             }
+                                          }, {
+                                             "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                             "value" : "3",
+                                             "type" : "Literal"
+                                          } ]
+                                       }, {
+                                          "path" : "LogTotChol_x_LogAge",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "PatientRiskVector",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "Multiply",
+                                    "operand" : [ {
+                                       "type" : "Indexer",
+                                       "operand" : [ {
+                                          "path" : "Coeffs",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "BaseModelParams",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                          "value" : "4",
+                                          "type" : "Literal"
+                                       } ]
+                                    }, {
+                                       "path" : "LogHdl",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "PatientRiskVector",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    } ]
+                                 } ]
+                              }, {
+                                 "type" : "Multiply",
+                                 "operand" : [ {
+                                    "type" : "Indexer",
+                                    "operand" : [ {
+                                       "path" : "Coeffs",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "BaseModelParams",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value" : "5",
+                                       "type" : "Literal"
+                                    } ]
+                                 }, {
+                                    "path" : "LogHdl_x_LogAge",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "PatientRiskVector",
+                                       "type" : "ExpressionRef"
+                                    }
+                                 } ]
+                              } ]
+                           }, {
+                              "type" : "Multiply",
+                              "operand" : [ {
+                                 "type" : "ToDecimal",
+                                 "operand" : {
+                                    "name" : "PatientTreatedHighBloodPressure",
+                                    "type" : "ExpressionRef"
+                                 }
+                              }, {
+                                 "type" : "Add",
+                                 "operand" : [ {
+                                    "type" : "Multiply",
+                                    "operand" : [ {
+                                       "type" : "Indexer",
+                                       "operand" : [ {
+                                          "path" : "Coeffs",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "BaseModelParams",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                          "value" : "6",
+                                          "type" : "Literal"
+                                       } ]
+                                    }, {
+                                       "path" : "LogSysBP",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "PatientRiskVector",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Multiply",
+                                    "operand" : [ {
+                                       "type" : "Indexer",
+                                       "operand" : [ {
+                                          "path" : "Coeffs",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "BaseModelParams",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                          "value" : "7",
+                                          "type" : "Literal"
+                                       } ]
+                                    }, {
+                                       "path" : "LogSysBP_x_LogAge",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "PatientRiskVector",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    } ]
+                                 } ]
+                              } ]
+                           } ]
+                        }, {
+                           "type" : "Multiply",
+                           "operand" : [ {
+                              "type" : "ToDecimal",
+                              "operand" : {
+                                 "type" : "Subtract",
+                                 "operand" : [ {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "1",
+                                    "type" : "Literal"
+                                 }, {
+                                    "name" : "PatientTreatedHighBloodPressure",
+                                    "type" : "ExpressionRef"
+                                 } ]
+                              }
+                           }, {
+                              "type" : "Add",
+                              "operand" : [ {
+                                 "type" : "Multiply",
+                                 "operand" : [ {
+                                    "type" : "Indexer",
+                                    "operand" : [ {
+                                       "path" : "Coeffs",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "BaseModelParams",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value" : "8",
+                                       "type" : "Literal"
+                                    } ]
+                                 }, {
+                                    "path" : "LogSysBP",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "PatientRiskVector",
+                                       "type" : "ExpressionRef"
+                                    }
+                                 } ]
+                              }, {
+                                 "type" : "Multiply",
+                                 "operand" : [ {
+                                    "type" : "Indexer",
+                                    "operand" : [ {
+                                       "path" : "Coeffs",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "BaseModelParams",
+                                          "type" : "ExpressionRef"
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                       "value" : "9",
+                                       "type" : "Literal"
+                                    } ]
+                                 }, {
+                                    "path" : "LogSysBP_x_LogAge",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "PatientRiskVector",
+                                       "type" : "ExpressionRef"
+                                    }
+                                 } ]
+                              } ]
+                           } ]
+                        } ]
+                     }, {
+                        "type" : "Multiply",
+                        "operand" : [ {
+                           "type" : "Indexer",
+                           "operand" : [ {
+                              "path" : "Coeffs",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "BaseModelParams",
+                                 "type" : "ExpressionRef"
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "value" : "10",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "ToDecimal",
+                           "operand" : {
+                              "path" : "Smoker",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "PatientRiskVector",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        } ]
+                     } ]
+                  }, {
+                     "type" : "Multiply",
+                     "operand" : [ {
+                        "type" : "Indexer",
+                        "operand" : [ {
+                           "path" : "Coeffs",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "BaseModelParams",
+                              "type" : "ExpressionRef"
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                           "value" : "11",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "path" : "Smoker_x_LogAge",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PatientRiskVector",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  } ]
+               }, {
+                  "type" : "Multiply",
+                  "operand" : [ {
+                     "type" : "Indexer",
+                     "operand" : [ {
+                        "path" : "Coeffs",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "BaseModelParams",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "value" : "12",
+                        "type" : "Literal"
+                     } ]
+                  }, {
+                     "type" : "ToDecimal",
+                     "operand" : {
+                        "path" : "Diabetic",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "PatientRiskVector",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "PatientBaselineRisk",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Subtract",
+               "operand" : [ {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                  "value" : "1.0",
+                  "type" : "Literal"
+               }, {
+                  "type" : "Power",
+                  "operand" : [ {
+                     "path" : "BaselineSurvival",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "BaseModelParams",
+                        "type" : "ExpressionRef"
+                     }
+                  }, {
+                     "type" : "Exp",
+                     "operand" : {
+                        "type" : "Subtract",
+                        "operand" : [ {
+                           "name" : "PatientLogHazard",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "path" : "PopulationLogHazard",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "BaseModelParams",
+                              "type" : "ExpressionRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               } ]
+            }
+         } ]
+      }
+   }
+}
+

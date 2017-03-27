@@ -6,7 +6,16 @@
 
 const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
+const localRepo = require('../lib/local-repo');
+const localCodeService = require('../lib/local-code-service');
 const http = require('http');
+const path = require('path');
+
+/**
+ * Load local data into the local repo and local code service
+ */
+localRepo.load(path.join(__dirname, '..', 'localRepository'));
+localCodeService.load(path.join(__dirname, '..', 'localCodeService', 'valueset-db.json'));
 
 /**
  * Get port from environment and store in Express.

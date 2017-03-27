@@ -1,0 +1,36 @@
+{
+  "2.16.840.1.113883.3.464.1003.104.12.1013": {
+    "Any": [
+        { "code": "2093-3", "system": "http://loinc.org" }
+    ]
+  },
+  "2.16.840.1.113883.3.464.1003.104.12.1012": {
+    "Any": [
+        { "code": "2085-9", "system": "http://loinc.org" }
+    ]
+  },
+  "2.16.840.1.113883.3.526.3.1032": {
+    "Any": [
+        { "code": "8480-6", "system": "http://loinc.org" }
+    ]
+  },
+  "2.16.840.1.113883.3.464.1003.103.12.1001": {
+    "Any" : [
+        { "code": "44054006", "system": "http://snomed.info/sct" }
+    ]
+  },
+  "2.16.840.1.113883.3.600.1476": {
+    "Any": [
+        { "code": "999996", "system": "http://www.nlm.nih.gov/research/umls/rxnorm" }
+    ]
+  },
+  "2.16.840.1.113883.3.600.2390": {
+    "Any": [
+        { "code": "449868002", "system": "http://snomed.info/sct" },
+        { "code": "428041000124106", "system": "http://snomed.info/sct" },
+        { "code": "77176002", "system": "http://snomed.info/sct" },
+        { "code": "428071000124103", "system": "http://snomed.info/sct" },
+        { "code": "428071000124103", "system": "http://snomed.info/sct" }
+    ]
+  }
+}
