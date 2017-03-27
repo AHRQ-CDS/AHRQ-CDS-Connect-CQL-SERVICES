@@ -16,15 +16,15 @@ To use this project, you should perform the following steps:
 
 To run the server on Mac/Linux:
 ```
-$ DEBUG=myapp:* npm start
+$ DEBUG=cql-exec-service:* npm start
 ```
 
 To run the server on Windows:
 ```
-> set DEBUG=myapp:* & npm start
+> set DEBUG=cql-exec-service:* & npm start
 ```
 
-_NOTE: Setting DEBUG is likely not necessary, but is recommended in the Express documentation._
+_NOTE: Setting DEBUG is optional, but is recommended in the Express documentation._
 
 Access the application at [http://localhost:3000/](http://localhost:3000/).
 
