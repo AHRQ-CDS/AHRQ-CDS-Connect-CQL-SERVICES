@@ -6,7 +6,10 @@ const localCodeService = require('../lib/local-code-service');
 const router = express.Router();
 
 /* POST data to library for execution. */
-router.post('/:library/version/:version', function(req, res, next) {
+router.post('/:library/version/:version', execute);
+router.post('/:library/version/:version/expression/:expression', execute);
+
+function execute(req, res, next) {
   // Load the library
   const lib = localRepo.get().resolve(req.params.library, req.params.version);
   if (typeof lib === 'undefined') {
@@ -42,11 +45,10 @@ router.post('/:library/version/:version', function(req, res, next) {
   const executor = new cql.Executor(lib, localCodeService.get());
   const results = executor.exec(patientSource);
 
-  sendResults(res, lib, results);
+  sendResults(res, lib, results, req.params.expression);
+}
 
-});
-
-function sendResults(res, lib, results) {
+function sendResults(res, lib, results, expression) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
     res.status(400).send('Insufficient data to provide results.');
@@ -61,9 +63,14 @@ function sendResults(res, lib, results) {
   const formattedResults = {
     library: { name: lib.source.library.identifier.id, version: lib.source.library.identifier.version},
     timestamp: new Date(),
-    patientID: pid,
-    results: pResults
+    patientID: pid
   };
+  if (typeof expression === 'undefined') {
+    formattedResults.results = pResults;
+  } else {
+    formattedResults.expression = expression;
+    formattedResults.result = pResults[expression];
+  }
   res.json(formattedResults);
 }
 
