@@ -1,0 +1,91 @@
+[
+  {
+    "patient" : {
+      "birthDate" : "1970-02-17",
+      "gender" : "male",
+      "race" : "White"
+    }
+  },
+  {
+    "observation" : {
+      "coding" : { 
+        "system" : "http://loinc.org",
+        "code" : "8480-6",
+        "display" : "Systolic blood pressure" 
+      },
+      "quantity" : { 
+        "value" : 107,
+        "system" : "http://unitsofmeasure.org",
+        "code" : "mm[Hg]" 
+      },
+      "effectiveDateTime": "2014-02-21"
+    }
+  },
+  {
+    "observation" : {
+      "coding" : { 
+        "system" : "http://loinc.org",
+        "code" : "2093-3",
+        "display" : "Cholesterol [Mass/volume] in Serum or Plasma" 
+      },
+      "quantity" : { 
+        "value" : 187,
+        "system" : "http://unitsofmeasure.org",
+        "code" : "mg/dL"
+      },
+      "effectiveDateTime": "2012-09-03"
+    }
+  },
+  {
+    "observation" : {
+      "coding" : { 
+        "system" : "http://loinc.org",
+        "code" : "2085-9",
+        "display" : "Cholesterol in HDL [Mass/volume] in Serum or Plasma" 
+      },
+      "quantity" : { 
+        "value" : 58,
+        "system" : "http://unitsofmeasure.org",
+        "code" : "mg/dL" 
+      },
+      "effectiveDateTime": "2014-02-21"
+    }
+  },
+  {
+    "observation" : {
+      "coding" : { 
+        "system" : "http://loinc.org",
+        "code" : "72166-2",
+        "display" : "Tobacco smoking status" 
+      },
+      "concept" : { 
+        "system" : "http://snomed.info/sct",
+        "code" : "266919005",
+        "display" : "Never smoker" 
+      },
+      "effectiveDateTime": "2016-08-28"
+    }
+  },
+  {
+    "condition" : {
+      "coding" : { 
+        "system" : "http://snomed.info/sct",
+        "code" : "44054006",
+        "display" : "Diabetes mellitus type 2 (disorder)" 
+      },
+      "onsetDateTime": "2016-08-28"
+    }
+  },
+  { 
+    "medication": {
+      "coding": {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "999996",
+        "display": "Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet"
+      },
+      "dateWritten": "2016-08-12"
+    }
+  }
+]
+
+
