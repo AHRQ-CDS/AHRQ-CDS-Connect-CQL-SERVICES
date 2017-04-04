@@ -1,8 +1,8 @@
 const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-fhir');
-const localRepo = require('../lib/local-repo');
-const localCodeService = require('../lib/local-code-service');
+const localRepo = require('../../lib/local-repo');
+const localCodeService = require('../../lib/local-code-service');
 const router = express.Router();
 
 /* POST data to library for execution. */
