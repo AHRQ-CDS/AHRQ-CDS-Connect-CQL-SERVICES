@@ -5,11 +5,39 @@ const localRepo = require('../../lib/local-repo');
 const localCodeService = require('../../lib/local-code-service');
 const router = express.Router();
 
+/* GET the library ELM */
+router.get('/:library', get);
+router.get('/:library/version/:version', get);
+
 /* POST data to library for execution. */
 router.post('/:library', execute);
 router.post('/:library/expression/:expression', execute);
 router.post('/:library/version/:version', execute);
 router.post('/:library/version/:version/expression/:expression', execute);
+
+function get(req, res, next) {
+  // Load the library
+  let lib;
+  if (typeof req.params.version === 'undefined') {
+    lib = localRepo.get().resolveLatest(req.params.library);
+  } else {
+    lib = localRepo.get().resolve(req.params.library, req.params.version);
+  }
+  if (typeof lib === 'undefined') {
+    res.sendStatus(404);
+    return;
+  }
+
+  // Set the response header so the client knows exactly what library & expression is being processed
+  let loc = lib.source.library.identifier.id;
+  if (typeof lib.source.library.identifier.version !== 'undefined') {
+    loc += `/version/${lib.source.library.identifier.version}`;
+  }
+  res.location(`${req.baseUrl}/${loc}`);
+
+  // Send the json
+  res.json(lib.source);
+}
 
 function execute(req, res, next) {
   // Load the library
