@@ -1,5 +1,5 @@
 {
-  "name": "cql-execution",
+  "name": "cql-exec-service",
   "version": "1.0.0",
   "description": "A RESTful CQL execution service",
   "private": true,
