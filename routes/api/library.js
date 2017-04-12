@@ -5,17 +5,19 @@ const localRepo = require('../../lib/local-repo');
 const localCodeService = require('../../lib/local-code-service');
 const router = express.Router();
 
-/* GET the library ELM */
-router.get('/:library', get);
-router.get('/:library/version/:version', get);
+// Establish the routes
+router.get('/:library', resolver, get);
+router.post('/:library', resolver, execute);
+router.get('/:library/version/:version', resolver, get);
+router.post('/:library/version/:version', resolver, execute);
+router.post('/:library/expression/:expression', resolver, execute);
+router.post('/:library/version/:version/expression/:expression', resolver, execute);
 
-/* POST data to library for execution. */
-router.post('/:library', execute);
-router.post('/:library/expression/:expression', execute);
-router.post('/:library/version/:version', execute);
-router.post('/:library/version/:version/expression/:expression', execute);
-
-function get(req, res, next) {
+/**
+ * Middleware to confirm and load library name and expression from URL.
+ * Puts resulting library and expression name in `res.locals`.
+ */
+function resolver(req, res, next) {
   // Load the library
   let lib;
   if (typeof req.params.version === 'undefined') {
@@ -24,43 +26,59 @@ function get(req, res, next) {
     lib = localRepo.get().resolve(req.params.library, req.params.version);
   }
   if (typeof lib === 'undefined') {
+    // Set the 404 status and halt the request chain now
     res.sendStatus(404);
     return;
   }
+  // Set the library in the res.locals for use by other middleware and/or routes
+  res.locals.library = lib;
+
+  // Confirm expression (if applicable)
+  if (typeof req.params.expression !== 'undefined') {
+    let def = lib.expressions[req.params.expression];
+    // Check the library to ensure this is a valid returnable expression
+    if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
+      // Set the 404 status and halt the request chain now
+      res.sendStatus(404);
+      return;
+    }
+    // Set the expression in the res.locals for use by other middleware and/or routes
+    res.locals.expression = def.name;
+  }
 
   // Set the response header so the client knows exactly what library & expression is being processed
-  let loc = lib.source.library.identifier.id;
-  if (typeof lib.source.library.identifier.version !== 'undefined') {
-    loc += `/version/${lib.source.library.identifier.version}`;
+  const libIdentifier = res.locals.library.source.library.identifier;
+  let loc = libIdentifier.id;
+  if (typeof libIdentifier.version !== 'undefined') {
+    loc += `/version/${libIdentifier.version}`;
+  }
+  if (typeof res.locals.expression !== 'undefined') {
+    loc += `/expression/${res.locals.expression}`;
   }
   res.location(`${req.baseUrl}/${loc}`);
 
+  // Invoke the next middleware/route in the chain
+  next();
+}
+
+/**
+ * Route handler that gets the ELM JSON for the requested library
+ * Requires `resolver` handler to precede it in the handler chain.
+ */
+function get(req, res, next) {
+  // Get the lib from the res.locals (thanks, middleware!)
+  const lib = res.locals.library;
   // Send the json
   res.json(lib.source);
 }
 
+/**
+ * Route handler that executes data against the requested library.
+ * Requires `resolver` handler to precede it in the handler chain.
+ */
 function execute(req, res, next) {
-  // Load the library
-  let lib;
-  if (typeof req.params.version === 'undefined') {
-    lib = localRepo.get().resolveLatest(req.params.library);
-  } else {
-    lib = localRepo.get().resolve(req.params.library, req.params.version);
-  }
-  if (typeof lib === 'undefined') {
-    res.sendStatus(404);
-    return;
-  }
-
-  // Set the response header so the client knows exactly what library & expression is being processed
-  let loc = lib.source.library.identifier.id;
-  if (typeof lib.source.library.identifier.version !== 'undefined') {
-    loc += `/version/${lib.source.library.identifier.version}`;
-  }
-  if (typeof req.params.expression !== 'undefined') {
-    loc += `/expression/${req.params.expression}`;
-  }
-  res.location(`${req.baseUrl}/${loc}`);
+  // Get the lib from the res.locals (thanks, middleware!)
+  const lib = res.locals.library;
 
   // Load the patient source
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
@@ -91,10 +109,13 @@ function execute(req, res, next) {
   // Execute it and send the results
   const executor = new cql.Executor(lib, localCodeService.get());
   const results = executor.exec(patientSource);
-  sendResults(res, lib, results, req.params.expression);
+  sendResults(res, results);
 }
 
-function sendResults(res, lib, results, expression) {
+/**
+ * Sends the execution results back to the client
+ */
+function sendResults(res, results) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
     res.status(400).send('Insufficient data to provide results.');
@@ -106,16 +127,17 @@ function sendResults(res, lib, results, expression) {
   const pid = resultIDs[0];
   const pResults = results.patientResults[pid];
   delete(pResults.Patient);
+  const libIdentifier = res.locals.library.source.library.identifier;
   const formattedResults = {
-    library: { name: lib.source.library.identifier.id, version: lib.source.library.identifier.version},
+    library: { name: libIdentifier.id, version: libIdentifier.version},
     timestamp: new Date(),
     patientID: pid
   };
-  if (typeof expression === 'undefined') {
+  if (typeof res.locals.expression === 'undefined') {
     formattedResults.results = pResults;
   } else {
-    formattedResults.expression = expression;
-    formattedResults.result = pResults[expression];
+    formattedResults.expression = res.locals.expression;
+    formattedResults.result = pResults[res.locals.expression];
   }
   res.json(formattedResults);
 }
