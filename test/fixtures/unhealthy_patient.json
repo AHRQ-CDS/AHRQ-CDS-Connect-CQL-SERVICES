@@ -1,0 +1,144 @@
+{
+	"data":	[
+    {
+      "resourceType" : "Patient",
+      "id" : "2-1",
+      "extension": [{
+        "url": "http://hl7.org/fhir/StructureDefinition/us-core-race",
+        "valueCodeableConcept": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/v3/Race",
+            "code": "2054-5",
+            "display": "Black or African American"
+          }]
+        }
+      }],
+      "name": [ {"given":["Unhealthy"], "family": ["Patient"]} ],
+      "gender": "female",
+      "birthDate" : "1974-10-22T10:23"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "2-2",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "8480-6",
+          "display": "Systolic blood pressure"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/2-1"
+      },
+      "effectiveDateTime": "2016-11-15",
+      "issued": "2016-11-15T09:30:00-05:00",
+      "valueQuantity": {
+        "value": 143,
+        "system": "http://unitsofmeasure.org",
+        "code": "mm[Hg]"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "2-3",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "2093-3",
+          "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/2-1"
+      },
+      "effectiveDateTime": "2016-11-15",
+      "issued": "2016-11-15T16:52:00-05:00",
+      "valueQuantity": {
+        "value": 215,
+        "system": "http://unitsofmeasure.org",
+        "code": "mg/dL"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "2-4",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "2085-9",
+          "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/2-1"
+      },
+      "effectiveDateTime": "2016-11-15",
+      "issued": "2016-11-15T16:52:00-05:00",
+      "valueQuantity": {
+        "value": 37,
+        "system": "http://unitsofmeasure.org",
+        "code": "mg/dL"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "2-5",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "72166-2",
+          "display": "Tobacco smoking status"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/2-1"
+      },
+      "effectiveDateTime": "2016-11-15",
+      "issued": "2016-11-15T09:30:00-05:00",
+      "valueCodeableConcept": {
+        "coding": [{
+          "system": "http://snomed.info/sct",
+          "code": "449868002",
+          "display": "Current every day smoker"
+        }]
+      }
+    },
+    {
+      "resourceType": "Condition",
+      "id": "2-6",
+      "clinicalStatus": "active",
+      "verificationStatus": "confirmed",
+      "code": {
+        "coding": [{
+          "system": "http://snomed.info/sct",
+          "code": "44054006",
+          "display": "Diabetes mellitus type 2 (disorder)"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/2-1"
+      },
+      "onsetDateTime": "2009-04-25"
+    },
+    {
+      "resourceType": "MedicationOrder",
+      "id": "2-7",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [{
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "999996",
+          "display": "Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet"
+        }]
+      },
+      "patient": {
+        "reference": "Patient/2-1"
+      },
+      "dateWritten": "2016-08-12"
+    }
+  ]
+}

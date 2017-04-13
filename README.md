@@ -4,6 +4,10 @@ The CQL Execution Service is an Express-based RESTful service for executing CQL.
 
 This project was initialized using the [Express application generator](https://expressjs.com/en/starter/generator.html) (from which it gets its project structure and dependencies).
 
+# Installing on Windows Server 2012
+
+This service will be piloted on Windows Server 2012.  Installation instructions are [here](docs/windows_2012_install.md).
+
 # Setting Up the Environment
 
 To use this project, you should perform the following steps:

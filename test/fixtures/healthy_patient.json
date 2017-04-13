@@ -1,0 +1,111 @@
+{
+	"data":	[
+    {
+      "resourceType" : "Patient",
+      "id" : "1-1",
+      "extension": [{
+        "url": "http://hl7.org/fhir/StructureDefinition/us-core-race",
+        "valueCodeableConcept": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/v3/Race",
+            "code": "2106-3",
+            "display": "White"
+          }]
+        }
+      }],
+      "name": [ {"given":["Healthy"], "family": ["Patient"]} ],
+      "gender": "male",
+      "birthDate" : "1970-02-17T06:15"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "1-2",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "8480-6",
+          "display": "Systolic blood pressure"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/1"
+      },
+      "effectiveDateTime": "2016-08-28",
+      "issued": "2016-08-28T15:30:00-04:00",
+      "valueQuantity": {
+        "value": 107,
+        "system": "http://unitsofmeasure.org",
+        "code": "mm[Hg]"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "1-3",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "2093-3",
+          "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/1"
+      },
+      "effectiveDateTime": "2016-09-28",
+      "issued": "2016-08-29T09:42:11-04:00",
+      "valueQuantity": {
+        "value": 187,
+        "system": "http://unitsofmeasure.org",
+        "code": "mg/dL"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "1-4",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "2085-9",
+          "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/1"
+      },
+      "effectiveDateTime": "2016-09-28",
+      "issued": "2016-08-29T09:42:11-04:00",
+      "valueQuantity": {
+        "value": 58,
+        "system": "http://unitsofmeasure.org",
+        "code": "mg/dL"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "1-5",
+      "status": "final",
+      "code": {
+        "coding": [{
+          "system": "http://loinc.org",
+          "code": "72166-2",
+          "display": "Tobacco smoking status"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/1"
+      },
+      "effectiveDateTime": "2016-09-28",
+      "issued": "2016-08-28T15:30:00-04:00",
+      "valueCodeableConcept": {
+        "coding": [{
+          "system": "http://snomed.info/sct",
+          "code": "266919005",
+          "display": "Never smoker"
+        }]
+      }
+    }
+  ]
+}

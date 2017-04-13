@@ -2,4 +2,38 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  h2 Loaded CQL libraries
+  table
+    thead
+      tr
+        th Name
+        th Version
+        th Endpoint
+    tbody
+      each lib in libraries
+        tr
+          td #{lib.source.library.identifier.id}
+          td #{lib.source.library.identifier.version}
+          - var ep = `${req.baseUrl}/api/library/${lib.source.library.identifier.id}/version/${lib.source.library.identifier.version}`;
+          td: a(href=ep) #{ep}
+  |
+  each lib in libraries
+    h2 #{lib.source.library.identifier.id} v#{lib.source.library.identifier.version}
+    h3 Callable Expressions
+    table
+      thead
+        tr
+          th Name
+          th Endpoint
+      tbody
+        each name in expressions[`${lib.source.library.identifier.id}.${lib.source.library.identifier.version}`]
+          - var ep = `${req.baseUrl}/api/library/${lib.source.library.identifier.id}/version/${lib.source.library.identifier.version}/expression/${name}`;
+          tr
+            td #{name}
+            td: a(href=ep) #{ep}
+        else
+          tr
+            td n/a
+            td n/a
+
+
