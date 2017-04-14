@@ -3,15 +3,18 @@ const cql = require('cql-execution');
 const fhir = require('cql-fhir');
 const localRepo = require('../../lib/local-repo');
 const localCodeService = require('../../lib/local-code-service');
+const CodeService = require('code-service');
 const router = express.Router();
+
+var codeservice;
 
 // Establish the routes
 router.get('/:library', resolver, get);
-router.post('/:library', resolver, execute);
+router.post('/:library', resolver, valuesetter, execute);
 router.get('/:library/version/:version', resolver, get);
-router.post('/:library/version/:version', resolver, execute);
-router.post('/:library/expression/:expression', resolver, execute);
-router.post('/:library/version/:version/expression/:expression', resolver, execute);
+router.post('/:library/version/:version', resolver, valuesetter, execute);
+router.post('/:library/expression/:expression', resolver, valuesetter, execute);
+router.post('/:library/version/:version/expression/:expression', resolver, valuesetter, execute);
 
 /**
  * Middleware to confirm and load library name and expression from URL.
@@ -76,6 +79,18 @@ function get(req, res, next) {
  * Route handler that executes data against the requested library.
  * Requires `resolver` handler to precede it in the handler chain.
  */
+function valuesetter(req, res, next) {
+  // Get the lib from the res.locals (thanks, middleware!)
+  const valuesets = res.locals.library.valuesets;
+
+  codeservice = new CodeService.CodeService('../../lib/local-code-service', valuesets);
+
+}
+
+/**
+ * Route handler that executes data against the requested library.
+ * Requires `resolver` handler to precede it in the handler chain.
+ */
 function execute(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const lib = res.locals.library;
@@ -107,7 +122,7 @@ function execute(req, res, next) {
   }
 
   // Execute it and send the results
-  const executor = new cql.Executor(lib, localCodeService.get());
+  const executor = new cql.Executor(lib, codeservice.get());
   const results = executor.exec(patientSource);
   sendResults(res, results);
 }
