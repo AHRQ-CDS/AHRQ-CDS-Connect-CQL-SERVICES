@@ -83,7 +83,8 @@ function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const valuesets = res.locals.library.valuesets;
 
-  codeservice = new CodeService.CodeService('../../lib/local-code-service', valuesets);
+  codeservice = new CodeService.CodeService('localCodeService/vsac_cache/valueset-db.json', 
+    valuesets,'localCodeService/vsac_cache', next );
 
 }
 
@@ -122,7 +123,7 @@ function execute(req, res, next) {
   }
 
   // Execute it and send the results
-  const executor = new cql.Executor(lib, codeservice.get());
+  const executor = new cql.Executor(lib, codeservice);
   const results = executor.exec(patientSource);
   sendResults(res, results);
 }
