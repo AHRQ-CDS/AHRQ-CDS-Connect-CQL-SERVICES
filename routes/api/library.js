@@ -81,7 +81,7 @@ function get(req, res, next) {
  */
 function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
-  const valuesets = undefined; //res.locals.library.valuesets;
+  const valuesets = res.locals.library.valuesets;
 
   codeservice = new CodeService.CodeService('localCodeService/vsac_cache/valueset-db.json', 
     valuesets,'localCodeService/vsac_cache', next );
