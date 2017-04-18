@@ -2,7 +2,6 @@ const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-fhir');
 const localRepo = require('../../lib/local-repo');
-const localCodeService = require('../../lib/local-code-service');
 const cs = require('cds-code-service');
 const router = express.Router();
 
@@ -77,25 +76,25 @@ function get(req, res, next) {
 }
 
 /**
- * Route handler that reads the valuesets needed by the requested 
- * library and cross-checks with the local code service cache. If 
- * no local version of a valueset is found, it is downloaded from 
- * the Value Set Authority Center (VSAC). Requires 'resolver' handler 
+ * Route handler that reads the valuesets needed by the requested
+ * library and cross-checks with the local code service cache. If
+ * no local version of a valueset is found, it is downloaded from
+ * the Value Set Authority Center (VSAC). Requires 'resolver' handler
  * to proceed it in the handler chain.
  */
 function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const valuesets = res.locals.library.valuesets;
 
-  // Check to see if the code service has been initialized yet. If not, 
+  // Check to see if the code service has been initialized yet. If not,
   // create a new CodeService instance.
   if (typeof(codeservice) === 'undefined') {
     codeservice = new cs.CodeService('localCodeService/vsac_cache/valueset-db.json',
       'localCodeService/vsac_cache');
   }
 
-  // If the calling library has valuesets, crosscheck them with the local 
-  // codeservice. Any valuesets not found in the local cache will be 
+  // If the calling library has valuesets, crosscheck them with the local
+  // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
   if (valuesets !== null) { // We have some valuesets... get them.
     codeservice.ensureValueSets(valuesets, (err) => {
