@@ -3,9 +3,10 @@ const cql = require('cql-execution');
 const fhir = require('cql-fhir');
 const localRepo = require('../../lib/local-repo');
 const localCodeService = require('../../lib/local-code-service');
-const CodeService = require('code-service');
+const cs = require('code-service');
 const router = express.Router();
 
+// Global variable that will hold our code service.
 var codeservice;
 
 // Establish the routes
@@ -76,19 +77,39 @@ function get(req, res, next) {
 }
 
 /**
- * Route handler that executes data against the requested library.
- * Requires `resolver` handler to precede it in the handler chain.
+ * Route handler that reads the valuesets needed by the requested 
+ * library and cross-checks with the local code service cache. If 
+ * no local version of a valueset is found, it is downloaded from 
+ * the Value Set Authority Center (VSAC). Requires 'resolver' handler 
+ * to proceed it in the handler chain.
  */
 function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const valuesets = res.locals.library.valuesets;
 
-  codeservice = new CodeService.CodeService('localCodeService/vsac_cache/valueset-db.json', 
-    valuesets,'localCodeService/vsac_cache', next );
-  if (codeservice.valueSets !== undefined && valuesets === undefined) {
-    next();
+  // Check to see if the code service has been initialized yet. If not, 
+  // create a new CodeService instance.
+  if (typeof(codeservice) === 'undefined') {
+    codeservice = new cs.CodeService('localCodeService/vsac_cache/valueset-db.json',
+      'localCodeService/vsac_cache');
   }
 
+  // If the calling library has valuesets, crosscheck them with the local 
+  // codeservice. Any valuesets not found in the local cache will be 
+  // downloaded from VSAC.
+  if (valuesets !== null) { // We have some valuesets... get them.
+    codeservice.ensureValueSets(valuesets, (err) => {
+      if (typeof(err) !== 'undefined' && err !== null) {
+        // An error was returned. Send appropriate response.
+        res.status(500).send(`Error downloading required valuesets: ${err}`);
+        return;
+      } else {
+        next();
+      }
+    });
+  } else { // No valuesets. Go to next handler.
+    next();
+  }
 }
 
 /**
