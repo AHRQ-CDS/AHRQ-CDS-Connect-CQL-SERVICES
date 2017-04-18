@@ -3,7 +3,7 @@ const cql = require('cql-execution');
 const fhir = require('cql-fhir');
 const localRepo = require('../../lib/local-repo');
 const localCodeService = require('../../lib/local-code-service');
-const cs = require('code-service');
+const cs = require('cds-code-service');
 const router = express.Router();
 
 // Global variable that will hold our code service.

@@ -204,6 +204,15 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
+"cds-code-service@file:./localDependencies/cds-code-service-0.0.9-d65cc3b3553ef0b4f1ee832a7db88f19ee8d05ed.tgz":
+  version "1.0.0"
+  resolved "./localDependencies/cds-code-service-0.0.9-d65cc3b3553ef0b4f1ee832a7db88f19ee8d05ed.tgz#05fcde396aca33edbcb5e575cff4c80c96ac3209"
+  dependencies:
+    cql-execution "file:./localDependencies/cql-execution-0.0.6-a63b1effd4b1beaa3b399d7286392d1cf6b09ced.tgz"
+    mkdirp "^0.5.1"
+    request "^2.81.0"
+    xml2js "^0.4.17"
+
 center-align@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/center-align/-/center-align-0.1.3.tgz#aa0d32629b6ee972200411cbd4461c907bc2b7ad"
@@ -271,15 +280,6 @@ co@^4.6.0:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
-
-"code-service@file:./localDependencies/cds-code-service-0.0.2-46ca9b41ae1af342c16660a848d5d4fec1e641b8.tgz":
-  version "1.0.0"
-  resolved "./localDependencies/cds-code-service-0.0.2-46ca9b41ae1af342c16660a848d5d4fec1e641b8.tgz#334cc4fdc6463a198b071c42e4652694912111a8"
-  dependencies:
-    cql-execution "file:./localDependencies/cql-execution-0.0.6-a63b1effd4b1beaa3b399d7286392d1cf6b09ced.tgz"
-    mkdirp "^0.5.1"
-    request "^2.81.0"
-    xml2js "^0.4.17"
 
 combined-stream@^1.0.5, combined-stream@~1.0.5:
   version "1.0.5"
