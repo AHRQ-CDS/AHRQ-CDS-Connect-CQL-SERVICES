@@ -5,37 +5,48 @@ The USPSTF guidelines provide two distinct CDS capabilities:
 1. Given a specific set of data elements, determine if a patient should have an ASCVD Risk Assessment calculated
 2. Given an ASCVD score and specific data elements, determine if a patient should receive statin treatment
 
-While these two capabilities should ideally be called separately (in sequence), in some cases a single combined call may be required based on limitations and/or performance requirements of the calling system.
+For the purposes of this pilot, the first guideline, which determines if a patient is eligible for ASCVD risk calculation, will be performed by the EHR.  The second guideline, which determines if the patient should receive statin treatment, will be defined using CQL and executed via the CQL Execution Service.
 
-## Single (Combined) Call
+The remainder of this document provides additional details about the CQL Execution Service API for invoking the USPSTF-based artifact for "Statin Use for the Primary Prevention of CVD in Adults."
 
-### Example Request
+## Necessary Data Elements
 
-This example provides the general shape of a request to the USPSTF combined call, but the details of individual data elements will likely change.  In summary, the request will need to include:
+A request to the CQL Execution Service for the statin recommendation will require the following data elements:
 
-* The CDS to execute (name & version, encoded in the request URL)
-* Data elements needed to determine if an ASCVD Risk Calculation is appropriate
+* Data elements needed to determine if statin treatment is appropriate
     * Age
     * LDL-C
     * HDL-C
-    * Smoking Status _(if found)_
-    * Diabetes _(if found)_
-    * Hypertension _(if found)_
-    * ASCVD _(if found)_
-    * Previous ASCVD Risk Score _(if found)_
-    * Other "Risk Factors" _(TBD)_
-* Data elements needed to determine if statin is appropriate
-    * _same as above, plus..._
-    * Today's ASCVD Risk Score Calculation _(which is invalid if calculation is not appropriate for this patient)_
+    * Smoking Status
+    * Diabetes
+    * Hypertension
+    * 10-Year CVD Risk Score
+* Data elements needed to determine if the patient should be excluded from logic
+    * CVD
+    * Familial Hypercholesterolemia
+    * Active Pregnancy
+    * Breastfeeding
+    * End Stage Renal Disease
+    * Actively Undergoing Dialysis (i.e., in past 7 days)
+    * Active Cirrhosis
+    * Receiving Palliative Care
+    * Active Low/Moderate Intensity Statin
 
-_NOTE: The proper FHIR representation of the ASCVD 10-Year Risk Score is still being considered:_
+_NOTE: The proper FHIR representation of the 10-Year CVD Risk Score is still being considered:_
 
-* _We have not yet found an appropriate code for the ASCVD 10-Year Risk Assessment_
+* _We have not yet found an appropriate code for the 10-Year ASCVD Risk Assessment_
 * _We have not yet found an appropriate general code for ASCVD_
-* _The RiskAssessment resource is immature (mostly unsupported) & does not include a notion of a "preliminary" score_
-* _The Observation resource can likely be used instead, as it does support status_
+* _FHIR's RiskAssessment resource is labeled at maturity level 0 (lowest) and is not well-supported by vendors_
+* _FHIR's Observation resource can likely be used instead, as it is better-supported (maturity level 3)_
 
-**URL**: `http://cql-exec-service:3000/api/library/USPSTF_Combined_Indication_and_Statin_Therapy_for_ASCVD_Risk_Calculation_FHIRv102/version/1`
+## The HTTP Request
+
+This example provides the general shape of an HTTP request to the USPSTF statin recommendation CDS, but the details of individual data elements will likely change.  In summary, the request should include:
+
+* The CDS to execute (name & version)
+* The data elements listed above
+
+**URL**: `http://cql-exec-service:3000/api/library/USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1`
 ```json
 {
   "data": [
@@ -133,7 +144,7 @@ _NOTE: The proper FHIR representation of the ASCVD 10-Year Risk Score is still b
     {
       "resourceType": "Observation",
       "id": "1-6",
-      "status": "preliminary",
+      "status": "final",
       "code": {
         "text": "ASCVD 10-Year Risk"
       },
@@ -159,71 +170,51 @@ This exmaple provides the general shape of the response from the USPSTF combined
 * The CDS that was executed _(name & version)_
 * The timestamp of when the CQL was executed
 * The patient identifier from the data in the request
-* An indication of whether or not the risk calculation is appropriate _(true, false, or null if not enough data)_
 * An indication of whether or not a statin should be prescribed _(true, false, or null if not appropriate)_
 * Any error messages _(e.g., missing data, data too old, etc.)_
 
-_NOTE: The examples below return the statin recommended as a boolean (true/false).  We may also consider returning the recommendation as an order indicating a low-to-medium dose statin.  This would provide more flexibility for other recommendations._
+_NOTE: The examples below return the statin recommended as a boolean (true/false).  We may also consider returning the recommendation as an order indicating a low-to-medium dose statin.  This would provide more flexibility for other recommendations.  In addition, the actual responses may include additional entries in the results, but the examples below only include the primary entry of interest._
 
-**Calculation is Appropriate and Statin Therapy is Recommended:**
+**Example Response: Statin Therapy is Recommended:**
 ```json
 {
   "library": {
-    "name": "USPSTF_Combined_Indication_and_Statin_Therapy_for_ASCVD_Risk_Calculation_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "ASCVD 10-Year Risk Calculation Indicated": true,
     "Low-to-Moderate Dose Statin Recommended": true
   }
 }
 ```
 
-**Calculation is Appropriate but Statin Therapy is Not Recommended:**
+**Example Response: Statin Therapy is Not Recommended:**
 ```json
 {
   "library": {
-    "name": "USPSTF_Combined_Indication_and_Statin_Therapy_for_ASCVD_Risk_Calculation_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "ASCVD 10-Year Risk Calculation Indicated": true,
     "Low-to-Moderate Dose Statin Recommended": false
   }
 }
 ```
 
-**Calculation is Not Appropriate:**
+**Example Response: Missing Data:**
 ```json
 {
   "library": {
-    "name": "USPSTF_Combined_Indication_and_Statin_Therapy_for_ASCVD_Risk_Calculation_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "ASCVD 10-Year Risk Calculation Indicated": false,
-    "Low-to-Moderate Dose Statin Recommended": null
-  }
-}
-```
-
-**Missing Data:**
-```json
-{
-  "library": {
-    "name": "USPSTF_Combined_Indication_and_Statin_Therapy_for_ASCVD_Risk_Calculation_FHIRv102",
-    "version": "1"
-  },
-  "timestamp": "2017-04-13T14:28:21.404Z",
-  "patientID": "1-1",
-  "results": {
-    "ASCVD 10-Year Risk Calculation Indicated": null,
     "Low-to-Moderate Dose Statin Recommended": null
   },
   "errors": [
