@@ -18,10 +18,11 @@
   },
   "dependencies": {
     "body-parser": "~1.16.0",
+    "cds-code-service": "file:./localDependencies/cds-code-service-0.0.9-d65cc3b3553ef0b4f1ee832a7db88f19ee8d05ed.tgz",
     "commander": "^2.9.0",
     "cookie-parser": "~1.4.3",
-    "cql-execution": "file:./localDependencies/cql-execution-0.0.6-5e40f508ae80dfae451864773b40ea2d3c02a8c7.tgz",
-    "cql-fhir": "file:./localDependencies/cql-fhir-1.0.0-f5c6e296efa9ed76cabd4ab33c1bbf487222f447.tgz",
+    "cql-execution": "file:./localDependencies/cql-execution-0.0.6-a63b1effd4b1beaa3b399d7286392d1cf6b09ced.tgz",
+    "cql-fhir": "file:./localDependencies/cql-fhir-1.0.0-1931b1d601b1373a0a64873e9e50a48b6c0ad9ac.tgz",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "morgan": "~1.7.0",
