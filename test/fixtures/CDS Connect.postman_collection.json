@@ -1,0 +1,131 @@
+{
+	"variables": [],
+	"info": {
+		"name": "CDS Connect",
+		"_postman_id": "d12a58c0-eede-7dd9-e910-2e90d2555e27",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tim MostlyHealthyMan",
+			"request": {
+				"url": "http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json+fhir",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    {\n      \"resourceType\" : \"Patient\",\n      \"id\" : \"1-1\",\n      \"extension\": [{\n        \"url\": \"http://hl7.org/fhir/StructureDefinition/us-core-race\",\n        \"valueCodeableConcept\": {\n          \"coding\": [{\n            \"system\": \"http://hl7.org/fhir/v3/Race\",\n            \"code\": \"2106-3\",\n            \"display\": \"White\"\n          }]\n        }\n      }],\n      \"name\": [ {\"given\":[\"Tim\"], \"family\": [\"MostlyHealthyMan\"]} ],\n      \"gender\": \"male\",\n      \"birthDate\" : \"1970-02-17T06:15\"\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"1-2\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"8480-6\",\n          \"display\": \"Systolic blood pressure\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/1\"\n      },\n      \"effectiveDateTime\": \"2016-08-28\",\n      \"issued\": \"2016-08-28T15:30:00-04:00\",\n      \"valueQuantity\": {\n        \"value\": 107,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mm[Hg]\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"1-3\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2093-3\",\n          \"display\": \"Cholesterol [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/1\"\n      },\n      \"effectiveDateTime\": \"2016-09-28\",\n      \"issued\": \"2016-08-29T09:42:11-04:00\",\n      \"valueQuantity\": {\n        \"value\": 187,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"1-4\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2085-9\",\n          \"display\": \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/1\"\n      },\n      \"effectiveDateTime\": \"2016-09-28\",\n      \"issued\": \"2016-08-29T09:42:11-04:00\",\n      \"valueQuantity\": {\n        \"value\": 58,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"1-5\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"72166-2\",\n          \"display\": \"Tobacco smoking status\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/1\"\n      },\n      \"effectiveDateTime\": \"2016-09-28\",\n      \"issued\": \"2016-08-28T15:30:00-04:00\",\n      \"valueCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"266919005\",\n          \"display\": \"Never smoker\"\n        }]\n      }\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Lexie DiabetesWoman",
+			"request": {
+				"url": "http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json+fhir",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    {\n      \"resourceType\" : \"Patient\",\n      \"id\" : \"2-1\",\n      \"extension\": [{\n        \"url\": \"http://hl7.org/fhir/StructureDefinition/us-core-race\",\n        \"valueCodeableConcept\": {\n          \"coding\": [{\n            \"system\": \"http://hl7.org/fhir/v3/Race\",\n            \"code\": \"2054-5\",\n            \"display\": \"Black or African American\"\n          }]\n        }\n      }],\n      \"name\": [ {\"given\":[\"Lexie\"], \"family\": [\"DiabetesWoman\"]} ],\n      \"gender\": \"female\",\n      \"birthDate\" : \"1974-10-22T10:23\"\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-2\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"8480-6\",\n          \"display\": \"Systolic blood pressure\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 143,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mm[Hg]\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-3\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2093-3\",\n          \"display\": \"Cholesterol [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 215,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-4\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2085-9\",\n          \"display\": \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 37,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-5\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"72166-2\",\n          \"display\": \"Tobacco smoking status\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"449868002\",\n          \"display\": \"Current every day smoker\"\n        }]\n      }\n    },\n    {\n      \"resourceType\": \"Condition\",\n      \"id\": \"2-6\",\n      \"clinicalStatus\": \"active\",\n      \"verificationStatus\": \"confirmed\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"44054006\",\n          \"display\": \"Diabetes mellitus type 2 (disorder)\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"onsetDateTime\": \"2009-04-25\"\n    },\n    {\n      \"resourceType\": \"MedicationOrder\",\n      \"id\": \"2-7\",\n      \"status\": \"active\",\n      \"medicationCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n          \"code\": \"999996\",\n          \"display\": \"Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet\"\n        }]\n      },\n      \"patient\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"dateWritten\": \"2016-08-12\"\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Lexie DiabetesWoman PatientBaselineRisk",
+			"request": {
+				"url": "localhost:3000/cds/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    {\n      \"resourceType\" : \"Patient\",\n      \"id\" : \"2-1\",\n      \"extension\": [{\n        \"url\": \"http://hl7.org/fhir/StructureDefinition/us-core-race\",\n        \"valueCodeableConcept\": {\n          \"coding\": [{\n            \"system\": \"http://hl7.org/fhir/v3/Race\",\n            \"code\": \"2054-5\",\n            \"display\": \"Black or African American\"\n          }]\n        }\n      }],\n      \"name\": [ {\"given\":[\"Lexie\"], \"family\": [\"DiabetesWoman\"]} ],\n      \"gender\": \"female\",\n      \"birthDate\" : \"1974-10-22T10:23\"\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-2\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"8480-6\",\n          \"display\": \"Systolic blood pressure\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 143,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mm[Hg]\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-3\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2093-3\",\n          \"display\": \"Cholesterol [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 215,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-4\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2085-9\",\n          \"display\": \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 37,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-5\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"72166-2\",\n          \"display\": \"Tobacco smoking status\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"449868002\",\n          \"display\": \"Current every day smoker\"\n        }]\n      }\n    },\n    {\n      \"resourceType\": \"Condition\",\n      \"id\": \"2-6\",\n      \"clinicalStatus\": \"active\",\n      \"verificationStatus\": \"confirmed\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"44054006\",\n          \"display\": \"Diabetes mellitus type 2 (disorder)\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"onsetDateTime\": \"2009-04-25\"\n    },\n    {\n      \"resourceType\": \"MedicationOrder\",\n      \"id\": \"2-7\",\n      \"status\": \"active\",\n      \"medicationCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n          \"code\": \"999996\",\n          \"display\": \"Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet\"\n        }]\n      },\n      \"patient\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"dateWritten\": \"2016-08-12\"\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Lexie DiabetesWoman LatestVersion",
+			"request": {
+				"url": "localhost:3000/cds/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    {\n      \"resourceType\" : \"Patient\",\n      \"id\" : \"2-1\",\n      \"extension\": [{\n        \"url\": \"http://hl7.org/fhir/StructureDefinition/us-core-race\",\n        \"valueCodeableConcept\": {\n          \"coding\": [{\n            \"system\": \"http://hl7.org/fhir/v3/Race\",\n            \"code\": \"2054-5\",\n            \"display\": \"Black or African American\"\n          }]\n        }\n      }],\n      \"name\": [ {\"given\":[\"Lexie\"], \"family\": [\"DiabetesWoman\"]} ],\n      \"gender\": \"female\",\n      \"birthDate\" : \"1974-10-22T10:23\"\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-2\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"8480-6\",\n          \"display\": \"Systolic blood pressure\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 143,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mm[Hg]\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-3\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2093-3\",\n          \"display\": \"Cholesterol [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 215,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-4\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2085-9\",\n          \"display\": \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 37,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-5\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"72166-2\",\n          \"display\": \"Tobacco smoking status\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"449868002\",\n          \"display\": \"Current every day smoker\"\n        }]\n      }\n    },\n    {\n      \"resourceType\": \"Condition\",\n      \"id\": \"2-6\",\n      \"clinicalStatus\": \"active\",\n      \"verificationStatus\": \"confirmed\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"44054006\",\n          \"display\": \"Diabetes mellitus type 2 (disorder)\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"onsetDateTime\": \"2009-04-25\"\n    },\n    {\n      \"resourceType\": \"MedicationOrder\",\n      \"id\": \"2-7\",\n      \"status\": \"active\",\n      \"medicationCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n          \"code\": \"999996\",\n          \"display\": \"Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet\"\n        }]\n      },\n      \"patient\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"dateWritten\": \"2016-08-12\"\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Lexie DiabetesWoman LatestVersion PatientBaselineRisk copy",
+			"request": {
+				"url": "localhost:3000/cds/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    {\n      \"resourceType\" : \"Patient\",\n      \"id\" : \"2-1\",\n      \"extension\": [{\n        \"url\": \"http://hl7.org/fhir/StructureDefinition/us-core-race\",\n        \"valueCodeableConcept\": {\n          \"coding\": [{\n            \"system\": \"http://hl7.org/fhir/v3/Race\",\n            \"code\": \"2054-5\",\n            \"display\": \"Black or African American\"\n          }]\n        }\n      }],\n      \"name\": [ {\"given\":[\"Lexie\"], \"family\": [\"DiabetesWoman\"]} ],\n      \"gender\": \"female\",\n      \"birthDate\" : \"1974-10-22T10:23\"\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-2\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"8480-6\",\n          \"display\": \"Systolic blood pressure\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 143,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mm[Hg]\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-3\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2093-3\",\n          \"display\": \"Cholesterol [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 215,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-4\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"2085-9\",\n          \"display\": \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T16:52:00-05:00\",\n      \"valueQuantity\": {\n        \"value\": 37,\n        \"system\": \"http://unitsofmeasure.org\",\n        \"code\": \"mg/dL\"\n      }\n    },\n    {\n      \"resourceType\": \"Observation\",\n      \"id\": \"2-5\",\n      \"status\": \"final\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://loinc.org\",\n          \"code\": \"72166-2\",\n          \"display\": \"Tobacco smoking status\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"effectiveDateTime\": \"2016-11-15\",\n      \"issued\": \"2016-11-15T09:30:00-05:00\",\n      \"valueCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"449868002\",\n          \"display\": \"Current every day smoker\"\n        }]\n      }\n    },\n    {\n      \"resourceType\": \"Condition\",\n      \"id\": \"2-6\",\n      \"clinicalStatus\": \"active\",\n      \"verificationStatus\": \"confirmed\",\n      \"code\": {\n        \"coding\": [{\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"44054006\",\n          \"display\": \"Diabetes mellitus type 2 (disorder)\"\n        }]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"onsetDateTime\": \"2009-04-25\"\n    },\n    {\n      \"resourceType\": \"MedicationOrder\",\n      \"id\": \"2-7\",\n      \"status\": \"active\",\n      \"medicationCodeableConcept\": {\n        \"coding\": [{\n          \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n          \"code\": \"999996\",\n          \"display\": \"Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet\"\n        }]\n      },\n      \"patient\": {\n        \"reference\": \"Patient/2\"\n      },\n      \"dateWritten\": \"2016-08-12\"\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PlainTim",
+			"request": {
+				"url": "http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\":\t[\n    \t{\n\t\t    \"patient\" : {\n\t\t      \"birthDate\" : \"1970-02-17\",\n\t\t      \"gender\" : \"male\",\n\t\t      \"race\" : \"White\"\n\t\t    }\n\t\t  },\n\t\t  {\n\t\t    \"observation\" : {\n\t\t      \"coding\" : { \n\t\t        \"system\" : \"http://loinc.org\",\n\t\t        \"code\" : \"8480-6\",\n\t\t        \"display\" : \"Systolic blood pressure\" \n\t\t      },\n\t\t      \"quantity\" : { \n\t\t        \"value\" : 107,\n\t\t        \"system\" : \"http://unitsofmeasure.org\",\n\t\t        \"code\" : \"mm[Hg]\" \n\t\t      },\n\t\t      \"effectiveDateTime\": \"2014-02-21\"\n\t\t    }\n\t\t  },\n\t\t  {\n\t\t    \"observation\" : {\n\t\t      \"coding\" : { \n\t\t        \"system\" : \"http://loinc.org\",\n\t\t        \"code\" : \"2093-3\",\n\t\t        \"display\" : \"Cholesterol [Mass/volume] in Serum or Plasma\" \n\t\t      },\n\t\t      \"quantity\" : { \n\t\t        \"value\" : 187,\n\t\t        \"system\" : \"http://unitsofmeasure.org\",\n\t\t        \"code\" : \"mg/dL\"\n\t\t      },\n\t\t      \"effectiveDateTime\": \"2012-09-03\"\n\t\t    }\n\t\t  },\n\t\t  {\n\t\t    \"observation\" : {\n\t\t      \"coding\" : { \n\t\t        \"system\" : \"http://loinc.org\",\n\t\t        \"code\" : \"2085-9\",\n\t\t        \"display\" : \"Cholesterol in HDL [Mass/volume] in Serum or Plasma\" \n\t\t      },\n\t\t      \"quantity\" : { \n\t\t        \"value\" : 58,\n\t\t        \"system\" : \"http://unitsofmeasure.org\",\n\t\t        \"code\" : \"mg/dL\" \n\t\t      },\n\t\t      \"effectiveDateTime\": \"2014-02-21\"\n\t\t    }\n\t\t  },\n\t\t  {\n\t\t    \"observation\" : {\n\t\t      \"coding\" : { \n\t\t        \"system\" : \"http://loinc.org\",\n\t\t        \"code\" : \"72166-2\",\n\t\t        \"display\" : \"Tobacco smoking status\" \n\t\t      },\n\t\t      \"concept\" : { \n\t\t        \"system\" : \"http://snomed.info/sct\",\n\t\t        \"code\" : \"266919005\",\n\t\t        \"display\" : \"Never smoker\" \n\t\t      },\n\t\t      \"effectiveDateTime\": \"2016-08-28\"\n\t\t    }\n\t\t  },\n\t\t  {\n\t\t    \"condition\" : {\n\t\t      \"coding\" : { \n\t\t        \"system\" : \"http://snomed.info/sct\",\n\t\t        \"code\" : \"44054006\",\n\t\t        \"display\" : \"Diabetes mellitus type 2 (disorder)\" \n\t\t      },\n\t\t      \"onsetDateTime\": \"2016-08-28\"\n\t\t    }\n\t\t  },\n\t\t  { \n\t\t    \"medication\": {\n\t\t      \"coding\": {\n\t\t        \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n\t\t        \"code\": \"999996\",\n\t\t        \"display\": \"Amlodipine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 40 MG Oral Tablet\"\n\t\t      },\n\t\t      \"dateWritten\": \"2016-08-12\"\n\t\t    }\n\t\t  }\n\t\t]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
