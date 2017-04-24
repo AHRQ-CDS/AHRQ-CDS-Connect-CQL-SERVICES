@@ -4,6 +4,7 @@ const fhir = require('cql-fhir');
 const localRepo = require('../../lib/local-repo');
 const cs = require('cds-code-service');
 const router = express.Router();
+const pb = require('../../lib/PatientBundle');
 
 // Global variable that will hold our code service.
 var codeservice;
@@ -137,11 +138,20 @@ function execute(req, res, next) {
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)
   if (data.length > 0) {
-    const bundle = {
-      resourceType: 'Bundle',
-      type: 'collection',
-      entry: data.map(r => { return {resource: r}; })
-    };
+    // Check header to ensure this is actually FHIR formatted data. If it isn't, 
+    // then we need to convert it.
+    var bundle;
+    if (req.headers['content-type'] !== 'application/json+fhir') {
+      let myBundle = new pb.PatientBundle();
+      pb.parseMessage(data, myBundle);
+      bundle = myBundle;
+    } else {
+      bundle = {
+        resourceType: 'Bundle',
+        type: 'collection',
+        entry: data.map(r => { return {resource: r}; })
+      };
+    }
     patientSource.loadBundles([bundle]);
   }
 
