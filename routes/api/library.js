@@ -140,12 +140,12 @@ function execute(req, res, next) {
   if (data.length > 0) {
     // Check header to ensure this is actually FHIR formatted data. If it isn't, 
     // then we need to convert it.
-    var bundle;
+    let bundle;
     if (req.headers['content-type'] !== 'application/json+fhir') {
-      let myBundle = new pb.PatientBundle();
-      pb.parseMessage(data, myBundle);
-      bundle = myBundle;
-    } else {
+      // Not FHIR formatted.  Need to convert.
+      bundle = pb.parseMessage(data);
+    } else { // === 'application/json+fhir'
+      // FHIR formatted.  We're all good.
       bundle = {
         resourceType: 'Bundle',
         type: 'collection',
