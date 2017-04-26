@@ -90,23 +90,18 @@ function valuesetter(req, res, next) {
   // Check to see if the code service has been initialized yet. If not,
   // create a new CodeService instance.
   if (typeof(codeservice) === 'undefined') {
-    codeservice = new cs.CodeService('localCodeService/vsac_cache/valueset-db.json',
-      'localCodeService/vsac_cache');
+    codeservice = new cs.CodeService('localCodeService/vsac_cache');
+    codeservice.loadValueSetsFromFile('localCodeService/vsac_cache/valueset-db.json');
   }
 
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
-  if (valuesets !== null) { // We have some valuesets... get them.
-    codeservice.ensureValueSets(valuesets, (err) => {
-      if (typeof(err) !== 'undefined' && err !== null) {
-        // An error was returned. Send appropriate response.
-        res.status(500).send(`Error downloading required valuesets: ${err}`);
-        return;
-      } else {
-        next();
-      }
-    });
+  let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
+  if (valuesetArray !== null) { // We have some valuesets... get them.
+    codeservice.ensureValueSets(valuesetArray)
+    .then( () => next() )
+    .catch( (err) => res.status(500).send(err) );
   } else { // No valuesets. Go to next handler.
     next();
   }
