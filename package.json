@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "body-parser": "~1.16.0",
-    "cds-code-service": "file:./localDependencies/cds-code-service-0.9.1-3a229c8c434d9f5bf4fd34168a1ea87c34da8d18.tgz",
+    "cds-code-service": "file:./localDependencies/cds-code-service-1.0.0-4671448e171bf825a8fbc2c346cac9bb87f0b33b.tgz",
     "commander": "^2.9.0",
     "cookie-parser": "~1.4.3",
     "cql-execution": "file:./localDependencies/cql-execution-0.0.6-a63b1effd4b1beaa3b399d7286392d1cf6b09ced.tgz",

@@ -98,7 +98,9 @@ function valuesetter(req, res, next) {
   // downloaded from VSAC.
   let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
   if (valuesetArray !== null) { // We have some valuesets... get them.
-    codeservice.ensureValueSets(valuesetArray).then(next());
+    codeservice.ensureValueSets(valuesetArray)
+    .then( () => next() )
+    .catch( (err) => res.status(500).send(err) );
   } else { // No valuesets. Go to next handler.
     next();
   }

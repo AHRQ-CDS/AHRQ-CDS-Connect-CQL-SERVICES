@@ -204,9 +204,9 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-"cds-code-service@file:./localDependencies/cds-code-service-0.9.1-3a229c8c434d9f5bf4fd34168a1ea87c34da8d18.tgz":
+"cds-code-service@file:./localDependencies/cds-code-service-1.0.0-4671448e171bf825a8fbc2c346cac9bb87f0b33b.tgz":
   version "1.0.0"
-  resolved "./localDependencies/cds-code-service-0.9.1-3a229c8c434d9f5bf4fd34168a1ea87c34da8d18.tgz#93c7e7e8309629024d0c8a454730ace94e26ad43"
+  resolved "./localDependencies/cds-code-service-1.0.0-4671448e171bf825a8fbc2c346cac9bb87f0b33b.tgz#4e5af9b623bc80e3c58382c82c20e3e43c83c846"
   dependencies:
     cql-execution "file:./localDependencies/cql-execution-0.0.6-a63b1effd4b1beaa3b399d7286392d1cf6b09ced.tgz"
     debug "^2.6.4"
