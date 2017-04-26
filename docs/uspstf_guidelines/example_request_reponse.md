@@ -1,13 +1,19 @@
-# USPSTF Guideline Example Request Response
+# USPSTF Statin Use for the Primary Prevention of Cardiovascular Disease in Adults
 
-The USPSTF guidelines provide two distinct CDS capabilities:
+Given a current ASCVD score and specific data elements, this USPSTF guideline determines if a patient should:
 
-1. Given a specific set of data elements, determine if a patient should have an ASCVD Risk Assessment calculated
-2. Given an ASCVD score and specific data elements, determine if a patient should receive statin treatment
+* **start** a low-to-moderate intensity statin _(USPTF grade B recommendation)_
+* **consider/discuss** starting a low-to-moderate intensity statin _(USPTF grade C recommendation)_
+* or neither of the above
 
-For the purposes of this pilot, the first guideline, which determines if a patient is eligible for ASCVD risk calculation, will be performed by the EHR.  The second guideline, which determines if the patient should receive statin treatment, will be defined using CQL and executed via the CQL Execution Service.
+This USPSTF CDS artifact is only appropriate when a 10-year ASCVD risk score calculation is indicated.  Before launching this CDS artifact, the EHR should first:
 
-The remainder of this document provides additional details about the CQL Execution Service API for invoking the USPSTF-based artifact for "Statin Use for the Primary Prevention of CVD in Adults."
+* determine if the patient meets the criteria to calculate the 10-year ASCVD risk score
+* calculate the 10-year ASCVD risk score _(if the patient meets the criteria)_
+
+If the patient does not meet the criteria to calculate the 10-year ASCVD risk, or if the clinician chooses _not_ to calculate the 10-year ASCVD risk, then the USPSTF Statin Use for the Primary Prevention of Cardiovascular Disease in Adults CDS should not be used.
+
+The USPSTF Statin Use for the Primary Prevention of Cardiovascular Disease in Adults CDS is defined using CQL and executed via the CQL Execution Service.  The remainder of this document provides additional details about the CQL Execution Service API for invoking this artifact.
 
 ## Necessary Data Elements
 
@@ -20,8 +26,9 @@ A request to the CQL Execution Service for the statin recommendation will requir
     * Smoking Status
     * Diabetes
     * Hypertension
-    * 10-Year CVD Risk Score
+    * 10-Year ASCVD Risk Score
 * Data elements needed to determine if the patient should be excluded from logic
+    * LDL-C
     * CVD
     * Familial Hypercholesterolemia
     * Active Pregnancy
@@ -30,12 +37,10 @@ A request to the CQL Execution Service for the statin recommendation will requir
     * Actively Undergoing Dialysis (i.e., in past 7 days)
     * Active Cirrhosis
     * Receiving Palliative Care
-    * Active Low/Moderate Intensity Statin
+    * Active Statin
 
 _NOTE: The proper FHIR representation of the 10-Year CVD Risk Score is still being considered:_
 
-* _We have not yet found an appropriate code for the 10-Year ASCVD Risk Assessment_
-* _We have not yet found an appropriate general code for ASCVD_
 * _FHIR's RiskAssessment resource is labeled at maturity level 0 (lowest) and is not well-supported by vendors_
 * _FHIR's Observation resource can likely be used instead, as it is better-supported (maturity level 3)_
 
@@ -47,6 +52,7 @@ This example provides the general shape of an HTTP request to the USPSTF statin 
 * The data elements listed above
 
 **URL**: `http://cql-exec-service:3000/api/library/USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1`
+
 ```json
 {
   "data": [
@@ -165,7 +171,7 @@ This example provides the general shape of an HTTP request to the USPSTF statin 
 
 ### Example Response
 
-This exmaple provides the general shape of the response from the USPSTF combined call, but the details may change as the logic evolves.  In summary, the response will include:
+This example provides the general shape of the response from the previously described call, but the details may change as the logic evolves.  In summary, the response will include:
 
 * The CDS that was executed _(name & version)_
 * The timestamp of when the CQL was executed
@@ -175,7 +181,8 @@ This exmaple provides the general shape of the response from the USPSTF combined
 
 _NOTE: The examples below return the statin recommended as a boolean (true/false).  We may also consider returning the recommendation as an order indicating a low-to-medium dose statin.  This would provide more flexibility for other recommendations.  In addition, the actual responses may include additional entries in the results, but the examples below only include the primary entry of interest._
 
-**Example Response: Statin Therapy is Recommended:**
+**Example Response: Start a low-to-moderate intensity statin:**
+
 ```json
 {
   "library": {
@@ -185,12 +192,14 @@ _NOTE: The examples below return the statin recommended as a boolean (true/false
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "Low-to-Moderate Dose Statin Recommended": true
+    "Recommendation": "Start low to moderate intensity lipid lowering therapy.",
+    "Recommendation Grade": "B"
   }
 }
 ```
 
-**Example Response: Statin Therapy is Not Recommended:**
+**Example Response: Discuss a low-to-moderate intensity statin:**
+
 ```json
 {
   "library": {
@@ -200,12 +209,31 @@ _NOTE: The examples below return the statin recommended as a boolean (true/false
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "Low-to-Moderate Dose Statin Recommended": false
+    "Recommendation": "Consider offering/discuss initiation of low to moderate intensity lipid lowering therapy.",
+    "Recommendation Grade": "C"
+  }
+}
+```
+
+**Example Response: No Recomendation**
+
+```json
+{
+  "library": {
+    "name": "USPSTF_Statin_Use_for_the_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+    "version": "1"
+  },
+  "timestamp": "2017-04-13T14:28:21.404Z",
+  "patientID": "1-1",
+  "results": {
+    "Recommendation": "None",
+    "Recommendation Grade": null
   }
 }
 ```
 
 **Example Response: Missing Data:**
+
 ```json
 {
   "library": {
@@ -215,7 +243,8 @@ _NOTE: The examples below return the statin recommended as a boolean (true/false
   "timestamp": "2017-04-13T14:28:21.404Z",
   "patientID": "1-1",
   "results": {
-    "Low-to-Moderate Dose Statin Recommended": null
+    "Recommendation": null,
+    "Recommendation Grade": null
   },
   "errors": [
     "Data Missing: LDL Cholesterol"
