@@ -11,6 +11,13 @@ const http = require('http');
 const path = require('path');
 
 /**
+ * Check for CDS-specific configuration settings and set in app.locals if applicable
+ */
+if (process.env.IGNORE_VSAC_ERRORS && process.env.IGNORE_VSAC_ERRORS.toLowerCase() === 'true') {
+  app.locals.ignoreVSACErrors = true;
+}
+
+/**
  * Load local data into the local repo and local code service
  */
 localRepo.load(path.join(__dirname, '..', 'localRepository'));

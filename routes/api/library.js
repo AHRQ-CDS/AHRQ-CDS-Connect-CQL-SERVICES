@@ -1,6 +1,7 @@
 const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-fhir');
+const debug = require('debug')('cql-exec-service');
 const localRepo = require('../../lib/local-repo');
 const cs = require('cds-code-service');
 const router = express.Router();
@@ -31,6 +32,7 @@ function resolver(req, res, next) {
   }
   if (typeof lib === 'undefined') {
     // Set the 404 status and halt the request chain now
+    debug('ERROR: Library not found:', req.params.library, req.params.version);
     res.sendStatus(404);
     return;
   }
@@ -43,6 +45,7 @@ function resolver(req, res, next) {
     // Check the library to ensure this is a valid returnable expression
     if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
       // Set the 404 status and halt the request chain now
+      debug('ERROR: Expression not found:', res.locals.library.source.library.identifier, req.params.expression);
       res.sendStatus(404);
       return;
     }
@@ -101,7 +104,20 @@ function valuesetter(req, res, next) {
   if (valuesetArray !== null) { // We have some valuesets... get them.
     codeservice.ensureValueSets(valuesetArray)
     .then( () => next() )
-    .catch( (err) => res.status(500).send(err) );
+    .catch( (err) => {
+      debug('ERROR:', res.locals.library.source.library.identifier, err);
+      if (req.app.locals.ignoreVSACErrors) {
+        next();
+      } else {
+        let errToSend = err;
+        if (err instanceof Error) {
+          errToSend = err.message;
+        } else if (Array.isArray(err)) {
+          errToSend = err.map(e => e instanceof Error ? e.message : e);
+        }
+        res.status(500).send(errToSend);
+      }
+    });
   } else { // No valuesets. Go to next handler.
     next();
   }
@@ -118,6 +134,7 @@ function execute(req, res, next) {
   // Load the patient source
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
   if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
+    debug('ERROR: Library does not use any supported data models', lib.source.library.usings.def);
     res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
     return;
   }
@@ -126,6 +143,7 @@ function execute(req, res, next) {
   // Check for valid input
   const data = typeof req.body.data !== 'undefined' ? req.body.data : [];
   if (!Array.isArray(data)) {
+    debug('ERROR: The "data" parameter is not an array');
     res.status(400).send('Invalid input.  The "data" parameter must be an array of FHIR resources.');
     return;
   }
@@ -133,7 +151,7 @@ function execute(req, res, next) {
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)
   if (data.length > 0) {
-    // Check header to ensure this is actually FHIR formatted data. If it isn't, 
+    // Check header to ensure this is actually FHIR formatted data. If it isn't,
     // then we need to convert it.
     let bundle;
     if (req.headers['content-type'] !== 'application/json+fhir') {
@@ -162,9 +180,11 @@ function execute(req, res, next) {
 function sendResults(res, results) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
+    debug('ERROR: Insufficient data to provide results.');
     res.status(400).send('Insufficient data to provide results.');
     return;
   } else if (resultIDs.length > 1) {
+    debug('ERROR: Data contained information about more than one patient.');
     res.status(400).send('Data contained information about more than one patient.');
     return;
   }
