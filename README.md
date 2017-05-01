@@ -16,6 +16,22 @@ To use this project, you should perform the following steps:
 2. Install [Yarn](https://yarnpkg.com/en/docs/install)
 3. Execute the following from this project's root directory: `yarn`
 
+# Configuration
+
+## Setting NLM Credentials for VSAC Downloads
+
+To support dynamic downloads of value sets from VSAC, VSAC credentials must be supplied.  These are provided by setting `UMLS_USER_NAME` and `UMLS_PASSWORD` environment variables.
+
+## Ignoring VSAC Errors
+
+If there are errors downloading value sets, the execution service will abort the execution request.  To change this behavior so that VSAC errors are ignored set the `IGNORE_VSAC_ERRORS` environment variable to `true`.
+
+_NOTE: This should only be done during development since unresolved value sets may affect CDS results!_
+
+## Overriding the Web Application Port
+
+To override the port, set your system's `PORT` environment variable to the desired port.
+
 # Running the Web Application
 
 To run the server on Mac/Linux:
@@ -31,10 +47,6 @@ To run the server on Windows:
 _NOTE: Setting DEBUG is optional, but is recommended in the Express documentation._
 
 Access the application at [http://localhost:3000/](http://localhost:3000/).
-
-# Overriding the Web Application Port
-
-To override the port, set your system's `PORT` environment variable to the desired port.
 
 # Linting the Code
 
