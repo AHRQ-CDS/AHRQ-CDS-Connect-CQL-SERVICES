@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 
 const pb = require('../../lib/PatientBundle');
 const message = require('./fixtures/plain_message.json');
