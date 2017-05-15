@@ -18,12 +18,18 @@ program
   .option('-m, --message <path>', 'The path containing the JSON message to post', DEFAULT_MSG)
   .action((options) => {
     console.log('--------------- START --------------');
+    const postOptions = {
+      url: options.endpoint,
+      headers: {
+        'Content-Type': 'application/json+fhir'
+      }
+    };
     fs.createReadStream(options.message)
       .on('error', (err) => {
         console.log(err);
         console.log('--------------- DONE ---------------');
       })
-      .pipe(request.post(options.endpoint, (err, resp, body) => {
+      .pipe(request.post(postOptions, (err, resp, body) => {
         if (err) {
           console.error(err);
           console.log('--------------- DONE ---------------');

@@ -5,11 +5,12 @@ Installing the CDS Connect CQL Execution Service on Windows Server 2012 requires
 * Install Node.js 6.10.x
 * Install Yarn
 * Install CQL Execution Service
+* Configure CQL Execution Service
 * Install PM2
 * Restart the CDS Connect CQL-ES Service
 * Test
 
-_**NOTE**: The current service operates on HTTP only.  This means that information between the client and the server is **not** encrypted, and anyone with access to the network can easily intercept data.  For this reason, only **test** data (no PII or PHI) should be used with this service.  A future version will support encrypted communication over HTTPS._
+_**NOTE**: The current service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Execution Service should originate from the same host and avoid going over the network._
 
 # Install
 
@@ -59,7 +60,7 @@ The CQL Execution Service dependencies are installed by running a Yarn command i
 
 ![Launch Node.js command prompt](launch_nodejs_command_prompt.png "Launch Node.js command prompt")
 
-The command prompt is essentially a specially configure DOS environment:
+The command prompt is essentially a specially configured DOS environment:
 
 ![Node.js command prompt](nodejs_command_prompt.png "Node.js command prompt")
 
@@ -71,13 +72,27 @@ Then execute the commands:
 
 If it is successful, you should see output similar to the following:
 ```
-yarn install v0.21.3
+yarn install v0.22.0
 [1/4] Resolving packages...
 [2/4] Fetching packages...
 [3/4] Linking dependencies...
 [4/4] Building fresh packages...
 Done in 61.25s.
 ```
+
+## Configure CQL Execution Service
+
+The CQL Execution Service requires a free Unified Medical Language System (UMLS) account from the National Library of Medicine (NLM).  If you do not yet have an account, [sign up here](https://uts.nlm.nih.gov//license.html).
+
+Once you have an UMLS account, you will need to add your credentials the CQL Execution Service configuration.  To do this, navigate to where you extracted the cql-exec-service.zip file (i.e., _C:\Pilot\cql-exec-service_).  Locate the _cql-es.config.js_ file, right-click it, and choose _edit_.
+
+![Edit cql-es.config.js](edit_cql_es_config.png "Edit cql-es.config.js")
+
+This will launch Notepad with the contents of the file.  Unfortunately, Notepad displays the whole file on a single line.  Scroll all the way to the right, and edit the values for _UMLS_USER_NAME_ and _UMLS_PASSWORD_ to be your actual UMLS username and password.
+
+![Edit cql-es.config.js in Notepad](notepad_cql_es_config.png "Edit cql-es.config.js in Notepad")
+
+Ensure that you did _not_ remove the single quotes around your username and password (they are required to be there).  Once you're done, save the file and close Notepad.
 
 ## Install PM2
 

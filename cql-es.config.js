@@ -5,10 +5,9 @@ module.exports = {
       name      : 'cql-es',
       script    : 'bin/www',
       env: {
-        NODE_ENV: 'development'
-      },
-      env_production : {
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        UMLS_USER_NAME: 'umls_user_name',
+        UMLS_PASSWORD: 'umls_password'
       }
     }
   ]
