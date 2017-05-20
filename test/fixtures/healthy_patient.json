@@ -19,44 +19,44 @@
     },
     {
       "resourceType": "Observation",
-      "id": "1-2",
+      "id": "1-7",
       "status": "final",
       "code": {
         "coding": [{
           "system": "http://loinc.org",
-          "code": "8480-6",
-          "display": "Systolic blood pressure"
+          "code": "79423-0",
+          "display": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
         }]
       },
       "subject": {
-        "reference": "Patient/1"
+        "reference": "Patient/1-1"
       },
-      "effectiveDateTime": "2016-08-28",
-      "issued": "2016-08-28T15:30:00-04:00",
+      "effectiveDateTime": "2017-05-18",
+      "issued": "2017-05-18T15:30:00-04:00",
       "valueQuantity": {
-        "value": 107,
+        "value": 1.4,
         "system": "http://unitsofmeasure.org",
-        "code": "mm[Hg]"
+        "code": "%"
       }
     },
     {
       "resourceType": "Observation",
-      "id": "1-3",
+      "id": "1-6",
       "status": "final",
       "code": {
         "coding": [{
           "system": "http://loinc.org",
-          "code": "2093-3",
-          "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+          "code": "2089-1",
+          "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma"
         }]
       },
       "subject": {
-        "reference": "Patient/1"
+        "reference": "Patient/1-1"
       },
       "effectiveDateTime": "2016-09-28",
       "issued": "2016-08-29T09:42:11-04:00",
       "valueQuantity": {
-        "value": 187,
+        "value": 112,
         "system": "http://unitsofmeasure.org",
         "code": "mg/dL"
       }
@@ -73,7 +73,7 @@
         }]
       },
       "subject": {
-        "reference": "Patient/1"
+        "reference": "Patient/1-1"
       },
       "effectiveDateTime": "2016-09-28",
       "issued": "2016-08-29T09:42:11-04:00",
@@ -95,7 +95,7 @@
         }]
       },
       "subject": {
-        "reference": "Patient/1"
+        "reference": "Patient/1-1"
       },
       "effectiveDateTime": "2016-09-28",
       "issued": "2016-08-28T15:30:00-04:00",

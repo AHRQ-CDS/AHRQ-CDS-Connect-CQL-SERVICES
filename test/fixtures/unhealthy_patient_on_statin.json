@@ -123,6 +123,22 @@
         "reference": "Patient/2-1"
       },
       "onsetDateTime": "2009-04-25"
+    },
+    {
+      "resourceType": "MedicationOrder",
+      "id": "2-7",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [{
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "197904",
+          "display": "Lovastatin 20 MG Oral Tablet"
+        }]
+      },
+      "patient": {
+        "reference": "Patient/2-1"
+      },
+      "dateWritten": "2016-08-12"
     }
   ]
 }

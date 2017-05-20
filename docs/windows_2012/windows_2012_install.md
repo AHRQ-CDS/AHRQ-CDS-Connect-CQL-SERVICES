@@ -163,29 +163,35 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 197
-etag : W/"c5-Sh2rTVJkZJjrb9nNplcOQQ"
-date : Thu, 06 Apr 2017 15:02:11 GMT
+content-length : 5856
+etag : W/"16e0-oilBI3wElZXmZwZUOSjyWA"
+date : Sat, 20 May 2017 07:53:13 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
-    "name": "ACCAHA_BaseASCVDRiskCalculator_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-04-06T15:02:11.043Z",
+  "timestamp": "2017-05-20T07:53:13.410Z",
   "patientID": "2-1",
-  "expression": "PatientBaselineRisk",
-  "result": 0.32444153019908417
+  "results": {
+    /* cut out for brevity */
+    "ShouldStartStatin": true,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": "B",
+    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+    "Errors": null
+  }
 }
 --------------- DONE ---------------
 ```
 
 ### Test Client Arguments
 
-By default, the test client posts a synthetic records to the baseline risk endpoint, specifying that only the _PatientBaselineRisk_ expression should be returned.  These defaults can be overridden using commandline arguments.  For usage, run the command: `node client post --help`.
+By default, the test client posts synthetic records for an "unhealthy patient" to the USPSTF Statin Use endpoint.  These defaults can be overridden using commandline arguments.  For usage, run the command: `node client post --help`.
 
 ```bat
 > node client post --help
@@ -217,22 +223,28 @@ If successful, , you should see something like this (note the different _result_
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 198
-etag : W/"c6-0Vu3GQGwGdi1f089BqQ2WQ"
-date : Thu, 06 Apr 2017 17:31:46 GMT
+content-length : 4676
+etag : W/"1244-WsxrfasrjYB2iN+CbBgFuQ"
+date : Sat, 20 May 2017 07:56:29 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
-    "name": "ACCAHA_BaseASCVDRiskCalculator_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-04-06T17:31:46.671Z",
+  "timestamp": "2017-05-20T07:56:29.746Z",
   "patientID": "1-1",
-  "expression": "PatientBaselineRisk",
-  "result": 0.013991614443272016
+  "results": {
+    /* cut out for brevity */
+    "ShouldStartStatin": false,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": null,
+    "RecommendationMessage": null,
+    "Errors": null
+  }
 }
 --------------- DONE ---------------
 ```

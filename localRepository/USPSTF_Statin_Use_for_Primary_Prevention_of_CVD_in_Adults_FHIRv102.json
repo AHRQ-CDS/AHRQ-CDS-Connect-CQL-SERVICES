@@ -1,0 +1,1546 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+         "version" : "1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "1.0.2"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "1.0.2"
+         }, {
+            "localIdentifier" : "C3F",
+            "path" : "CDS_Connect_Commons_for_FHIRv102",
+            "version" : "1"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "GradeCRecommendationEnabled",
+            "accessLevel" : "Public",
+            "default" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "true",
+               "type" : "Literal"
+            }
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "LOINC",
+            "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "LDL Test",
+            "id" : "2.16.840.1.113883.3.464.1003.198.11.1029",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "HDL-C Laboratory Test",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "High Density Lipoprotein (HDL)",
+            "id" : "2.16.840.1.113883.3.600.875",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Essential Hypertension",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1011",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Current Tobacco Smoker",
+            "id" : "2.16.840.1.113883.3.600.2390",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Myocardial infarction",
+            "id" : "2.16.840.1.113883.3.526.3.403",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Acute myocardial infarction",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Ischemic vascular disease",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1003",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "CABG Surgeries",
+            "id" : "2.16.840.1.113883.3.666.5.694",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Coronary artery bypass graft",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1002",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "PCI ICD10CM SNOMEDCT",
+            "id" : "2.16.840.1.113762.1.4.1045.67",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "PCI ICD9CM",
+            "id" : "2.16.840.1.113762.1.4.1045.86",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Carotid intervention",
+            "id" : "2.16.840.1.113883.3.117.1.7.1.204",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Hypercholesterolemia",
+            "id" : "2.16.840.1.113762.1.4.1047.100",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Pregnancy",
+            "id" : "2.16.840.1.113883.3.526.3.378",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Breastfeeding",
+            "id" : "2.16.840.1.113762.1.4.1047.73",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "End stage renal disease",
+            "id" : "2.16.840.1.113883.3.526.3.353",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Dialysis services",
+            "id" : "2.16.840.1.113883.3.464.1003.109.12.1013",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Vascular access for dialysis",
+            "id" : "2.16.840.1.113883.3.464.1003.109.12.1011",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "ESRD monthly outpatient services",
+            "id" : "2.16.840.1.113883.3.464.1003.109.12.1014",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Liver disease",
+            "id" : "2.16.840.1.113762.1.4.1047.42",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Low intensity statin therapy",
+            "id" : "2.16.840.1.113762.1.4.1047.107",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Moderate intensity statin therapy",
+            "id" : "2.16.840.1.113762.1.4.1047.98",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "High intensity statin therapy",
+            "id" : "2.16.840.1.113762.1.4.1047.97",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "Tobacco smoking status",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Tobacco smoking status",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "72166-2",
+                  "system" : {
+                     "name" : "LOINC"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "ASCVD 10-year risk",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "79423-0",
+                  "system" : {
+                     "name" : "LOINC"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "InDemographic",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAge",
+                     "operand" : {
+                        "path" : "birthDate.value",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "40",
+                     "type" : "Literal"
+                  } ]
+               }, {
+                  "type" : "LessOrEqual",
+                  "operand" : [ {
+                     "precision" : "Year",
+                     "type" : "CalculateAge",
+                     "operand" : {
+                        "path" : "birthDate.value",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "value" : "75",
+                     "type" : "Literal"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentLDLTest",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "WithUnit",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "LDL Test",
+                           "type" : "ValueSetRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mg/dL",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidLDLTest",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "WithUnit",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationLookBack",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "LDL Test",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "value" : 6,
+                           "unit" : "years",
+                           "type" : "Quantity"
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mg/dL",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidLDLResult",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "QuantityValue",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MostRecentValidLDLTest",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "HDLTests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "O",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "scope" : "O",
+                           "type" : "Property"
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "HDL-C Laboratory Test"
+                     }
+                  }, {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "code",
+                           "scope" : "O",
+                           "type" : "Property"
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "High Density Lipoprotein (HDL)"
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "MostRecentHDLTest",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "WithUnit",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "HDLTests",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mg/dL",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidHDLTest",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "WithUnit",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationLookBack",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "HDLTests",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "value" : 6,
+                           "unit" : "years",
+                           "type" : "Quantity"
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mg/dL",
+                        "type" : "Literal"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidHDLResult",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "QuantityValue",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MostRecentValidHDLTest",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "DiabetesConditions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "dataType" : "{http://hl7.org/fhir}Condition",
+               "codeProperty" : "code",
+               "type" : "Retrieve",
+               "codes" : {
+                  "name" : "Diabetes",
+                  "type" : "ValueSetRef"
+               }
+            }
+         }, {
+            "name" : "ActiveDiabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ActiveCondition",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Condition",
+                  "codeProperty" : "code",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Diabetes",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "ConfirmedDiabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Condition",
+                  "codeProperty" : "code",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Diabetes",
+                     "type" : "ValueSetRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "ConfirmedActiveDiabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ActiveCondition",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "HasDiabetes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Diabetes",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "HasHypertension",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Essential Hypertension",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "MostRecentSmokingStatus",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ConceptValue",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MostRecent",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "Verified",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationsByConcept",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Tobacco smoking status",
+                           "type" : "ExpressionRef"
+                        } ]
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "IsSmoker",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "InValueSet",
+               "code" : {
+                  "name" : "MostRecentSmokingStatus",
+                  "type" : "ExpressionRef"
+               },
+               "valueset" : {
+                  "name" : "Current Tobacco Smoker"
+               }
+            }
+         }, {
+            "name" : "MostRecentASCVDRiskAssessment",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ObservationsByConcept",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ASCVD 10-year risk",
+                        "type" : "ExpressionRef"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidASCVDRiskAssessment",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ObservationLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationsByConcept",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "ASCVD 10-year risk",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "value" : 6,
+                        "unit" : "years",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MostRecentValidASCVDRiskAssessmentResult",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "QuantityValue",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MostRecentValidASCVDRiskAssessment",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "HasASCVD",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Confirmed",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Myocardial infarction",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Confirmed",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Acute myocardial infarction",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Confirmed",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Ischemic vascular disease",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "HasHadASCVDProcedures",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Completed",
+                              "libraryName" : "C3F",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}Procedure",
+                                 "codeProperty" : "code",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "CABG Surgeries",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "Completed",
+                              "libraryName" : "C3F",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}Procedure",
+                                 "codeProperty" : "code",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Coronary artery bypass graft",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }
+                        } ]
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "Completed",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "codeProperty" : "code",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "PCI ICD10CM SNOMEDCT",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "Completed",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Procedure",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "PCI ICD9CM",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Completed",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Procedure",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Carotid intervention",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "HasFamilialHypercholesterolemia",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Hypercholesterolemia",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "IsPregnant",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Pregnancy",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "IsBreastfeeding",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Breastfeeding",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "HasEndStageRenalDisease",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "End stage renal disease",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "OnDialysis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "ProcedureLookBack",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Completed",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "codeProperty" : "code",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Dialysis services",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }, {
+                           "value" : 1,
+                           "unit" : "week",
+                           "type" : "Quantity"
+                        } ]
+                     }
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "ProcedureLookBack",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Completed",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "codeProperty" : "code",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Vascular access for dialysis",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }, {
+                           "value" : 1,
+                           "unit" : "week",
+                           "type" : "Quantity"
+                        } ]
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "ProcedureLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "Completed",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Procedure",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "ESRD monthly outpatient services",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "value" : 1,
+                        "unit" : "week",
+                        "type" : "Quantity"
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "HasCirrhosis",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Liver disease",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  } ]
+               }
+            }
+         }, {
+            "name" : "OnStatinTherapy",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "Exists",
+                              "operand" : {
+                                 "name" : "ActiveMedicationStatement",
+                                 "libraryName" : "C3F",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Low intensity statin therapy",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
+                              }
+                           }, {
+                              "type" : "Exists",
+                              "operand" : {
+                                 "name" : "ActiveMedicationOrder",
+                                 "libraryName" : "C3F",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                                    "codeProperty" : "medicationCodeableConcept",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Low intensity statin therapy",
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
+                              }
+                           } ]
+                        }, {
+                           "type" : "Exists",
+                           "operand" : {
+                              "name" : "ActiveMedicationStatement",
+                              "libraryName" : "C3F",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "type" : "Retrieve",
+                                 "codes" : {
+                                    "name" : "Moderate intensity statin therapy",
+                                    "type" : "ValueSetRef"
+                                 }
+                              } ]
+                           }
+                        } ]
+                     }, {
+                        "type" : "Exists",
+                        "operand" : {
+                           "name" : "ActiveMedicationOrder",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                              "codeProperty" : "medicationCodeableConcept",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "Moderate intensity statin therapy",
+                                 "type" : "ValueSetRef"
+                              }
+                           } ]
+                        }
+                     } ]
+                  }, {
+                     "type" : "Exists",
+                     "operand" : {
+                        "name" : "ActiveMedicationStatement",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "High intensity statin therapy",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "ActiveMedicationOrder",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                        "codeProperty" : "medicationCodeableConcept",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "High intensity statin therapy",
+                           "type" : "ValueSetRef"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         }, {
+            "name" : "HasCVDRiskFactors",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Greater",
+                           "operand" : [ {
+                              "name" : "MostRecentValidLDLResult",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "value" : 130,
+                              "unit" : "mg/dL",
+                              "type" : "Quantity"
+                           } ]
+                        }, {
+                           "type" : "Less",
+                           "operand" : [ {
+                              "name" : "MostRecentValidHDLResult",
+                              "type" : "ExpressionRef"
+                           }, {
+                              "value" : 40,
+                              "unit" : "mg/dL",
+                              "type" : "Quantity"
+                           } ]
+                        } ]
+                     }, {
+                        "name" : "HasDiabetes",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "name" : "HasHypertension",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "name" : "IsSmoker",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "MeetsInclusionCriteria",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "name" : "InDemographic",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "HasCVDRiskFactors",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "value" : 10.0,
+                        "unit" : "%",
+                        "type" : "Quantity"
+                     } ]
+                  }, {
+                     "type" : "And",
+                     "operand" : [ {
+                        "name" : "GradeCRecommendationEnabled",
+                        "type" : "ParameterRef"
+                     }, {
+                        "type" : "GreaterOrEqual",
+                        "operand" : [ {
+                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "value" : 7.5,
+                           "unit" : "%",
+                           "type" : "Quantity"
+                        } ]
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "MeetsExclusionCriteria",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "Or",
+                              "operand" : [ {
+                                 "type" : "Or",
+                                 "operand" : [ {
+                                    "type" : "Or",
+                                    "operand" : [ {
+                                       "type" : "Or",
+                                       "operand" : [ {
+                                          "name" : "HasASCVD",
+                                          "type" : "ExpressionRef"
+                                       }, {
+                                          "name" : "HasHadASCVDProcedures",
+                                          "type" : "ExpressionRef"
+                                       } ]
+                                    }, {
+                                       "type" : "Greater",
+                                       "operand" : [ {
+                                          "name" : "MostRecentValidLDLResult",
+                                          "type" : "ExpressionRef"
+                                       }, {
+                                          "value" : 190,
+                                          "unit" : "mg/dL",
+                                          "type" : "Quantity"
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "name" : "HasFamilialHypercholesterolemia",
+                                    "type" : "ExpressionRef"
+                                 } ]
+                              }, {
+                                 "name" : "IsPregnant",
+                                 "type" : "ExpressionRef"
+                              } ]
+                           }, {
+                              "name" : "IsBreastfeeding",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "name" : "HasEndStageRenalDisease",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "name" : "OnDialysis",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "name" : "HasCirrhosis",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "name" : "OnStatinTherapy",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "InPopulation",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "name" : "MeetsInclusionCriteria",
+                  "type" : "ExpressionRef"
+               }, {
+                  "type" : "Not",
+                  "operand" : {
+                     "name" : "MeetsExclusionCriteria",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "ShouldStartStatin",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "name" : "InPopulation",
+                  "type" : "ExpressionRef"
+               }, {
+                  "type" : "GreaterOrEqual",
+                  "operand" : [ {
+                     "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "value" : 10.0,
+                     "unit" : "%",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ShouldDiscussStatin",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "And",
+               "operand" : [ {
+                  "type" : "And",
+                  "operand" : [ {
+                     "name" : "GradeCRecommendationEnabled",
+                     "type" : "ParameterRef"
+                  }, {
+                     "name" : "InPopulation",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "type" : "In",
+                  "operand" : [ {
+                     "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "lowClosed" : true,
+                     "highClosed" : false,
+                     "type" : "Interval",
+                     "low" : {
+                        "value" : 7.5,
+                        "unit" : "%",
+                        "type" : "Quantity"
+                     },
+                     "high" : {
+                        "value" : 10.0,
+                        "unit" : "%",
+                        "type" : "Quantity"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "RecommendationGrade",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "name" : "ShouldStartStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "B",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "name" : "ShouldDiscussStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "C",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            }
+         }, {
+            "name" : "RecommendationMessage",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "name" : "ShouldStartStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "name" : "ShouldDiscussStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Consider offering/discuss initiation of low to moderate intensity lipid lowering therapy. (USPSTF grade C recommendation)",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            }
+         }, {
+            "name" : "Errors",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "name" : "MostRecentValidLDLResult",
+                              "type" : "ExpressionRef"
+                           }
+                        }, {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "name" : "MostRecentValidHDLResult",
+                              "type" : "ExpressionRef"
+                           }
+                        } ]
+                     }, {
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }, {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "IsSmoker",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               },
+               "then" : {
+                  "type" : "List",
+                  "element" : [ {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Data requirements not met.  LDL, HDL, ASCVD risk, or smoking status are missing or more than 6 years old.",
+                     "type" : "Literal"
+                  } ]
+               },
+               "else" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "ListTypeSpecifier",
+                     "elementType" : {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  }
+               }
+            }
+         } ]
+      }
+   }
+}
+

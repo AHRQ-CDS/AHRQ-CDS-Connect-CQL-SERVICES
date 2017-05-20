@@ -4,7 +4,7 @@ const path = require('path');
 const program = require('commander');
 const request = require('request');
 
-const DEFAULT_EP = 'http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk';
+const DEFAULT_EP = 'http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1';
 const DEFAULT_MSG = path.join('test', 'fixtures', 'unhealthy_patient.json');
 program
   .command('post')
