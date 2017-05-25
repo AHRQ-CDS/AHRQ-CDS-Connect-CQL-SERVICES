@@ -5,11 +5,12 @@ Installing the CDS Connect CQL Execution Service on Windows Server 2012 requires
 * Install Node.js 6.10.x
 * Install Yarn
 * Install CQL Execution Service
+* Configure CQL Execution Service
 * Install PM2
 * Restart the CDS Connect CQL-ES Service
 * Test
 
-_**NOTE**: The current service operates on HTTP only.  This means that information between the client and the server is **not** encrypted, and anyone with access to the network can easily intercept data.  For this reason, only **test** data (no PII or PHI) should be used with this service.  A future version will support encrypted communication over HTTPS._
+_**NOTE**: The current service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Execution Service should originate from the same host and avoid going over the network._
 
 # Install
 
@@ -59,7 +60,7 @@ The CQL Execution Service dependencies are installed by running a Yarn command i
 
 ![Launch Node.js command prompt](launch_nodejs_command_prompt.png "Launch Node.js command prompt")
 
-The command prompt is essentially a specially configure DOS environment:
+The command prompt is essentially a specially configured DOS environment:
 
 ![Node.js command prompt](nodejs_command_prompt.png "Node.js command prompt")
 
@@ -71,13 +72,27 @@ Then execute the commands:
 
 If it is successful, you should see output similar to the following:
 ```
-yarn install v0.21.3
+yarn install v0.22.0
 [1/4] Resolving packages...
 [2/4] Fetching packages...
 [3/4] Linking dependencies...
 [4/4] Building fresh packages...
 Done in 61.25s.
 ```
+
+## Configure CQL Execution Service
+
+The CQL Execution Service requires a free Unified Medical Language System (UMLS) account from the National Library of Medicine (NLM).  If you do not yet have an account, [sign up here](https://uts.nlm.nih.gov//license.html).
+
+Once you have an UMLS account, you will need to add your credentials the CQL Execution Service configuration.  To do this, navigate to where you extracted the cql-exec-service.zip file (i.e., _C:\Pilot\cql-exec-service_).  Locate the _cql-es.config.js_ file, right-click it, and choose _edit_.
+
+![Edit cql-es.config.js](edit_cql_es_config.png "Edit cql-es.config.js")
+
+This will launch Notepad with the contents of the file.  Unfortunately, Notepad displays the whole file on a single line.  Scroll all the way to the right, and edit the values for _UMLS_USER_NAME_ and _UMLS_PASSWORD_ to be your actual UMLS username and password.
+
+![Edit cql-es.config.js in Notepad](notepad_cql_es_config.png "Edit cql-es.config.js in Notepad")
+
+Ensure that you did _not_ remove the single quotes around your username and password (they are required to be there).  Once you're done, save the file and close Notepad.
 
 ## Install PM2
 
@@ -148,29 +163,35 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 197
-etag : W/"c5-Sh2rTVJkZJjrb9nNplcOQQ"
-date : Thu, 06 Apr 2017 15:02:11 GMT
+content-length : 5856
+etag : W/"16e0-oilBI3wElZXmZwZUOSjyWA"
+date : Sat, 20 May 2017 07:53:13 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
-    "name": "ACCAHA_BaseASCVDRiskCalculator_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-04-06T15:02:11.043Z",
+  "timestamp": "2017-05-20T07:53:13.410Z",
   "patientID": "2-1",
-  "expression": "PatientBaselineRisk",
-  "result": 0.32444153019908417
+  "results": {
+    /* cut out for brevity */
+    "ShouldStartStatin": true,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": "B",
+    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+    "Errors": null
+  }
 }
 --------------- DONE ---------------
 ```
 
 ### Test Client Arguments
 
-By default, the test client posts a synthetic records to the baseline risk endpoint, specifying that only the _PatientBaselineRisk_ expression should be returned.  These defaults can be overridden using commandline arguments.  For usage, run the command: `node client post --help`.
+By default, the test client posts synthetic records for an "unhealthy patient" to the USPSTF Statin Use endpoint.  These defaults can be overridden using commandline arguments.  For usage, run the command: `node client post --help`.
 
 ```bat
 > node client post --help
@@ -202,22 +223,28 @@ If successful, , you should see something like this (note the different _result_
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 198
-etag : W/"c6-0Vu3GQGwGdi1f089BqQ2WQ"
-date : Thu, 06 Apr 2017 17:31:46 GMT
+content-length : 4676
+etag : W/"1244-WsxrfasrjYB2iN+CbBgFuQ"
+date : Sat, 20 May 2017 07:56:29 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
-    "name": "ACCAHA_BaseASCVDRiskCalculator_FHIRv102",
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-04-06T17:31:46.671Z",
+  "timestamp": "2017-05-20T07:56:29.746Z",
   "patientID": "1-1",
-  "expression": "PatientBaselineRisk",
-  "result": 0.013991614443272016
+  "results": {
+    /* cut out for brevity */
+    "ShouldStartStatin": false,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": null,
+    "RecommendationMessage": null,
+    "Errors": null
+  }
 }
 --------------- DONE ---------------
 ```

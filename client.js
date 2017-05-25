@@ -4,7 +4,7 @@ const path = require('path');
 const program = require('commander');
 const request = require('request');
 
-const DEFAULT_EP = 'http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk';
+const DEFAULT_EP = 'http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1';
 const DEFAULT_MSG = path.join('test', 'fixtures', 'unhealthy_patient.json');
 program
   .command('post')
@@ -18,12 +18,18 @@ program
   .option('-m, --message <path>', 'The path containing the JSON message to post', DEFAULT_MSG)
   .action((options) => {
     console.log('--------------- START --------------');
+    const postOptions = {
+      url: options.endpoint,
+      headers: {
+        'Content-Type': 'application/json+fhir'
+      }
+    };
     fs.createReadStream(options.message)
       .on('error', (err) => {
         console.log(err);
         console.log('--------------- DONE ---------------');
       })
-      .pipe(request.post(options.endpoint, (err, resp, body) => {
+      .pipe(request.post(postOptions, (err, resp, body) => {
         if (err) {
           console.error(err);
           console.log('--------------- DONE ---------------');
