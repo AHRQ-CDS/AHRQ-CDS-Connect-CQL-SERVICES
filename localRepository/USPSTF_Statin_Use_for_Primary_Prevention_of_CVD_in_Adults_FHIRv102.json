@@ -27,6 +27,10 @@
             "localIdentifier" : "C3F",
             "path" : "CDS_Connect_Commons_for_FHIRv102",
             "version" : "1"
+         }, {
+            "localIdentifier" : "Convert",
+            "path" : "CDS_Connect_Conversions",
+            "version" : "1"
          } ]
       },
       "parameters" : {
@@ -44,6 +48,10 @@
          "def" : [ {
             "name" : "LOINC",
             "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct/1000124",
             "accessLevel" : "Public"
          } ]
       },
@@ -65,8 +73,8 @@
             "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
-            "name" : "Essential Hypertension",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1011",
+            "name" : "Hypertension",
+            "id" : "2.16.840.1.113762.1.4.1032.9",
             "accessLevel" : "Public"
          }, {
             "name" : "Current Tobacco Smoker",
@@ -105,8 +113,8 @@
             "id" : "2.16.840.1.113883.3.117.1.7.1.204",
             "accessLevel" : "Public"
          }, {
-            "name" : "Hypercholesterolemia",
-            "id" : "2.16.840.1.113762.1.4.1047.100",
+            "name" : "Familial Hypercholesterolemia",
+            "id" : "2.16.840.1.113762.1.4.1032.15",
             "accessLevel" : "Public"
          }, {
             "name" : "Pregnancy",
@@ -133,8 +141,8 @@
             "id" : "2.16.840.1.113883.3.464.1003.109.12.1014",
             "accessLevel" : "Public"
          }, {
-            "name" : "Liver disease",
-            "id" : "2.16.840.1.113762.1.4.1047.42",
+            "name" : "Cirrhosis",
+            "id" : "2.16.840.1.113762.1.4.1032.14",
             "accessLevel" : "Public"
          }, {
             "name" : "Low intensity statin therapy",
@@ -186,6 +194,34 @@
                   "code" : "79423-0",
                   "system" : {
                      "name" : "LOINC"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Pregnancy status",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Pregnancy status",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "82810-3",
+                  "system" : {
+                     "name" : "LOINC"
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Pregnant",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "display" : "Patient currently pregnant (finding)",
+               "type" : "Concept",
+               "code" : [ {
+                  "code" : "77386006",
+                  "system" : {
+                     "name" : "SNOMED-CT"
                   }
                } ]
             }
@@ -246,22 +282,13 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "WithUnit",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Observation",
-                        "codeProperty" : "code",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "LDL Test",
-                           "type" : "ValueSetRef"
-                        }
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "mg/dL",
-                        "type" : "Literal"
-                     } ]
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "LDL Test",
+                        "type" : "ValueSetRef"
+                     }
                   } ]
                } ]
             }
@@ -278,30 +305,21 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "WithUnit",
+                     "name" : "ObservationLookBack",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationLookBack",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Observation",
-                           "codeProperty" : "code",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "LDL Test",
-                              "type" : "ValueSetRef"
-                           }
-                        }, {
-                           "value" : 6,
-                           "unit" : "years",
-                           "type" : "Quantity"
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "LDL Test",
+                           "type" : "ValueSetRef"
+                        }
                      }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "mg/dL",
-                        "type" : "Literal"
+                        "value" : 6,
+                        "unit" : "years",
+                        "type" : "Quantity"
                      } ]
                   } ]
                } ]
@@ -311,12 +329,17 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "QuantityValue",
-               "libraryName" : "C3F",
+               "name" : "to_mg_per_dL",
+               "libraryName" : "Convert",
                "type" : "FunctionRef",
                "operand" : [ {
-                  "name" : "MostRecentValidLDLTest",
-                  "type" : "ExpressionRef"
+                  "name" : "QuantityValue",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "MostRecentValidLDLTest",
+                     "type" : "ExpressionRef"
+                  } ]
                } ]
             }
          }, {
@@ -381,17 +404,8 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "WithUnit",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "name" : "HDLTests",
-                        "type" : "ExpressionRef"
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "mg/dL",
-                        "type" : "Literal"
-                     } ]
+                     "name" : "HDLTests",
+                     "type" : "ExpressionRef"
                   } ]
                } ]
             }
@@ -408,25 +422,16 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "WithUnit",
+                     "name" : "ObservationLookBack",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationLookBack",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "HDLTests",
-                           "type" : "ExpressionRef"
-                        }, {
-                           "value" : 6,
-                           "unit" : "years",
-                           "type" : "Quantity"
-                        } ]
+                        "name" : "HDLTests",
+                        "type" : "ExpressionRef"
                      }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "mg/dL",
-                        "type" : "Literal"
+                        "value" : 6,
+                        "unit" : "years",
+                        "type" : "Quantity"
                      } ]
                   } ]
                } ]
@@ -436,83 +441,16 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "QuantityValue",
-               "libraryName" : "C3F",
+               "name" : "to_mg_per_dL",
+               "libraryName" : "Convert",
                "type" : "FunctionRef",
                "operand" : [ {
-                  "name" : "MostRecentValidHDLTest",
-                  "type" : "ExpressionRef"
-               } ]
-            }
-         }, {
-            "name" : "DiabetesConditions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "dataType" : "{http://hl7.org/fhir}Condition",
-               "codeProperty" : "code",
-               "type" : "Retrieve",
-               "codes" : {
-                  "name" : "Diabetes",
-                  "type" : "ValueSetRef"
-               }
-            }
-         }, {
-            "name" : "ActiveDiabetes",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "ActiveCondition",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "dataType" : "{http://hl7.org/fhir}Condition",
-                  "codeProperty" : "code",
-                  "type" : "Retrieve",
-                  "codes" : {
-                     "name" : "Diabetes",
-                     "type" : "ValueSetRef"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "ConfirmedDiabetes",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Confirmed",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "dataType" : "{http://hl7.org/fhir}Condition",
-                  "codeProperty" : "code",
-                  "type" : "Retrieve",
-                  "codes" : {
-                     "name" : "Diabetes",
-                     "type" : "ValueSetRef"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "ConfirmedActiveDiabetes",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Confirmed",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "ActiveCondition",
+                  "name" : "QuantityValue",
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Diabetes",
-                        "type" : "ValueSetRef"
-                     }
+                     "name" : "MostRecentValidHDLTest",
+                     "type" : "ExpressionRef"
                   } ]
                } ]
             }
@@ -561,7 +499,7 @@
                         "codeProperty" : "code",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Essential Hypertension",
+                           "name" : "Hypertension",
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -597,13 +535,50 @@
                } ]
             }
          }, {
+            "name" : "MostRecentValidSmokingStatus",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ConceptValue",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MostRecent",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "Verified",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationLookBack",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "ObservationsByConcept",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "Tobacco smoking status",
+                              "type" : "ExpressionRef"
+                           } ]
+                        }, {
+                           "value" : 6,
+                           "unit" : "years",
+                           "type" : "Quantity"
+                        } ]
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
             "name" : "IsSmoker",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "InValueSet",
                "code" : {
-                  "name" : "MostRecentSmokingStatus",
+                  "name" : "MostRecentValidSmokingStatus",
                   "type" : "ExpressionRef"
                },
                "valueset" : {
@@ -679,7 +654,7 @@
                } ]
             }
          }, {
-            "name" : "HasASCVD",
+            "name" : "HasCVD",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -738,7 +713,7 @@
                } ]
             }
          }, {
-            "name" : "HasHadASCVDProcedures",
+            "name" : "HasHadCVDProcedures",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -853,7 +828,7 @@
                         "codeProperty" : "code",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Hypercholesterolemia",
+                           "name" : "Familial Hypercholesterolemia",
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -861,30 +836,79 @@
                }
             }
          }, {
+            "name" : "MostRecentPregnancyObservation",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ObservationLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationsByConcept",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Pregnancy status",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "value" : 42,
+                        "unit" : "weeks",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
             "name" : "IsPregnant",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "name" : "Confirmed",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "ActiveCondition",
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Confirmed",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Pregnancy",
-                           "type" : "ValueSetRef"
-                        }
+                        "name" : "ActiveCondition",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Pregnancy",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      } ]
+                  }
+               }, {
+                  "type" : "Equivalent",
+                  "operand" : [ {
+                     "name" : "ConceptValue",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "MostRecentPregnancyObservation",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "name" : "Pregnant",
+                     "type" : "ExpressionRef"
                   } ]
-               }
+               } ]
             }
          }, {
             "name" : "IsBreastfeeding",
@@ -1035,7 +1059,7 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "ActiveCondition",
+                     "name" : "ActiveOrRecurring",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
@@ -1043,7 +1067,7 @@
                         "codeProperty" : "code",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Liver disease",
+                           "name" : "Cirrhosis",
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -1164,6 +1188,44 @@
                } ]
             }
          }, {
+            "name" : "HasMissingOrOldData",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "MostRecentValidLDLResult",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "MostRecentValidHDLResult",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }, {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }, {
+                  "type" : "IsNull",
+                  "operand" : {
+                     "name" : "IsSmoker",
+                     "type" : "ExpressionRef"
+                  }
+               } ]
+            }
+         }, {
             "name" : "HasCVDRiskFactors",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -1278,10 +1340,10 @@
                                     "operand" : [ {
                                        "type" : "Or",
                                        "operand" : [ {
-                                          "name" : "HasASCVD",
+                                          "name" : "HasCVD",
                                           "type" : "ExpressionRef"
                                        }, {
-                                          "name" : "HasHadASCVDProcedures",
+                                          "name" : "HasHadCVDProcedures",
                                           "type" : "ExpressionRef"
                                        } ]
                                     }, {
@@ -1371,31 +1433,34 @@
                "operand" : [ {
                   "type" : "And",
                   "operand" : [ {
-                     "name" : "GradeCRecommendationEnabled",
-                     "type" : "ParameterRef"
+                     "type" : "And",
+                     "operand" : [ {
+                        "name" : "GradeCRecommendationEnabled",
+                        "type" : "ParameterRef"
+                     }, {
+                        "name" : "InPopulation",
+                        "type" : "ExpressionRef"
+                     } ]
                   }, {
-                     "name" : "InPopulation",
-                     "type" : "ExpressionRef"
+                     "type" : "GreaterOrEqual",
+                     "operand" : [ {
+                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "value" : 7.5,
+                        "unit" : "%",
+                        "type" : "Quantity"
+                     } ]
                   } ]
                }, {
-                  "type" : "In",
+                  "type" : "Less",
                   "operand" : [ {
                      "name" : "MostRecentValidASCVDRiskAssessmentResult",
                      "type" : "ExpressionRef"
                   }, {
-                     "lowClosed" : true,
-                     "highClosed" : false,
-                     "type" : "Interval",
-                     "low" : {
-                        "value" : 7.5,
-                        "unit" : "%",
-                        "type" : "Quantity"
-                     },
-                     "high" : {
-                        "value" : 10.0,
-                        "unit" : "%",
-                        "type" : "Quantity"
-                     }
+                     "value" : 10.0,
+                     "unit" : "%",
+                     "type" : "Quantity"
                   } ]
                } ]
             }
@@ -1451,7 +1516,7 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+                     "value" : "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
                      "type" : "Literal"
                   }
                }, {
@@ -1461,7 +1526,30 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "Consider offering/discuss initiation of low to moderate intensity lipid lowering therapy. (USPSTF grade C recommendation)",
+                     "value" : "Discuss initiation of low to moderate intensity lipid lowering therapy",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "MeetsInclusionCriteria",
+                        "type" : "ExpressionRef"
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "No USPSTF recommendation provided, as patient does not meet inclusion criteria: age 40-75 years, plus at least one CVD risk factor (LDL > 130 mg/dL, HDL < 40 mg/dL, diabetes, hypertension, or current smoker), plus CVD risk score >= 7.5% (grade C) or >= 10% (grade B)",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "name" : "MeetsExclusionCriteria",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "No USPSTF recommendation provided, as patient is excluded due to one of the following: previous CVD diagnosis or procedure, LDL > 190 mg/dL, familial hypercholesterolemia, active pregnancy, active breastfeeding, end stage renal disease, recent dialysis, cirrhosis, or currently on a statin",
                      "type" : "Literal"
                   }
                } ],
@@ -1484,46 +1572,34 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Or",
-                     "operand" : [ {
-                        "type" : "Or",
-                        "operand" : [ {
-                           "type" : "IsNull",
-                           "operand" : {
-                              "name" : "MostRecentValidLDLResult",
-                              "type" : "ExpressionRef"
-                           }
-                        }, {
-                           "type" : "IsNull",
-                           "operand" : {
-                              "name" : "MostRecentValidHDLResult",
-                              "type" : "ExpressionRef"
-                           }
-                        } ]
-                     }, {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
-                           "type" : "ExpressionRef"
-                        }
-                     } ]
-                  }, {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "IsSmoker",
-                        "type" : "ExpressionRef"
-                     }
-                  } ]
+                  "name" : "HasMissingOrOldData",
+                  "type" : "ExpressionRef"
                },
                "then" : {
-                  "type" : "List",
-                  "element" : [ {
-                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "Data requirements not met.  LDL, HDL, ASCVD risk, or smoking status are missing or more than 6 years old.",
-                     "type" : "Literal"
-                  } ]
+                  "type" : "If",
+                  "condition" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "RecommendationMessage",
+                        "type" : "ExpressionRef"
+                     }
+                  },
+                  "then" : {
+                     "type" : "List",
+                     "element" : [ {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "ERROR: Inadequate data to process CDS, as one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score.",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "else" : {
+                     "type" : "List",
+                     "element" : [ {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "WARNING: Adequate data to process CDS, but one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score.",
+                        "type" : "Literal"
+                     } ]
+                  }
                },
                "else" : {
                   "type" : "As",

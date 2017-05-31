@@ -24,9 +24,9 @@ A request to the CQL Execution Service for the statin recommendation will requir
 | ------------- | ------------- | ---------- |
 | Age           | Patient       | birthDate  |
 | 10-Year ASCVD Risk Score | Observation | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'%'_ units |
-| LDL-C         | Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'mg/dL'_ units |
+| LDL-C         | Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'mg/dL'_ or _'mmol/L'_ units |
 | HDL-C         | Observation   | _same attributes as LDL-C_ |
-| Smoking status| Observation   | `code`; `status` is _'final'_ or _'amended'_; `valueCodeableConcept` |
+| Smoking status| Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueCodeableConcept` |
 | Diabetes      | Condition     | `code`; `verificationStatus` is _'confirmed'_; `clinicalStatus` is _'active'_; no `abatement[x]` attributes are present |
 | Hypertension  | Condition     | _same attributes as Diabetes_ |
 
@@ -48,7 +48,7 @@ A request to the CQL Execution Service for the statin recommendation will requir
 | Active Cirrhosis | Condition | _same attributes as Diabetes_ |
 | Active Statin    | MedicationStatement or MedicationOrder | **MedicationStatement:** `status` is _'active'_; `wasNotTaken` is absent or _false_; `effectivePeriod` end date is absent or in the future; **MedicationOrder**: `status` is _'active'_; `dateEnded` is absent |
 
-**NOTE:**  LDL-C, HDL-C, 10-year ASCVD Risk Score, and Smoking status are _required_ by the CDS.  If any are missing, the CDS will return an error.  In addition, the CDS implements a lookback period of six years for LDL-C, HDL-C, and the ASCVD Risk Score.  Any results older than that will not be considered by the CDS.
+**NOTE:**  LDL-C, HDL-C, 10-year ASCVD Risk Score, and Smoking status are _required_ by the CDS.  If any are missing, the CDS will return an error.  In addition, the CDS implements a lookback period of six years for LDL-C, HDL-C, 10-year ASCVD Risk Score, and Smoking status.  Any results older than that will not be considered by the CDS.
 
 **DETAILS:**  For details such as value sets, please see the Data Request Form (DRF).
 
@@ -513,7 +513,7 @@ _NOTE: The examples below return the statin recommended as a boolean (true/false
     "ShouldStartStatin": false,
     "ShouldDiscussStatin": true,
     "RecommendationGrade": "C",
-    "RecommendationMessage": "Consider offering/discuss initiation of low to moderate intensity lipid lowering therapy. (USPSTF grade C recommendation)",
+    "RecommendationMessage": "Discuss initiation of low to moderate intensity lipid lowering therapy",
     "Errors": null
   }
 }
@@ -533,7 +533,7 @@ The most important properties of the JSON response are:
     "ShouldStartStatin": false,
     "ShouldDiscussStatin": true,
     "RecommendationGrade": "C",
-    "RecommendationMessage": "Consider offering/discuss initiation of low to moderate intensity lipid lowering therapy. (USPSTF grade C recommendation)",
+    "RecommendationMessage": "Discuss initiation of low to moderate intensity lipid lowering therapy",
     "Errors": null
   }
 }
@@ -555,13 +555,15 @@ The following are additional possible responses -- trimmed to just the propertie
     "ShouldStartStatin": true,
     "ShouldDiscussStatin": false,
     "RecommendationGrade": "B",
-    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
     "Errors": null
   }
 }
 ```
 
-**Example Response: No Recomendation**
+**Example Response: No recomendation, patient does not meet inclusion criteria**
+
+The USPSTF indicates that the patient must meet certain inclusion criteria for this guideline to be valid.  The inclusion criteria includes an age range (40 - 75 years), presence of at least one risk factor, and a risk score of 7.5% or above (for grade C recommendation) or 10% or above (for grade B recommendation).  If the inclusion criteria is not met, the RecommendationMessage will say so.
 
 ```json
 {
@@ -572,16 +574,70 @@ The following are additional possible responses -- trimmed to just the propertie
   "timestamp": "2017-05-20T05:05:06.762Z",
   "patientID": "1-1",
   "results": {
+    "MeetsInclusionCriteria": false,
+    "MeetsExclusionCriteria": false,
+    "InPopulation": false,
     "ShouldStartStatin": false,
     "ShouldDiscussStatin": false,
     "RecommendationGrade": null,
-    "RecommendationMessage": null,
+    "RecommendationMessage": "No USPSTF recommendation provided, as patient does not meet inclusion criteria: age 40-75 years, plus at least one CVD risk factor (LDL > 130 mg/dL, HDL < 40 mg/dL, diabetes, hypertension, or current smoker), plus CVD risk score >= 7.5% (grade C) or >= 10% (grade B)",
     "Errors": null
   }
 }
 ```
 
-**Example Response: Missing Data:**
+**Example Response: No recomendation, patient is excluded from CDS**
+
+The USPSTF indicates that the patient must _not_ meet certain exclusion criteria, else this guideline is not appropriate.  The exclusion criteria includes presence of several specific conditions and/or procedures, a current statin prescription, and a very high LDL (> 190 mg/dL).  If any exclusion criteria is met, the RecommendationMessage will say so.
+
+```json
+{
+  "library": {
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+    "version": "1"
+  },
+  "timestamp": "2017-05-20T05:05:06.762Z",
+  "patientID": "1-1",
+  "results": {
+    "MeetsInclusionCriteria": true,
+    "MeetsExclusionCriteria": true,
+    "InPopulation": false,
+    "ShouldStartStatin": false,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": null,
+    "RecommendationMessage": "No USPSTF recommendation provided, as patient is excluded due to one of the following: previous CVD diagnosis or procedure, LDL > 190 mg/dL, familial hypercholesterolemia, active pregnancy, active breastfeeding, end stage renal disease, recent dialysis, cirrhosis, or currently on a statin",
+    "Errors": null
+  }
+}
+```
+
+**Example Response: Missing Data, but CDS can still be processed**
+
+In some cases, the CDS can indicate an USPSTF recommendation (or exclusion from CDS) despite missing or old data. For example, smoking status is used as one of the CVD risk factors, along with diabetes and other factors.  Since only one risk factor needs to be present, then if a patient has diabetes, it's not necessary to know the smoking status to process the rest of the CDS.  In these cases, where the CDS can be processed despite missing or old data, a warning will be provided along with the recommendation message.
+
+```json
+{
+  "library": {
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+    "version": "1"
+  },
+  "timestamp": "2017-05-20T05:05:06.762Z",
+  "patientID": "4-1",
+  "results": {
+    "ShouldStartStatin": false,
+    "ShouldDiscussStatin": false,
+    "RecommendationGrade": "B",
+    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Errors": [
+      "WARNING: Adequate data to process CDS, but one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score."
+    ]
+  }
+}
+```
+
+**Example Response: Missing Data prevents CDS from processing**
+
+In other cases, missing or old data prevents the CDS from being able to complete processing.  In these cases, an error is provided and no recommendation message is present.
 
 ```json
 {
@@ -597,7 +653,7 @@ The following are additional possible responses -- trimmed to just the propertie
     "RecommendationGrade": null,
     "RecommendationMessage": null,
     "Errors": [
-      "Data requirements not met.  LDL, HDL, ASCVD risk, or smoking status are missing or more than 6 years old."
+      "ERROR: Inadequate data to process CDS, as one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score."
     ]
   }
 }
