@@ -15,8 +15,6 @@ router.get('/:library', resolver, get);
 router.post('/:library', resolver, valuesetter, execute);
 router.get('/:library/version/:version', resolver, get);
 router.post('/:library/version/:version', resolver, valuesetter, execute);
-router.post('/:library/expression/:expression', resolver, valuesetter, execute);
-router.post('/:library/version/:version/expression/:expression', resolver, valuesetter, execute);
 
 /**
  * Middleware to confirm and load library name and expression from URL.
@@ -39,28 +37,11 @@ function resolver(req, res, next) {
   // Set the library in the res.locals for use by other middleware and/or routes
   res.locals.library = lib;
 
-  // Confirm expression (if applicable)
-  if (typeof req.params.expression !== 'undefined') {
-    let def = lib.expressions[req.params.expression];
-    // Check the library to ensure this is a valid returnable expression
-    if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
-      // Set the 404 status and halt the request chain now
-      debug('ERROR: Expression not found:', res.locals.library.source.library.identifier, req.params.expression);
-      res.sendStatus(404);
-      return;
-    }
-    // Set the expression in the res.locals for use by other middleware and/or routes
-    res.locals.expression = def.name;
-  }
-
-  // Set the response header so the client knows exactly what library & expression is being processed
+  // Set the response header so the client knows exactly what library is being processed
   const libIdentifier = res.locals.library.source.library.identifier;
   let loc = libIdentifier.id;
   if (typeof libIdentifier.version !== 'undefined') {
     loc += `/version/${libIdentifier.version}`;
-  }
-  if (typeof res.locals.expression !== 'undefined') {
-    loc += `/expression/${res.locals.expression}`;
   }
   res.location(`${req.baseUrl}/${loc}`);
 
@@ -131,14 +112,23 @@ function execute(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const lib = res.locals.library;
 
-  // Load the patient source
-  const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
-  if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
-    debug('ERROR: Library does not use any supported data models', lib.source.library.usings.def);
-    res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
+  // Confirm return expressions (if applicable)
+  const expressions = typeof req.body.returnExpressions !== 'undefined' ? req.body.returnExpressions : [];
+  if (!Array.isArray(expressions)) {
+    // Set the 400 status and halt the request chain now
+    res.status(400).send('Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
     return;
   }
-  const patientSource = fhir.PatientSource.FHIRv102();
+  for (const expr of expressions) {
+    let def = lib.expressions[expr];
+    // Check the library to ensure this is a valid returnable expression
+    if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
+      // Set the 400 status and halt the request chain now
+      debug('ERROR: Expression not found:', res.locals.library.source.library.identifier, expr);
+      res.status(400).send(`Invalid input.  Cannot find expression to return with name: ${expr}.`);
+      return;
+    }
+  }
 
   // Check for valid input
   const data = typeof req.body.data !== 'undefined' ? req.body.data : [];
@@ -147,6 +137,15 @@ function execute(req, res, next) {
     res.status(400).send('Invalid input.  The "data" parameter must be an array of FHIR resources.');
     return;
   }
+
+  // Load the patient source
+  const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
+  if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
+    debug('ERROR: Library does not use any supported data models', lib.source.library.usings.def);
+    res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
+    return;
+  }
+  const patientSource = fhir.PatientSource.FHIRv102();
 
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)
@@ -171,13 +170,13 @@ function execute(req, res, next) {
   // Execute it and send the results
   const executor = new cql.Executor(lib, codeservice);
   const results = executor.exec(patientSource);
-  sendResults(res, results);
+  sendResults(res, results, expressions);
 }
 
 /**
  * Sends the execution results back to the client
  */
-function sendResults(res, results) {
+function sendResults(res, results, returnExpressions = []) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
     debug('ERROR: Insufficient data to provide results.');
@@ -194,14 +193,18 @@ function sendResults(res, results) {
   const libIdentifier = res.locals.library.source.library.identifier;
   const formattedResults = {
     library: { name: libIdentifier.id, version: libIdentifier.version},
+    returnExpressions: returnExpressions,
     timestamp: new Date(),
-    patientID: pid
+    patientID: pid,
+    results: {}
   };
-  if (typeof res.locals.expression === 'undefined') {
+  if (returnExpressions.length == 0) {
+    delete(formattedResults.returnExpressions);
     formattedResults.results = pResults;
   } else {
-    formattedResults.expression = res.locals.expression;
-    formattedResults.result = pResults[res.locals.expression];
+    for (const expr of returnExpressions) {
+      formattedResults.results[expr] = pResults[expr];
+    }
   }
   res.json(formattedResults);
 }
