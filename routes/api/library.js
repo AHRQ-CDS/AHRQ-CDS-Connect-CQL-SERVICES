@@ -112,6 +112,14 @@ function execute(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const lib = res.locals.library;
 
+  // Confirm parameters is an object
+  const parameters = typeof req.body.parameters !== 'undefined' ? req.body.parameters : {};
+  if (typeof parameters !== 'object' || Array.isArray(parameters)) {
+    // Set the 400 status and halt the request chain now
+    res.status(400).send('Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
+    return;
+  }
+
   // Confirm return expressions (if applicable)
   const expressions = typeof req.body.returnExpressions !== 'undefined' ? req.body.returnExpressions : [];
   if (!Array.isArray(expressions)) {
@@ -168,15 +176,25 @@ function execute(req, res, next) {
   }
 
   // Execute it and send the results
-  const executor = new cql.Executor(lib, codeservice);
-  const results = executor.exec(patientSource);
-  sendResults(res, results, expressions);
+  try {
+    const executor = new cql.Executor(lib, codeservice, parameters);
+    const results = executor.exec(patientSource);
+    sendResults(res, results, parameters, expressions);
+  } catch (err) {
+    let errToSend = err;
+    if (err instanceof Error) {
+      errToSend = err.message;
+    } else if (Array.isArray(err)) {
+      errToSend = err.map(e => e instanceof Error ? e.message : e);
+    }
+    res.status(500).send(errToSend);
+  }
 }
 
 /**
  * Sends the execution results back to the client
  */
-function sendResults(res, results, returnExpressions = []) {
+function sendResults(res, results, parameters = {}, returnExpressions = []) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
     debug('ERROR: Insufficient data to provide results.');
@@ -193,6 +211,7 @@ function sendResults(res, results, returnExpressions = []) {
   const libIdentifier = res.locals.library.source.library.identifier;
   const formattedResults = {
     library: { name: libIdentifier.id, version: libIdentifier.version},
+    parameters: parameters,
     returnExpressions: returnExpressions,
     timestamp: new Date(),
     patientID: pid,
