@@ -20,37 +20,37 @@ A request to the CQL Execution Service for the statin recommendation will requir
 
 **Data elements needed to determine if statin treatment is appropriate**
 
-| Element       | FHIR Resource | Attributes |
-| ------------- | ------------- | ---------- |
-| Age           | Patient       | birthDate  |
-| 10-Year ASCVD Risk Score | Observation | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'%'_ units |
-| LDL-C         | Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'mg/dL'_ or _'mmol/L'_ units |
-| HDL-C         | Observation   | _same attributes as LDL-C_ |
-| Smoking status| Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueCodeableConcept` |
-| Diabetes      | Condition     | `code`; `verificationStatus` is _'confirmed'_; `clinicalStatus` is _'active'_; no `abatement[x]` attributes are present |
-| Hypertension  | Condition     | _same attributes as Diabetes_ |
+| Element       | FHIR Resource | Attributes | Value Sets |
+| ------------- | ------------- | ---------- | ---------- |
+| Age           | Patient       | birthDate  | _n/a_ |
+| 10-Year ASCVD Risk Score | Observation | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'%'_ units | _LOINC 79423-0_ |
+| LDL-C         | Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueQuantity` with _'mg/dL'_ or _'mmol/L'_ units | [2.16.840.1.113883.3.464.1003.198.11.1029](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.198.11.1029/expansion) |
+| HDL-C         | Observation   | _same attributes as LDL-C_ | [2.16.840.1.113883.3.464.1003.104.12.1012](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.12.1012/expansion), [2.16.840.1.113883.3.600.875](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.875/expansion) |
+| Smoking status| Observation   | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueCodeableConcept` | For `code` (smoking status), use _LOINC 72166-2_.  For `valueCodeableConcept` (current smoker), use [2.16.840.1.113883.3.600.2390](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.2390/expansion) |
+| Diabetes      | Condition     | `code`; `verificationStatus` is _'confirmed'_; `clinicalStatus` is _'active'_; no `abatement[x]` attributes are present | [2.16.840.1.113883.3.464.1003.103.12.1001](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.103.12.1001/expansion) |
+| Hypertension  | Condition     | _same attributes as Diabetes_ | [2.16.840.1.113762.1.4.1032.9](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.9/expansion) |
 
 **Data elements needed to determine if the patient should be excluded from logic**
 
-| Element       | FHIR Resource | Attributes |
-| ------------- | ------------- | ---------- |
-| LDL-C         | Observation   | _See above_ |
-| Myocardial infarction | Condition | `code`; `verificationStatus` is _'confirmed'_ |
-| Ischemic vascular disease | Condition | _same attributes as Myocardial infarction_ |
-| CABG | Procedure | `code`; `status` is _'completed'_; `notPerformed` is absent or _false_ |
-| PCI  | Procedure | _same attributes as CABG_ |
-| Carotid intervention | Procedure | _same attributes as CABG_ |
-| Familial Hypercholesterolemia | Condition | _same attributes as Diabetes_ |
-| Active Pregnancy | Condition | _same attributes as Diabetes_ |
-| Breastfeeding | Condition | _same attributes as Diabetes_ |
-| End Stage Renal Disease | Condition | _same attributes as Diabetes_ |
-| Dialysis in Last Week | Procedure | `code`; `status` is _'completed'_; `notPerformed` is absent or _false_; `performedDateTime` or `performedPeriod` (to check for occurrence in last week) |
-| Active Cirrhosis | Condition | _same attributes as Diabetes_ |
-| Active Statin    | MedicationStatement or MedicationOrder | **MedicationStatement:** `status` is _'active'_; `wasNotTaken` is absent or _false_; `effectivePeriod` end date is absent or in the future; **MedicationOrder**: `status` is _'active'_; `dateEnded` is absent |
+| Element       | FHIR Resource | Attributes | Value Sets |
+| ------------- | ------------- | ---------- | ---------- |
+| LDL-C         | Observation   | _See above_ | _See above_ |
+| Myocardial infarction | Condition | `code`; `verificationStatus` is _'confirmed'_ | [2.16.840.1.113883.3.526.3.403](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.526.3.403/expansion), [2.16.840.1.113883.3.464.1003.104.12.1001](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.12.1001/expansion) |
+| Ischemic vascular disease | Condition | _same attributes as Myocardial infarction_ | [2.16.840.1.113883.3.464.1003.104.12.1003](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.12.1003/expansion) |
+| CABG | Procedure | `code`; `status` is _'completed'_; `notPerformed` is absent or _false_ | [2.16.840.1.113883.3.666.5.694](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.666.5.694/expansion), [2.16.840.1.113883.3.464.1003.104.12.1002](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.12.1002/expansion) |
+| PCI  | Procedure | _same attributes as CABG_ | [2.16.840.1.113762.1.4.1045.67](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1045.67/expansion), [2.16.840.1.113762.1.4.1045.86](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1045.86/expansion) |
+| Carotid intervention | Procedure | _same attributes as CABG_ | [2.16.840.1.113883.3.117.1.7.1.204](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.117.1.7.1.204/expansion) |
+| Familial Hypercholesterolemia | Condition | _same attributes as Diabetes_ | [2.16.840.1.113762.1.4.1032.15](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.15/expansion) |
+| Active Pregnancy (Condition) | Condition | _same attributes as Diabetes_ | [2.16.840.1.113883.3.526.3.378](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.526.3.378/expansion) |
+| Active Pregnancy (Observation) | Observation | `code`; `effectiveDateTime`, `effectivePeriod`, or `issued` (to determine most recent); `status` is _'final'_ or _'amended'_; `valueCodeableConcept` | For `code` (pregnancy status), use _LOINC 82810-3_.  For `valueCodeableConcept` (currently pregnant), use _SNOMED-CT 77386006_ |
+| Breastfeeding | Condition | _same attributes as Diabetes_ | [2.16.840.1.113762.1.4.1047.73](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.73/expansion) |
+| End Stage Renal Disease | Condition | _same attributes as Diabetes_ | [2.16.840.1.113883.3.526.3.353](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.526.3.353/expansion) |
+| Dialysis in Last Week | Procedure | `code`; `status` is _'completed'_; `notPerformed` is absent or _false_; `performedDateTime` or `performedPeriod` (to check for occurrence in last week) | [2.16.840.1.113883.3.464.1003.109.12.1013](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.109.12.1013/expansion), [2.16.840.1.113883.3.464.1003.109.12.1011](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.109.12.1011/expansion), [2.16.840.1.113883.3.464.1003.109.12.1014](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.109.12.1014/expansion) |
+| Active Cirrhosis | Condition | _same attributes as Diabetes_ | [2.16.840.1.113762.1.4.1032.14](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.14/expansion) |
+| Active Statin (Order) | MedicationOrder | `status` is _'active'_; `dateEnded` is absent | [2.16.840.1.113762.1.4.1047.107](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.107/expansion), [2.16.840.1.113762.1.4.1047.98](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.98/expansion), [2.16.840.1.113762.1.4.1047.97](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.97/expansion) |
+| Active Statin (Statement) | MedicationStatement | `status` is _'active'_; `wasNotTaken` is absent or _false_; `effectivePeriod` end date is absent or in the future | [2.16.840.1.113762.1.4.1047.107](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.107/expansion), [2.16.840.1.113762.1.4.1047.98](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.98/expansion), [2.16.840.1.113762.1.4.1047.97](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1047.97/expansion) |
 
 **NOTE:**  LDL-C, HDL-C, 10-year ASCVD Risk Score, and Smoking status are _required_ by the CDS.  If any are missing, the CDS will return an error.  In addition, the CDS implements a lookback period of six years for LDL-C, HDL-C, 10-year ASCVD Risk Score, and Smoking status.  Any results older than that will not be considered by the CDS.
-
-**DETAILS:**  For details such as value sets, please see the Data Request Form (DRF).
 
 ## The HTTP Request
 
@@ -63,10 +63,18 @@ Content-Type: application/json+fhir
 Cache-Control: no-cache
 ```
 
-The body contains a JSON structure with the data elements listed above.  The following is an example:
+The body contains a JSON structure with:
+
+* optional `parameters`: By default, the Grade C recommendation is enabled, but if your organization does not allow Grade C recommendations, it can be disabled by sending th `GradeCRecommendationEnabled` parameter with a value of `false`.
+* optional `returnExpressions`: By default, the computed result of _every_ expression in the CQL will be returned.  If you do not need/want all of this data, you can send an array of only the expressions you want returned.
+* required `data`: An array of FHIR resource instances representing the data elements listed above for a specific patient.  Do not send data for more than one patient at once.
 
 ```json
 {
+	"parameters": {
+	  "GradeCRecommendationEnabled": false
+	},
+	"returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
 	"data":	[
     {
       "resourceType" : "Patient",
@@ -181,345 +189,18 @@ The body contains a JSON structure with the data elements listed above.  The fol
 
 ### Example Response
 
-This example provides the general shape of the response from the previously described call, but the details may change as the logic evolves.  In summary, the response will include:
+The example below provides the general shape of the response from the previously described call.  In summary, the response will include:
 
-* The CDS that was executed _(name & version)_
-* The timestamp of when the CQL was executed
-* The patient identifier from the data in the request
-* An indication of whether or not a statin should be prescribed _(true, false, or null if not appropriate)_
-* Any error messages _(e.g., missing data, data too old, etc.)_
+* `library`: The CDS library that was executed _(name & version)_
+* `parameters`: Parameters that were passed in _(if none, this property will not be in the response)_
+* `returnExpressions`: The list of specific expressions requested in the return data _(if none, this property will not be in the response)_
+* `timestamp`: The timestamp of when the CQL was executed
+* `patientID`: The patient identifier from the FHIR data in the request
+* `results`: The computed CQL expression results (filtered if `returnExpressions` were provided).  This includes an `Errors` result (unless not requested).
 
-_NOTE: The examples below return the statin recommended as a boolean (true/false).  We may also consider returning the recommendation as an order indicating a low-to-medium dose statin.  This would provide more flexibility for other recommendations.  In addition, the actual responses may include additional entries in the results, but the examples below only include the primary entry of interest._
+**Example Response: Grade C recommendation disabled; Patient doesn't meet inclusion criteria:**
 
-**Example Response: Discuss a low-to-moderate intensity statin:**
-
-```json
-{
-  "library": {
-    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1"
-  },
-  "timestamp": "2017-05-20T05:05:06.762Z",
-  "patientID": "3-1",
-  "results": {
-    "Tobacco smoking status": {
-      "codes": [
-        {
-          "code": "72166-2",
-          "system": "http://loinc.org"
-        }
-      ],
-      "text": "Tobacco smoking status"
-    },
-    "ASCVD 10-year risk": {
-      "codes": [
-        {
-          "code": "79423-0",
-          "system": "http://loinc.org"
-        }
-      ],
-      "text": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
-    },
-    "InDemographic": true,
-    "MostRecentLDLTest": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "2089-1"
-            },
-            "display": {
-              "value": "Cholesterol in LDL [Mass/volume] in Serum or Plasma"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2016-09-28"
-      },
-      "issued": {
-        "value": "2016-08-29T09:42:11-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 145
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "mg/dL"
-        }
-      }
-    },
-    "MostRecentValidLDLTest": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "2089-1"
-            },
-            "display": {
-              "value": "Cholesterol in LDL [Mass/volume] in Serum or Plasma"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2016-09-28"
-      },
-      "issued": {
-        "value": "2016-08-29T09:42:11-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 145
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "mg/dL"
-        }
-      }
-    },
-    "MostRecentValidLDLResult": {
-      "unit": "mg/dL",
-      "value": 145
-    },
-    "MostRecentHDLTest": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "2085-9"
-            },
-            "display": {
-              "value": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2016-09-28"
-      },
-      "issued": {
-        "value": "2016-08-29T09:42:13-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 45
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "mg/dL"
-        }
-      }
-    },
-    "MostRecentValidHDLTest": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "2085-9"
-            },
-            "display": {
-              "value": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2016-09-28"
-      },
-      "issued": {
-        "value": "2016-08-29T09:42:13-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 45
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "mg/dL"
-        }
-      }
-    },
-    "MostRecentValidHDLResult": {
-      "unit": "mg/dL",
-      "value": 45
-    },
-    "HasDiabetes": false,
-    "HasEssentialHypertension": false,
-    "MostRecentSmokingStatus": {
-      "codes": [
-        {
-          "code": "428041000124106",
-          "system": "http://snomed.info/sct",
-          "display": "Current some day smoker"
-        }
-      ]
-    },
-    "IsSmoker": true,
-    "MostRecentASCVDRiskAssessment": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "79423-0"
-            },
-            "display": {
-              "value": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2017-05-18"
-      },
-      "issued": {
-        "value": "2017-05-18T15:30:00-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 7.86
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "%"
-        }
-      }
-    },
-    "MostRecentValidASCVDRiskAssessment": {
-      "status": {
-        "value": "final"
-      },
-      "code": {
-        "coding": [
-          {
-            "system": {
-              "value": "http://loinc.org"
-            },
-            "code": {
-              "value": "79423-0"
-            },
-            "display": {
-              "value": "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013"
-            }
-          }
-        ]
-      },
-      "subject": {
-        "reference": {
-          "value": "Patient/3-1"
-        }
-      },
-      "effectiveDateTime": {
-        "value": "2017-05-18"
-      },
-      "issued": {
-        "value": "2017-05-18T15:30:00-0400"
-      },
-      "valueQuantity": {
-        "value": {
-          "value": 7.86
-        },
-        "system": {
-          "value": "http://unitsofmeasure.org"
-        },
-        "code": {
-          "value": "%"
-        }
-      }
-    },
-    "MostRecentValidASCVDRiskAssessmentResult": {
-      "unit": "%",
-      "value": 7.86
-    },
-    "HasASCVD": false,
-    "HasHadASCVDProcedures": false,
-    "HasHypercholesterolemia": false,
-    "IsPregnant": false,
-    "IsBreastfeeding": false,
-    "HasEndStageRenalDisease": false,
-    "OnDialysis": false,
-    "HasCirrhosis": false,
-    "OnStatinTherapy": false,
-    "HasCVDRiskFactors": true,
-    "MeetsInclusionCriteria": true,
-    "MeetsExclusionCriteria": false,
-    "InPopulation": true,
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": true,
-    "RecommendationGrade": "C",
-    "RecommendationMessage": "Discuss initiation of low to moderate intensity lipid lowering therapy",
-    "Errors": null
-  }
-}
-```
-
-The most important properties of the JSON response are:
+In this example response, the patient receives no recommendation, as he does not meet the inclusion criteria.  Since the Grade C recommendation is disabled via a parameter, only the 10% risk threshold is in effect, so his risk score of 7.86% does not qualify him for the inclusion criteria.
 
 ```json
 {
@@ -527,35 +208,67 @@ The most important properties of the JSON response are:
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
+  "parameters": {
+    "GradeCRecommendationEnabled": false
+  },
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:01:26.663Z",
   "patientID": "3-1",
   "results": {
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": true,
-    "RecommendationGrade": "C",
-    "RecommendationMessage": "Discuss initiation of low to moderate intensity lipid lowering therapy",
+    "Recommendation": "No USPSTF recommendation provided, as patient does not meet inclusion criteria",
+    "Rationale": "The USPSTF guideline applies to adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, as evidenced by LDL > 130 mg/dL or HDL < 40 mg/dL, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk >= 7.5% (grade C) or >= 10% (grade B).",
     "Errors": null
   }
 }
 ```
 
-The following are additional possible responses -- trimmed to just the properties of interest:
+**Errors**
+
+One of the CQL expressions is called `Errors`.  This expression will list an array of error messages pertaining to missing or old data.  If there are no errors, it will be `null`.  This artifact will produce at most _1_ error, so the array will never have length > 1.
+
+System level errors -- such as bad input or other unexpected errors will result in an HTTP error code (e.g., `400`, `404`, `500`, etc) being returned along with a short message.
+
+**Other Possible Responses**
+
+The following are additional possible responses:
+
+**Example Response: Discuss a statin (only when Grade C is enabled)**
+
+The following example uses the same patient data as above, but the Grade C recommendation is _enabled_ (by default), so it actually results in the Grade C recommendation.
+
+```json
+{
+  "library": {
+    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+    "version": "1"
+  },
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:28:27.214Z",
+  "patientID": "3-1",
+  "results": {
+    "Recommendation": "Discuss initiation of low to moderate intensity lipid lowering therapy",
+    "Rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of  CVD events and mortality by at least a small amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 7.5% to 10%.",
+    "Errors": null
+  }
+}
+```
 
 **Example Response: Start a low-to-moderate intensity statin:**
 
+The following example shows the Grade B recommendation being returned.
+
 ```json
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:30:50.815Z",
   "patientID": "2-1",
   "results": {
-    "ShouldStartStatin": true,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": "B",
-    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater.",
     "Errors": null
   }
 }
@@ -571,16 +284,12 @@ The USPSTF indicates that the patient must meet certain inclusion criteria for t
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:31:46.375Z",
   "patientID": "1-1",
   "results": {
-    "MeetsInclusionCriteria": false,
-    "MeetsExclusionCriteria": false,
-    "InPopulation": false,
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": null,
-    "RecommendationMessage": "No USPSTF recommendation provided, as patient does not meet inclusion criteria: age 40-75 years, plus at least one CVD risk factor (LDL > 130 mg/dL, HDL < 40 mg/dL, diabetes, hypertension, or current smoker), plus CVD risk score >= 7.5% (grade C) or >= 10% (grade B)",
+    "Recommendation": "No USPSTF recommendation provided, as patient does not meet inclusion criteria",
+    "Rationale": "The USPSTF guideline applies to adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, as evidenced by LDL > 130 mg/dL or HDL < 40 mg/dL, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk >= 7.5% (grade C) or >= 10% (grade B).",
     "Errors": null
   }
 }
@@ -596,16 +305,12 @@ The USPSTF indicates that the patient must _not_ meet certain exclusion criteria
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
-  "patientID": "1-1",
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:32:42.564Z",
+  "patientID": "2-1",
   "results": {
-    "MeetsInclusionCriteria": true,
-    "MeetsExclusionCriteria": true,
-    "InPopulation": false,
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": null,
-    "RecommendationMessage": "No USPSTF recommendation provided, as patient is excluded due to one of the following: previous CVD diagnosis or procedure, LDL > 190 mg/dL, familial hypercholesterolemia, active pregnancy, active breastfeeding, end stage renal disease, recent dialysis, cirrhosis, or currently on a statin",
+    "Recommendation": "No USPSTF recommendation provided, as patient meets exclusion criteria",
+    "Rationale": "This USPSTF guideline should not be used for patients with any of the following: LDL > 190 mg/dL, a previous CVD diagnosis or procedure, familial hypercholesterolemia, end stage renal disease, cirrhosis, recent dialysis, or patients who are pregnant, breastfeeding, or currently on a statin.",
     "Errors": null
   }
 }
@@ -621,13 +326,12 @@ In some cases, the CDS can indicate an USPSTF recommendation (or exclusion from 
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
-  "patientID": "4-1",
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:35:37.380Z",
+  "patientID": "2-1",
   "results": {
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": "B",
-    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater.",
     "Errors": [
       "WARNING: Adequate data to process CDS, but one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score."
     ]
@@ -645,13 +349,12 @@ In other cases, missing or old data prevents the CDS from being able to complete
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T05:05:06.762Z",
-  "patientID": "4-1",
+  "returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "timestamp": "2017-06-06T20:34:04.659Z",
+  "patientID": "2-1",
   "results": {
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": null,
-    "RecommendationMessage": null,
+    "Recommendation": null,
+    "Rationale": null,
     "Errors": [
       "ERROR: Inadequate data to process CDS, as one of the following items is missing or more than 6 years old: LDL, HDL, smoking status, or CVD risk score."
     ]

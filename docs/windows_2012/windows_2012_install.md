@@ -165,9 +165,9 @@ STATUS: 200 OK
 x-powered-by : Express
 location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 5856
-etag : W/"16e0-oilBI3wElZXmZwZUOSjyWA"
-date : Sat, 20 May 2017 07:53:13 GMT
+content-length : 765
+etag : W/"2fd-vFe9B9VQXRV4kmIGEBV7Xg"
+date : Tue, 06 Jun 2017 20:42:25 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -175,14 +175,16 @@ connection : close
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T07:53:13.410Z",
+  "returnExpressions": [
+    "Recommendation",
+    "Rationale",
+    "Errors"
+  ],
+  "timestamp": "2017-06-06T20:42:25.457Z",
   "patientID": "2-1",
   "results": {
-    /* cut out for brevity */
-    "ShouldStartStatin": true,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": "B",
-    "RecommendationMessage": "Start low to moderate intensity lipid lowering therapy. (USPSTF grade B recommendation)",
+    "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
+    "Rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater.",
     "Errors": null
   }
 }
@@ -201,7 +203,7 @@ By default, the test client posts synthetic records for an "unhealthy patient" t
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/ACCAHA_BaseASCVDRiskCalculator_FHIRv102/version/1/expression/PatientBaselineRisk
+    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
     --message test/fixtures/unhealthy_patient.json
 
   Options:
@@ -217,7 +219,7 @@ As an example, you can try posting a different file as the message:
 node client post -m test\fixtures\healthy_patient.json
 ```
 
-If successful, , you should see something like this (note the different _result_):
+If successful, , you should see something like this (note the different _results_):
 ```
 --------------- START --------------
 STATUS: 200 OK
@@ -225,9 +227,9 @@ STATUS: 200 OK
 x-powered-by : Express
 location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
 content-type : application/json; charset=utf-8
-content-length : 4676
-etag : W/"1244-WsxrfasrjYB2iN+CbBgFuQ"
-date : Sat, 20 May 2017 07:56:29 GMT
+content-length : 634
+etag : W/"27a-sTOcWE3jydn3zpV032dTPw"
+date : Tue, 06 Jun 2017 20:45:20 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -235,14 +237,16 @@ connection : close
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
     "version": "1"
   },
-  "timestamp": "2017-05-20T07:56:29.746Z",
+  "returnExpressions": [
+    "Recommendation",
+    "Rationale",
+    "Errors"
+  ],
+  "timestamp": "2017-06-06T20:45:20.696Z",
   "patientID": "1-1",
   "results": {
-    /* cut out for brevity */
-    "ShouldStartStatin": false,
-    "ShouldDiscussStatin": false,
-    "RecommendationGrade": null,
-    "RecommendationMessage": null,
+    "Recommendation": "No USPSTF recommendation provided, as patient does not meet inclusion criteria",
+    "Rationale": "The USPSTF guideline applies to adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, as evidenced by LDL > 130 mg/dL or HDL < 40 mg/dL, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk >= 7.5% (grade C) or >= 10% (grade B).",
     "Errors": null
   }
 }

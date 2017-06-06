@@ -158,6 +158,72 @@
             "accessLevel" : "Public"
          } ]
       },
+      "codes" : {
+         "def" : [ {
+            "name" : "Tobacco smoking status code",
+            "id" : "72166-2",
+            "display" : "Tobacco smoking status",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "ASCVD 10-year risk code",
+            "id" : "79423-0",
+            "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Pregnancy status code",
+            "id" : "82810-3",
+            "display" : "Pregnancy status",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Pregnant code",
+            "id" : "77386006",
+            "display" : "Patient currently pregnant (finding)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "Tobacco smoking status",
+            "display" : "Tobacco smoking status",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Tobacco smoking status code"
+            } ]
+         }, {
+            "name" : "ASCVD 10-year risk",
+            "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "ASCVD 10-year risk code"
+            } ]
+         }, {
+            "name" : "Pregnancy status",
+            "display" : "Pregnancy status",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Pregnancy status code"
+            } ]
+         }, {
+            "name" : "Pregnant",
+            "display" : "Patient currently pregnant (finding)",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Pregnant code"
+            } ]
+         } ]
+      },
       "statements" : {
          "def" : [ {
             "name" : "Patient",
@@ -168,62 +234,6 @@
                   "dataType" : "{http://hl7.org/fhir}Patient",
                   "type" : "Retrieve"
                }
-            }
-         }, {
-            "name" : "Tobacco smoking status",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "display" : "Tobacco smoking status",
-               "type" : "Concept",
-               "code" : [ {
-                  "code" : "72166-2",
-                  "system" : {
-                     "name" : "LOINC"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "ASCVD 10-year risk",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
-               "type" : "Concept",
-               "code" : [ {
-                  "code" : "79423-0",
-                  "system" : {
-                     "name" : "LOINC"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "Pregnancy status",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "display" : "Pregnancy status",
-               "type" : "Concept",
-               "code" : [ {
-                  "code" : "82810-3",
-                  "system" : {
-                     "name" : "LOINC"
-                  }
-               } ]
-            }
-         }, {
-            "name" : "Pregnant",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "display" : "Patient currently pregnant (finding)",
-               "type" : "Concept",
-               "code" : [ {
-                  "code" : "77386006",
-                  "system" : {
-                     "name" : "SNOMED-CT"
-                  }
-               } ]
             }
          }, {
             "name" : "InDemographic",
@@ -528,7 +538,7 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "name" : "Tobacco smoking status",
-                           "type" : "ExpressionRef"
+                           "type" : "ConceptRef"
                         } ]
                      } ]
                   } ]
@@ -560,7 +570,7 @@
                            "type" : "FunctionRef",
                            "operand" : [ {
                               "name" : "Tobacco smoking status",
-                              "type" : "ExpressionRef"
+                              "type" : "ConceptRef"
                            } ]
                         }, {
                            "value" : 6,
@@ -603,7 +613,7 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "name" : "ASCVD 10-year risk",
-                        "type" : "ExpressionRef"
+                        "type" : "ConceptRef"
                      } ]
                   } ]
                } ]
@@ -630,7 +640,7 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "name" : "ASCVD 10-year risk",
-                           "type" : "ExpressionRef"
+                           "type" : "ConceptRef"
                         } ]
                      }, {
                         "value" : 6,
@@ -857,7 +867,7 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "name" : "Pregnancy status",
-                           "type" : "ExpressionRef"
+                           "type" : "ConceptRef"
                         } ]
                      }, {
                         "value" : 42,
@@ -906,7 +916,7 @@
                      } ]
                   }, {
                      "name" : "Pregnant",
-                     "type" : "ExpressionRef"
+                     "type" : "ConceptRef"
                   } ]
                } ]
             }
@@ -1504,7 +1514,7 @@
                }
             }
          }, {
-            "name" : "RecommendationMessage",
+            "name" : "Recommendation",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1539,7 +1549,7 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "No USPSTF recommendation provided, as patient does not meet inclusion criteria: age 40-75 years, plus at least one CVD risk factor (LDL > 130 mg/dL, HDL < 40 mg/dL, diabetes, hypertension, or current smoker), plus CVD risk score >= 7.5% (grade C) or >= 10% (grade B)",
+                     "value" : "No USPSTF recommendation provided, as patient does not meet inclusion criteria",
                      "type" : "Literal"
                   }
                }, {
@@ -1549,7 +1559,69 @@
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                     "value" : "No USPSTF recommendation provided, as patient is excluded due to one of the following: previous CVD diagnosis or procedure, LDL > 190 mg/dL, familial hypercholesterolemia, active pregnancy, active breastfeeding, end stage renal disease, recent dialysis, cirrhosis, or currently on a statin",
+                     "value" : "No USPSTF recommendation provided, as patient meets exclusion criteria",
+                     "type" : "Literal"
+                  }
+               } ],
+               "else" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               }
+            }
+         }, {
+            "name" : "Rationale",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "name" : "ShouldStartStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater.",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "name" : "ShouldDiscussStatin",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of  CVD events and mortality by at least a small amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 7.5% to 10%.",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "MeetsInclusionCriteria",
+                        "type" : "ExpressionRef"
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "The USPSTF guideline applies to adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, as evidenced by LDL > 130 mg/dL or HDL < 40 mg/dL, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk >= 7.5% (grade C) or >= 10% (grade B).",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "when" : {
+                     "name" : "MeetsExclusionCriteria",
+                     "type" : "ExpressionRef"
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "This USPSTF guideline should not be used for patients with any of the following: LDL > 190 mg/dL, a previous CVD diagnosis or procedure, familial hypercholesterolemia, end stage renal disease, cirrhosis, recent dialysis, or patients who are pregnant, breastfeeding, or currently on a statin.",
                      "type" : "Literal"
                   }
                } ],
@@ -1580,7 +1652,7 @@
                   "condition" : {
                      "type" : "IsNull",
                      "operand" : {
-                        "name" : "RecommendationMessage",
+                        "name" : "Recommendation",
                         "type" : "ExpressionRef"
                      }
                   },
