@@ -217,6 +217,9 @@ function sendResults(res, results, parameters = {}, returnExpressions = []) {
     patientID: pid,
     results: {}
   };
+  if (Object.keys(parameters).length == 0) {
+    delete(formattedResults.parameters);
+  }
   if (returnExpressions.length == 0) {
     delete(formattedResults.returnExpressions);
     formattedResults.results = pResults;
