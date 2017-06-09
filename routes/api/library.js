@@ -158,19 +158,18 @@ function execute(req, res, next) {
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)
   if (data.length > 0) {
-    // Check header to ensure this is actually FHIR formatted data. If it isn't,
-    // then we need to convert it.
+    // Check the data to confirm it is FHIR.  If it isn't, then we need to convert it.
     let bundle;
-    if (req.headers['content-type'] !== 'application/json+fhir') {
-      // Not FHIR formatted.  Need to convert.
-      bundle = pb.parseMessage(data);
-    } else { // === 'application/json+fhir'
+    if (data.every(r => typeof r.resourceType === 'string')) {
       // FHIR formatted.  We're all good.
       bundle = {
         resourceType: 'Bundle',
         type: 'collection',
         entry: data.map(r => { return {resource: r}; })
       };
+    } else {
+      // Not FHIR formatted.  Need to convert.
+      bundle = pb.parseMessage(data);
     }
     patientSource.loadBundles([bundle]);
   }

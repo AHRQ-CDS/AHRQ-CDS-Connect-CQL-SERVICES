@@ -59,7 +59,7 @@ A request to the CDS service is posted over HTTP to the following URL:
 
 It should contain at least the following headers:
 ```
-Content-Type: application/json+fhir
+Content-Type: application/json
 Cache-Control: no-cache
 ```
 
