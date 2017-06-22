@@ -38,7 +38,7 @@
                   "operand" : {
                      "type" : "IsNull",
                      "operand" : {
-                        "name" : "C",
+                        "name" : "Cpt",
                         "type" : "OperandRef"
                      }
                   }
@@ -48,7 +48,7 @@
                   "libraryName" : "FHIRHelpers",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "C",
+                     "name" : "Cpt",
                      "type" : "OperandRef"
                   } ]
                },
@@ -65,7 +65,7 @@
                }
             },
             "operand" : [ {
-               "name" : "C",
+               "name" : "Cpt",
                "operandTypeSpecifier" : {
                   "name" : "{http://hl7.org/fhir}CodeableConcept",
                   "type" : "NamedTypeSpecifier"
@@ -83,19 +83,39 @@
                   "operand" : {
                      "type" : "IsNull",
                      "operand" : {
-                        "name" : "P",
+                        "name" : "Pd",
                         "type" : "OperandRef"
                      }
                   }
                },
                "then" : {
-                  "name" : "ToInterval",
-                  "libraryName" : "FHIRHelpers",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "P",
-                     "type" : "OperandRef"
-                  } ]
+                  "lowClosed" : true,
+                  "highClosed" : true,
+                  "type" : "Interval",
+                  "low" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "start",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Pd",
+                           "type" : "OperandRef"
+                        }
+                     }
+                  },
+                  "high" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "end",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Pd",
+                           "type" : "OperandRef"
+                        }
+                     }
+                  }
                },
                "else" : {
                   "type" : "As",
@@ -112,7 +132,7 @@
                }
             },
             "operand" : [ {
-               "name" : "P",
+               "name" : "Pd",
                "operandTypeSpecifier" : {
                   "name" : "{http://hl7.org/fhir}Period",
                   "type" : "NamedTypeSpecifier"
@@ -130,7 +150,7 @@
                   "operand" : {
                      "type" : "IsNull",
                      "operand" : {
-                        "name" : "Q",
+                        "name" : "Qty",
                         "type" : "OperandRef"
                      }
                   }
@@ -147,7 +167,7 @@
                            "path" : "value",
                            "type" : "Property",
                            "source" : {
-                              "name" : "Q",
+                              "name" : "Qty",
                               "type" : "OperandRef"
                            }
                         }
@@ -163,7 +183,7 @@
                               "path" : "unit",
                               "type" : "Property",
                               "source" : {
-                                 "name" : "Q",
+                                 "name" : "Qty",
                                  "type" : "OperandRef"
                               }
                            }
@@ -174,7 +194,7 @@
                               "path" : "code",
                               "type" : "Property",
                               "source" : {
-                                 "name" : "Q",
+                                 "name" : "Qty",
                                  "type" : "OperandRef"
                               }
                            }
@@ -195,7 +215,7 @@
                }
             },
             "operand" : [ {
-               "name" : "Q",
+               "name" : "Qty",
                "operandTypeSpecifier" : {
                   "name" : "{http://hl7.org/fhir}Quantity",
                   "type" : "NamedTypeSpecifier"
@@ -484,11 +504,43 @@
                         "direction" : "asc",
                         "type" : "ByExpression",
                         "expression" : {
-                           "name" : "FindDate",
-                           "type" : "FunctionRef",
+                           "type" : "Coalesce",
                            "operand" : [ {
-                              "name" : "O",
-                              "type" : "AliasRef"
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "effectiveDateTime",
+                                 "type" : "IdentifierRef"
+                              }
+                           }, {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "end",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "effectivePeriod",
+                                    "type" : "IdentifierRef"
+                                 }
+                              }
+                           }, {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "effectivePeriod",
+                                    "type" : "IdentifierRef"
+                                 }
+                              }
+                           }, {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "issued",
+                                 "type" : "IdentifierRef"
+                              }
                            } ]
                         }
                      } ]

@@ -191,6 +191,22 @@
             "codeSystem" : {
                "name" : "SNOMED-CT"
             }
+         }, {
+            "name" : "Is Breastfeeding code",
+            "id" : "63895-7",
+            "display" : "Breast feeding [PhenX]",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Yes code",
+            "id" : "LA33-6",
+            "display" : "Yes",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
          } ]
       },
       "concepts" : {
@@ -221,6 +237,20 @@
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Pregnant code"
+            } ]
+         }, {
+            "name" : "Is Breastfeeding",
+            "display" : "Breast feeding [PhenX]",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Is Breastfeeding code"
+            } ]
+         }, {
+            "name" : "Yes",
+            "display" : "Yes",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Yes code"
             } ]
          } ]
       },
@@ -921,30 +951,79 @@
                } ]
             }
          }, {
+            "name" : "MostRecentBreastfeedingObservation",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "MostRecent",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "Verified",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ObservationLookBack",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ObservationsByConcept",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "Is Breastfeeding",
+                           "type" : "ConceptRef"
+                        } ]
+                     }, {
+                        "value" : 1,
+                        "unit" : "year",
+                        "type" : "Quantity"
+                     } ]
+                  } ]
+               } ]
+            }
+         }, {
             "name" : "IsBreastfeeding",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "name" : "Confirmed",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "ActiveCondition",
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Confirmed",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Breastfeeding",
-                           "type" : "ValueSetRef"
-                        }
+                        "name" : "ActiveCondition",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Breastfeeding",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      } ]
+                  }
+               }, {
+                  "type" : "Equivalent",
+                  "operand" : [ {
+                     "name" : "ConceptValue",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "MostRecentBreastfeedingObservation",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }, {
+                     "name" : "Yes",
+                     "type" : "ConceptRef"
                   } ]
-               }
+               } ]
             }
          }, {
             "name" : "HasEndStageRenalDisease",
@@ -1106,6 +1185,7 @@
                                  "type" : "FunctionRef",
                                  "operand" : [ {
                                     "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                    "codeProperty" : "medicationCodeableConcept",
                                     "type" : "Retrieve",
                                     "codes" : {
                                        "name" : "Low intensity statin therapy",
@@ -1138,6 +1218,7 @@
                               "type" : "FunctionRef",
                               "operand" : [ {
                                  "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                 "codeProperty" : "medicationCodeableConcept",
                                  "type" : "Retrieve",
                                  "codes" : {
                                     "name" : "Moderate intensity statin therapy",
@@ -1171,6 +1252,7 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                           "codeProperty" : "medicationCodeableConcept",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "High intensity statin therapy",
@@ -1418,11 +1500,29 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
-                  "name" : "InPopulation",
-                  "type" : "ExpressionRef"
-               }, {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Not",
+                  "operand" : {
+                     "type" : "IsTrue",
+                     "operand" : {
+                        "name" : "InPopulation",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               },
+               "else" : {
                   "type" : "GreaterOrEqual",
                   "operand" : [ {
                      "name" : "MostRecentValidASCVDRiskAssessmentResult",
@@ -1432,15 +1532,36 @@
                      "unit" : "%",
                      "type" : "Quantity"
                   } ]
-               } ]
+               }
             }
          }, {
             "name" : "ShouldDiscussStatin",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "And",
-               "operand" : [ {
+               "type" : "If",
+               "condition" : {
+                  "type" : "Not",
+                  "operand" : {
+                     "type" : "IsTrue",
+                     "operand" : {
+                        "name" : "InPopulation",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               },
+               "else" : {
                   "type" : "And",
                   "operand" : [ {
                      "type" : "And",
@@ -1448,31 +1569,28 @@
                         "name" : "GradeCRecommendationEnabled",
                         "type" : "ParameterRef"
                      }, {
-                        "name" : "InPopulation",
-                        "type" : "ExpressionRef"
+                        "type" : "GreaterOrEqual",
+                        "operand" : [ {
+                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "value" : 7.5,
+                           "unit" : "%",
+                           "type" : "Quantity"
+                        } ]
                      } ]
                   }, {
-                     "type" : "GreaterOrEqual",
+                     "type" : "Less",
                      "operand" : [ {
                         "name" : "MostRecentValidASCVDRiskAssessmentResult",
                         "type" : "ExpressionRef"
                      }, {
-                        "value" : 7.5,
+                        "value" : 10.0,
                         "unit" : "%",
                         "type" : "Quantity"
                      } ]
                   } ]
-               }, {
-                  "type" : "Less",
-                  "operand" : [ {
-                     "name" : "MostRecentValidASCVDRiskAssessmentResult",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "value" : 10.0,
-                     "unit" : "%",
-                     "type" : "Quantity"
-                  } ]
-               } ]
+               }
             }
          }, {
             "name" : "RecommendationGrade",
