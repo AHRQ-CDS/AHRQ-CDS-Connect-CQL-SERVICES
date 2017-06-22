@@ -1,7 +1,6 @@
 const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-fhir');
-const debug = require('debug')('cql-exec-service');
 const localRepo = require('../../lib/local-repo');
 const cs = require('cds-code-service');
 const router = express.Router();
@@ -30,7 +29,7 @@ function resolver(req, res, next) {
   }
   if (typeof lib === 'undefined') {
     // Set the 404 status and halt the request chain now
-    debug('ERROR: Library not found:', req.params.library, req.params.version);
+    logError(`Library not found: ${req.params.library} v${req.params.version}`);
     res.sendStatus(404);
     return;
   }
@@ -86,7 +85,7 @@ function valuesetter(req, res, next) {
     codeservice.ensureValueSets(valuesetArray)
     .then( () => next() )
     .catch( (err) => {
-      debug('ERROR:', res.locals.library.source.library.identifier, err);
+      logError(err);
       if (req.app.locals.ignoreVSACErrors) {
         next();
       } else {
@@ -116,6 +115,7 @@ function execute(req, res, next) {
   const parameters = typeof req.body.parameters !== 'undefined' ? req.body.parameters : {};
   if (typeof parameters !== 'object' || Array.isArray(parameters)) {
     // Set the 400 status and halt the request chain now
+    logError('Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
     res.status(400).send('Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
     return;
   }
@@ -124,6 +124,7 @@ function execute(req, res, next) {
   const expressions = typeof req.body.returnExpressions !== 'undefined' ? req.body.returnExpressions : [];
   if (!Array.isArray(expressions)) {
     // Set the 400 status and halt the request chain now
+    logError('Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
     res.status(400).send('Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
     return;
   }
@@ -132,7 +133,7 @@ function execute(req, res, next) {
     // Check the library to ensure this is a valid returnable expression
     if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
       // Set the 400 status and halt the request chain now
-      debug('ERROR: Expression not found:', res.locals.library.source.library.identifier, expr);
+      logError(`Expression not found: ${res.locals.library.source.library.identifier} ${expr}`);
       res.status(400).send(`Invalid input.  Cannot find expression to return with name: ${expr}.`);
       return;
     }
@@ -141,7 +142,7 @@ function execute(req, res, next) {
   // Check for valid input
   const data = typeof req.body.data !== 'undefined' ? req.body.data : [];
   if (!Array.isArray(data)) {
-    debug('ERROR: The "data" parameter is not an array');
+    logError('The "data" parameter is not an array');
     res.status(400).send('Invalid input.  The "data" parameter must be an array of FHIR resources.');
     return;
   }
@@ -149,7 +150,7 @@ function execute(req, res, next) {
   // Load the patient source
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
   if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
-    debug('ERROR: Library does not use any supported data models', lib.source.library.usings.def);
+    logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
     res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
     return;
   }
@@ -180,6 +181,7 @@ function execute(req, res, next) {
     const results = executor.exec(patientSource);
     sendResults(res, results, parameters, expressions);
   } catch (err) {
+    logError(err);
     let errToSend = err;
     if (err instanceof Error) {
       errToSend = err.message;
@@ -196,11 +198,11 @@ function execute(req, res, next) {
 function sendResults(res, results, parameters = {}, returnExpressions = []) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
-    debug('ERROR: Insufficient data to provide results.');
+    logError('Insufficient data to provide results.');
     res.status(400).send('Insufficient data to provide results.');
     return;
   } else if (resultIDs.length > 1) {
-    debug('ERROR: Data contained information about more than one patient.');
+    logError('ERROR: Data contained information about more than one patient.');
     res.status(400).send('Data contained information about more than one patient.');
     return;
   }
@@ -228,6 +230,17 @@ function sendResults(res, results, parameters = {}, returnExpressions = []) {
     }
   }
   res.json(formattedResults);
+}
+
+function logError(err) {
+  if (Array.isArray(err)) {
+    for (const e of err) {
+      logError(e);
+    }
+    return;
+  }
+  const errString = err instanceof Error ? `${err.message}\n  ${err.stack}` : `${err}`;
+  console.error((new Date()).toISOString(), 'ERROR:', errString);
 }
 
 module.exports = router;
