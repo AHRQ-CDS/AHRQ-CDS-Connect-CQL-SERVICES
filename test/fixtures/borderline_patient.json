@@ -1,5 +1,6 @@
 {
-	"data":	[
+	"returnExpressions": [ "Recommendation", "Rationale", "Errors" ],
+  "data":	[
     {
       "resourceType" : "Patient",
       "id" : "3-1",

@@ -16,15 +16,9 @@ app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger(':date[iso] :remote-addr ":method :url" :status :res[content-length]'));
 app.use(bodyParser.json({type: function (msg)  {
-  if (msg.headers['content-type'] === 'application/json') {
-    return true;
-  } else if (msg.headers['content-type'] === 'application/json+fhir') {
-    return true;
-  } else {
-    return false;
-  }
+  return msg.headers['content-type'] && msg.headers['content-type'].startsWith('application/json');
 }}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -42,6 +36,9 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
+  // Log the error
+  console.error((new Date()).toISOString(), `ERROR: ${err.message}\n  ${err.stack}`);
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

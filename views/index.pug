@@ -19,21 +19,9 @@ block content
   |
   each lib in libraries
     h2 #{lib.source.library.identifier.id} v#{lib.source.library.identifier.version}
-    h3 Callable Expressions
-    table
-      thead
-        tr
-          th Name
-          th Endpoint
-      tbody
-        each name in expressions[`${lib.source.library.identifier.id}.${lib.source.library.identifier.version}`]
-          - var ep = `${req.baseUrl}/api/library/${lib.source.library.identifier.id}/version/${lib.source.library.identifier.version}/expression/${name}`;
-          tr
-            td #{name}
-            td: a(href=ep) #{ep}
-        else
-          tr
-            td n/a
-            td n/a
-
-
+    h3 Returnable Expressions
+    ul
+      each name in expressions[`${lib.source.library.identifier.id}.${lib.source.library.identifier.version}`]
+        li #{name}
+      else
+        li n/a

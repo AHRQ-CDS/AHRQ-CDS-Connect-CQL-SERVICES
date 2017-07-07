@@ -21,7 +21,7 @@ program
     const postOptions = {
       url: options.endpoint,
       headers: {
-        'Content-Type': 'application/json+fhir'
+        'Content-Type': 'application/json'
       }
     };
     fs.createReadStream(options.message)
