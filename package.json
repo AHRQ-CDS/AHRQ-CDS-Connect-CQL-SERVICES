@@ -1,6 +1,6 @@
 {
   "name": "cql-exec-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A RESTful CQL execution service",
   "private": true,
   "license": "UNLICENSED",
@@ -18,11 +18,11 @@
   },
   "dependencies": {
     "body-parser": "~1.16.0",
-    "cds-code-service": "file:./localDependencies/cds-code-service-1.0.0-ec768d8ebab6b5d2e1db363cd593c51183d0797e.tgz",
+    "cds-code-service": "file:./localDependencies/cds-code-service-1.0.0-ce7e9ab3518c09a8b44e43f82205aea93da225ab.tgz",
     "commander": "^2.9.0",
     "cookie-parser": "~1.4.3",
-    "cql-execution": "file:./localDependencies/cql-execution-0.0.6-011abcd0c243d017e47ed82e2c74bd0acc46841f.tgz",
-    "cql-fhir": "file:./localDependencies/cql-fhir-1.0.0-9c876183bcf93b020f011691ec924081c3060a94.tgz",
+    "cql-execution": "file:./localDependencies/cql-execution-0.0.6-487d84e7f294aa80a84784a724ae5292e442f008.tgz",
+    "cql-fhir": "file:./localDependencies/cql-fhir-1.0.0-a032a49d75bf82d3c6eb29d9d370214b1756eb4e.tgz",
     "debug": "~2.6.0",
     "express": "~4.14.1",
     "morgan": "~1.7.0",
