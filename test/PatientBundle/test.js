@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+// This is a simple script for manually testing the
+// simple non-FHIR patient format.
 const pb = require('../../lib/PatientBundle');
 const message = require('./fixtures/plain_message.json');
 

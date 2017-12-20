@@ -2,7 +2,7 @@
 
 Installing the CDS Connect CQL Execution Service on Windows Server 2012 requires the following steps, detailed below:
 
-* Install Node.js 6.10.x
+* Install Node.js 8.9.x
 * Install Yarn
 * Install CQL Execution Service
 * Configure CQL Execution Service
@@ -14,11 +14,11 @@ _**NOTE**: The current service operates on HTTP only.  This means that informati
 
 # Install
 
-## Install Node.js 6.10.x
+## Install Node.js 8.9.x
 
 The CQL Execution Service is a [Node.js](https://nodejs.org/) application, so it requires the Node.js runtime environment.
 
-To install Node.js, first visit [https://nodejs.org/en/download/](https://nodejs.org/en/download/) and download the LTS Windows Installer (currently at v6.10.2).
+To install Node.js, first visit [https://nodejs.org/en/download/](https://nodejs.org/en/download/) and download the LTS Windows Installer (currently at v8.9.3).
 
 ![Download Node.js](download_nodejs.png "Download Node.js")
 
@@ -84,7 +84,7 @@ Done in 61.25s.
 
 The CQL Execution Service requires a free Unified Medical Language System (UMLS) account from the National Library of Medicine (NLM).  If you do not yet have an account, [sign up here](https://uts.nlm.nih.gov//license.html).
 
-Once you have an UMLS account, you will need to add your credentials the CQL Execution Service configuration.  To do this, navigate to where you extracted the cql-exec-service.zip file (i.e., _C:\Pilot\cql-exec-service_).  Locate the _cql-es.config.js_ file, right-click it, and choose _edit_.
+Once you have an UMLS account, you will need to add your credentials to the CQL Execution Service configuration.  To do this, navigate to where you extracted the cql-exec-service.zip file (i.e., _C:\Pilot\cql-exec-service_).  Locate the _cql-es.config.js_ file, right-click it, and choose _edit_.
 
 ![Edit cql-es.config.js](edit_cql_es_config.png "Edit cql-es.config.js")
 
@@ -163,24 +163,24 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
 content-type : application/json; charset=utf-8
-content-length : 765
-etag : W/"2fd-vFe9B9VQXRV4kmIGEBV7Xg"
-date : Tue, 06 Jun 2017 20:42:25 GMT
+content-length : 769
+etag : W/"301-S0M0zQt6oH2PdzaP5ph03w"
+date : Wed, 20 Dec 2017 16:28:02 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1"
+    "version": "1.0.0"
   },
   "returnExpressions": [
     "Recommendation",
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2017-06-06T20:42:25.457Z",
+  "timestamp": "2017-12-20T16:28:02.029Z",
   "patientID": "2-1",
   "results": {
     "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
@@ -203,7 +203,7 @@ By default, the test client posts synthetic records for an "unhealthy patient" t
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
+    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
     --message test/fixtures/unhealthy_patient.json
 
   Options:
@@ -225,24 +225,24 @@ If successful, , you should see something like this (note the different _results
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
 content-type : application/json; charset=utf-8
-content-length : 634
-etag : W/"27a-sTOcWE3jydn3zpV032dTPw"
-date : Tue, 06 Jun 2017 20:45:20 GMT
+content-length : 638
+etag : W/"27e-UwHVEowAniejlYIKVKjVOQ"
+date : Wed, 20 Dec 2017 16:43:50 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1"
+    "version": "1.0.0"
   },
   "returnExpressions": [
     "Recommendation",
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2017-06-06T20:45:20.696Z",
+  "timestamp": "2017-12-20T16:43:50.882Z",
   "patientID": "1-1",
   "results": {
     "Recommendation": "No USPSTF recommendation provided, as patient does not meet inclusion criteria",
