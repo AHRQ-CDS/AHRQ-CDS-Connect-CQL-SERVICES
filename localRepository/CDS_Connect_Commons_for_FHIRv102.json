@@ -2,7 +2,7 @@
    "library" : {
       "identifier" : {
          "id" : "CDS_Connect_Commons_for_FHIRv102",
-         "version" : "1"
+         "version" : "1.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -670,6 +670,44 @@
                "name" : "Obs",
                "operandTypeSpecifier" : {
                   "name" : "{http://hl7.org/fhir}Observation",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "ConditionsByConcept",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equivalent",
+                  "operand" : [ {
+                     "name" : "NullSafeToConcept",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "code",
+                        "scope" : "C",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "name" : "Koncept",
+                     "type" : "OperandRef"
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "Koncept",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}Concept",
                   "type" : "NamedTypeSpecifier"
                }
             } ]

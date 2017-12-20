@@ -2,7 +2,7 @@
    "library" : {
       "identifier" : {
          "id" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-         "version" : "1"
+         "version" : "1.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -26,11 +26,11 @@
          }, {
             "localIdentifier" : "C3F",
             "path" : "CDS_Connect_Commons_for_FHIRv102",
-            "version" : "1"
+            "version" : "1.0.0"
          }, {
             "localIdentifier" : "Convert",
             "path" : "CDS_Connect_Conversions",
-            "version" : "1"
+            "version" : "1.0.0"
          } ]
       },
       "parameters" : {
@@ -53,20 +53,16 @@
             "name" : "SNOMED-CT",
             "id" : "http://snomed.info/sct/1000124",
             "accessLevel" : "Public"
+         }, {
+            "name" : "ICD-10-CM",
+            "id" : "urn:oid:2.16.840.1.113883.6.90",
+            "accessLevel" : "Public"
          } ]
       },
       "valueSets" : {
          "def" : [ {
             "name" : "LDL Test",
             "id" : "2.16.840.1.113883.3.464.1003.198.11.1029",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "HDL-C Laboratory Test",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "High Density Lipoprotein (HDL)",
-            "id" : "2.16.840.1.113883.3.600.875",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
@@ -81,32 +77,8 @@
             "id" : "2.16.840.1.113883.3.600.2390",
             "accessLevel" : "Public"
          }, {
-            "name" : "Myocardial infarction",
-            "id" : "2.16.840.1.113883.3.526.3.403",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Acute myocardial infarction",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1001",
-            "accessLevel" : "Public"
-         }, {
             "name" : "Ischemic vascular disease",
             "id" : "2.16.840.1.113883.3.464.1003.104.12.1003",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "CABG Surgeries",
-            "id" : "2.16.840.1.113883.3.666.5.694",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Coronary artery bypass graft",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1002",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "PCI ICD10CM SNOMEDCT",
-            "id" : "2.16.840.1.113762.1.4.1045.67",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "PCI ICD9CM",
-            "id" : "2.16.840.1.113762.1.4.1045.86",
             "accessLevel" : "Public"
          }, {
             "name" : "Carotid intervention",
@@ -149,12 +121,56 @@
             "id" : "2.16.840.1.113762.1.4.1047.107",
             "accessLevel" : "Public"
          }, {
+            "name" : "Low Intensity Statin Therapy Branded",
+            "id" : "2.16.840.1.113762.1.4.1032.16",
+            "accessLevel" : "Public"
+         }, {
             "name" : "Moderate intensity statin therapy",
             "id" : "2.16.840.1.113762.1.4.1047.98",
             "accessLevel" : "Public"
          }, {
+            "name" : "Moderate Intensity Statin Therapy Branded",
+            "id" : "2.16.840.1.113762.1.4.1032.17",
+            "accessLevel" : "Public"
+         }, {
             "name" : "High intensity statin therapy",
             "id" : "2.16.840.1.113762.1.4.1047.97",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "High Intensity Statin Therapy Branded",
+            "id" : "2.16.840.1.113762.1.4.1032.18",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "HDL-C Laboratory Test",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "High Density Lipoprotein (HDL)",
+            "id" : "2.16.840.1.113883.3.600.875",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Myocardial infarction",
+            "id" : "2.16.840.1.113883.3.526.3.403",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Acute myocardial infarction",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "CABG Surgeries",
+            "id" : "2.16.840.1.113883.3.666.5.694",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Coronary artery bypass graft",
+            "id" : "2.16.840.1.113883.3.464.1003.104.12.1002",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "PCI ICD10CM SNOMEDCT",
+            "id" : "2.16.840.1.113762.1.4.1045.67",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "PCI ICD9CM",
+            "id" : "2.16.840.1.113762.1.4.1045.86",
             "accessLevel" : "Public"
          } ]
       },
@@ -168,7 +184,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "ASCVD 10-year risk code",
+            "name" : "CVD 10-year risk code",
             "id" : "79423-0",
             "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
             "accessLevel" : "Public",
@@ -207,6 +223,14 @@
             "codeSystem" : {
                "name" : "LOINC"
             }
+         }, {
+            "name" : "Familial hypercholesterolemia code",
+            "id" : "E78.01",
+            "display" : "Familial hypercholesterolemia",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "ICD-10-CM"
+            }
          } ]
       },
       "concepts" : {
@@ -218,11 +242,11 @@
                "name" : "Tobacco smoking status code"
             } ]
          }, {
-            "name" : "ASCVD 10-year risk",
+            "name" : "CVD 10-year risk",
             "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
             "accessLevel" : "Public",
             "code" : [ {
-               "name" : "ASCVD 10-year risk code"
+               "name" : "CVD 10-year risk code"
             } ]
          }, {
             "name" : "Pregnancy status",
@@ -251,6 +275,13 @@
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Yes code"
+            } ]
+         }, {
+            "name" : "Familial hypercholesterolemia concept",
+            "display" : "Familial hypercholesterolemia",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Familial hypercholesterolemia code"
             } ]
          } ]
       },
@@ -626,7 +657,7 @@
                }
             }
          }, {
-            "name" : "MostRecentASCVDRiskAssessment",
+            "name" : "MostRecentCVDRiskAssessment",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -642,14 +673,14 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ASCVD 10-year risk",
+                        "name" : "CVD 10-year risk",
                         "type" : "ConceptRef"
                      } ]
                   } ]
                } ]
             }
          }, {
-            "name" : "MostRecentValidASCVDRiskAssessment",
+            "name" : "MostRecentValidCVDRiskAssessment",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -669,7 +700,7 @@
                         "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "name" : "ASCVD 10-year risk",
+                           "name" : "CVD 10-year risk",
                            "type" : "ConceptRef"
                         } ]
                      }, {
@@ -681,7 +712,7 @@
                } ]
             }
          }, {
-            "name" : "MostRecentValidASCVDRiskAssessmentResult",
+            "name" : "MostRecentValidCVDRiskAssessmentResult",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -689,7 +720,7 @@
                "libraryName" : "C3F",
                "type" : "FunctionRef",
                "operand" : [ {
-                  "name" : "MostRecentValidASCVDRiskAssessment",
+                  "name" : "MostRecentValidCVDRiskAssessment",
                   "type" : "ExpressionRef"
                } ]
             }
@@ -854,26 +885,50 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Exists",
-               "operand" : {
-                  "name" : "Confirmed",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "ActiveCondition",
+               "type" : "Or",
+               "operand" : [ {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Confirmed",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Familial Hypercholesterolemia",
-                           "type" : "ValueSetRef"
-                        }
+                        "name" : "ActiveCondition",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Familial Hypercholesterolemia",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      } ]
-                  } ]
-               }
+                  }
+               }, {
+                  "type" : "Exists",
+                  "operand" : {
+                     "name" : "Confirmed",
+                     "libraryName" : "C3F",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "ActiveCondition",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "ConditionsByConcept",
+                           "libraryName" : "C3F",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "Familial hypercholesterolemia concept",
+                              "type" : "ConceptRef"
+                           } ]
+                        } ]
+                     } ]
+                  }
+               } ]
             }
          }, {
             "name" : "MostRecentPregnancyObservation",
@@ -1178,21 +1233,135 @@
                         "operand" : [ {
                            "type" : "Or",
                            "operand" : [ {
-                              "type" : "Exists",
-                              "operand" : {
-                                 "name" : "ActiveMedicationStatement",
-                                 "libraryName" : "C3F",
-                                 "type" : "FunctionRef",
+                              "type" : "Or",
+                              "operand" : [ {
+                                 "type" : "Or",
                                  "operand" : [ {
-                                    "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                                    "codeProperty" : "medicationCodeableConcept",
-                                    "type" : "Retrieve",
-                                    "codes" : {
-                                       "name" : "Low intensity statin therapy",
-                                       "type" : "ValueSetRef"
+                                    "type" : "Or",
+                                    "operand" : [ {
+                                       "type" : "Or",
+                                       "operand" : [ {
+                                          "type" : "Or",
+                                          "operand" : [ {
+                                             "type" : "Or",
+                                             "operand" : [ {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "ActiveMedicationStatement",
+                                                   "libraryName" : "C3F",
+                                                   "type" : "FunctionRef",
+                                                   "operand" : [ {
+                                                      "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                                      "codeProperty" : "medicationCodeableConcept",
+                                                      "type" : "Retrieve",
+                                                      "codes" : {
+                                                         "name" : "Low intensity statin therapy",
+                                                         "type" : "ValueSetRef"
+                                                      }
+                                                   } ]
+                                                }
+                                             }, {
+                                                "type" : "Exists",
+                                                "operand" : {
+                                                   "name" : "ActiveMedicationOrder",
+                                                   "libraryName" : "C3F",
+                                                   "type" : "FunctionRef",
+                                                   "operand" : [ {
+                                                      "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                                                      "codeProperty" : "medicationCodeableConcept",
+                                                      "type" : "Retrieve",
+                                                      "codes" : {
+                                                         "name" : "Low intensity statin therapy",
+                                                         "type" : "ValueSetRef"
+                                                      }
+                                                   } ]
+                                                }
+                                             } ]
+                                          }, {
+                                             "type" : "Exists",
+                                             "operand" : {
+                                                "name" : "ActiveMedicationStatement",
+                                                "libraryName" : "C3F",
+                                                "type" : "FunctionRef",
+                                                "operand" : [ {
+                                                   "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                                   "codeProperty" : "medicationCodeableConcept",
+                                                   "type" : "Retrieve",
+                                                   "codes" : {
+                                                      "name" : "Low Intensity Statin Therapy Branded",
+                                                      "type" : "ValueSetRef"
+                                                   }
+                                                } ]
+                                             }
+                                          } ]
+                                       }, {
+                                          "type" : "Exists",
+                                          "operand" : {
+                                             "name" : "ActiveMedicationOrder",
+                                             "libraryName" : "C3F",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                                                "codeProperty" : "medicationCodeableConcept",
+                                                "type" : "Retrieve",
+                                                "codes" : {
+                                                   "name" : "Low Intensity Statin Therapy Branded",
+                                                   "type" : "ValueSetRef"
+                                                }
+                                             } ]
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "Exists",
+                                       "operand" : {
+                                          "name" : "ActiveMedicationStatement",
+                                          "libraryName" : "C3F",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                             "codeProperty" : "medicationCodeableConcept",
+                                             "type" : "Retrieve",
+                                             "codes" : {
+                                                "name" : "Moderate intensity statin therapy",
+                                                "type" : "ValueSetRef"
+                                             }
+                                          } ]
+                                       }
+                                    } ]
+                                 }, {
+                                    "type" : "Exists",
+                                    "operand" : {
+                                       "name" : "ActiveMedicationOrder",
+                                       "libraryName" : "C3F",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationOrder",
+                                          "codeProperty" : "medicationCodeableConcept",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Moderate intensity statin therapy",
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
                                     }
                                  } ]
-                              }
+                              }, {
+                                 "type" : "Exists",
+                                 "operand" : {
+                                    "name" : "ActiveMedicationStatement",
+                                    "libraryName" : "C3F",
+                                    "type" : "FunctionRef",
+                                    "operand" : [ {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                       "codeProperty" : "medicationCodeableConcept",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate Intensity Statin Therapy Branded",
+                                          "type" : "ValueSetRef"
+                                       }
+                                    } ]
+                                 }
+                              } ]
                            }, {
                               "type" : "Exists",
                               "operand" : {
@@ -1204,7 +1373,7 @@
                                     "codeProperty" : "medicationCodeableConcept",
                                     "type" : "Retrieve",
                                     "codes" : {
-                                       "name" : "Low intensity statin therapy",
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
                                        "type" : "ValueSetRef"
                                     }
                                  } ]
@@ -1221,7 +1390,7 @@
                                  "codeProperty" : "medicationCodeableConcept",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate intensity statin therapy",
+                                    "name" : "High intensity statin therapy",
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -1238,7 +1407,7 @@
                               "codeProperty" : "medicationCodeableConcept",
                               "type" : "Retrieve",
                               "codes" : {
-                                 "name" : "Moderate intensity statin therapy",
+                                 "name" : "High intensity statin therapy",
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -1255,7 +1424,7 @@
                            "codeProperty" : "medicationCodeableConcept",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "High intensity statin therapy",
+                              "name" : "High Intensity Statin Therapy Branded",
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -1272,7 +1441,7 @@
                         "codeProperty" : "medicationCodeableConcept",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "High intensity statin therapy",
+                           "name" : "High Intensity Statin Therapy Branded",
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -1305,7 +1474,7 @@
                   }, {
                      "type" : "IsNull",
                      "operand" : {
-                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "name" : "MostRecentValidCVDRiskAssessmentResult",
                         "type" : "ExpressionRef"
                      }
                   } ]
@@ -1383,7 +1552,7 @@
                   "operand" : [ {
                      "type" : "GreaterOrEqual",
                      "operand" : [ {
-                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "name" : "MostRecentValidCVDRiskAssessmentResult",
                         "type" : "ExpressionRef"
                      }, {
                         "value" : 10.0,
@@ -1398,7 +1567,7 @@
                      }, {
                         "type" : "GreaterOrEqual",
                         "operand" : [ {
-                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                           "name" : "MostRecentValidCVDRiskAssessmentResult",
                            "type" : "ExpressionRef"
                         }, {
                            "value" : 7.5,
@@ -1525,7 +1694,7 @@
                "else" : {
                   "type" : "GreaterOrEqual",
                   "operand" : [ {
-                     "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                     "name" : "MostRecentValidCVDRiskAssessmentResult",
                      "type" : "ExpressionRef"
                   }, {
                      "value" : 10.0,
@@ -1571,7 +1740,7 @@
                      }, {
                         "type" : "GreaterOrEqual",
                         "operand" : [ {
-                           "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                           "name" : "MostRecentValidCVDRiskAssessmentResult",
                            "type" : "ExpressionRef"
                         }, {
                            "value" : 7.5,
@@ -1582,7 +1751,7 @@
                   }, {
                      "type" : "Less",
                      "operand" : [ {
-                        "name" : "MostRecentValidASCVDRiskAssessmentResult",
+                        "name" : "MostRecentValidCVDRiskAssessmentResult",
                         "type" : "ExpressionRef"
                      }, {
                         "value" : 10.0,

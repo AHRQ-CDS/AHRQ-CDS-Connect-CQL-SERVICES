@@ -55,7 +55,7 @@ A request to the CQL Execution Service for the statin recommendation will requir
 ## The HTTP Request
 
 A request to the CDS service is posted over HTTP to the following URL:
-`http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1`
+`http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0`
 
 It should contain at least the following headers:
 ```

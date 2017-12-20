@@ -204,11 +204,10 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-"cds-code-service@file:./localDependencies/cds-code-service-1.0.0-ec768d8ebab6b5d2e1db363cd593c51183d0797e.tgz":
+"cds-code-service@file:./localDependencies/cds-code-service-1.0.0-ce7e9ab3518c09a8b44e43f82205aea93da225ab.tgz":
   version "1.0.0"
-  resolved "./localDependencies/cds-code-service-1.0.0-ec768d8ebab6b5d2e1db363cd593c51183d0797e.tgz#9cdc69885dbe00cd3a5d11735fd054af213d2d69"
+  resolved "file:./localDependencies/cds-code-service-1.0.0-ce7e9ab3518c09a8b44e43f82205aea93da225ab.tgz#b592e109affb0056b110f878c7bdf6463e14da86"
   dependencies:
-    cql-execution "file:./localDependencies/cql-execution-0.0.6-011abcd0c243d017e47ed82e2c74bd0acc46841f.tgz"
     debug "^2.6.4"
     mkdirp "^0.5.1"
     request "^2.81.0"
@@ -347,15 +346,16 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-"cql-execution@file:./localDependencies/cql-execution-0.0.6-011abcd0c243d017e47ed82e2c74bd0acc46841f.tgz":
+"cql-execution@file:./localDependencies/cql-execution-0.0.6-487d84e7f294aa80a84784a724ae5292e442f008.tgz":
   version "0.0.6"
-  resolved "./localDependencies/cql-execution-0.0.6-011abcd0c243d017e47ed82e2c74bd0acc46841f.tgz#12e40786e3bd3ae1fa5ded7ea5cf8373df80bc6f"
-
-"cql-fhir@file:./localDependencies/cql-fhir-1.0.0-9c876183bcf93b020f011691ec924081c3060a94.tgz":
-  version "1.0.0"
-  resolved "./localDependencies/cql-fhir-1.0.0-9c876183bcf93b020f011691ec924081c3060a94.tgz#664495c34dbb2edf493ac16533c6f21e8389659a"
+  resolved "file:./localDependencies/cql-execution-0.0.6-487d84e7f294aa80a84784a724ae5292e442f008.tgz#a30e9ea0c694326b02778989a83ee8f41a647909"
   dependencies:
-    cql-execution "file:./localDependencies/cql-execution-0.0.6-011abcd0c243d017e47ed82e2c74bd0acc46841f.tgz"
+    ucum "0.0.7"
+
+"cql-fhir@file:./localDependencies/cql-fhir-1.0.0-a032a49d75bf82d3c6eb29d9d370214b1756eb4e.tgz":
+  version "1.0.0"
+  resolved "file:./localDependencies/cql-fhir-1.0.0-a032a49d75bf82d3c6eb29d9d370214b1756eb4e.tgz#cadaa00adb09ec97a43ca546836dd584168e936e"
+  dependencies:
     xml2js "~0.4.17"
 
 cryptiles@2.x.x:
@@ -1780,6 +1780,10 @@ type-is@~1.6.14:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+ucum@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/ucum/-/ucum-0.0.7.tgz#cd07efe5599a17ef7fb327778bf838e832dfd1a4"
 
 uglify-js@^2.6.1:
   version "2.8.22"
