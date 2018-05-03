@@ -204,9 +204,9 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-"cds-code-service@file:./localDependencies/cds-code-service-1.0.0-ce7e9ab3518c09a8b44e43f82205aea93da225ab.tgz":
+"cds-code-service@file:./localDependencies/cds-code-service-1.0.0-5b44bbc8e1aa0c6a3263ebe9c951460566d1e177.tgz":
   version "1.0.0"
-  resolved "file:./localDependencies/cds-code-service-1.0.0-ce7e9ab3518c09a8b44e43f82205aea93da225ab.tgz#b592e109affb0056b110f878c7bdf6463e14da86"
+  resolved "file:./localDependencies/cds-code-service-1.0.0-5b44bbc8e1aa0c6a3263ebe9c951460566d1e177.tgz#0345e90227ed48240329f0b4c1288c66dd753cdd"
   dependencies:
     debug "^2.6.4"
     mkdirp "^0.5.1"
@@ -346,15 +346,16 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-"cql-execution@file:./localDependencies/cql-execution-0.0.6-487d84e7f294aa80a84784a724ae5292e442f008.tgz":
-  version "0.0.6"
-  resolved "file:./localDependencies/cql-execution-0.0.6-487d84e7f294aa80a84784a724ae5292e442f008.tgz#a30e9ea0c694326b02778989a83ee8f41a647909"
+"cql-execution@file:./localDependencies/cql-execution-1.2.1-1ca7045ea117fd66130bf63db5a526129168c5f6.tgz":
+  version "1.2.1"
+  resolved "file:./localDependencies/cql-execution-1.2.1-1ca7045ea117fd66130bf63db5a526129168c5f6.tgz#1d4ce21c9fb0ee725331dd43a0fbeac8922417da"
   dependencies:
+    moment "^2.20.1"
     ucum "0.0.7"
 
-"cql-fhir@file:./localDependencies/cql-fhir-1.0.0-a032a49d75bf82d3c6eb29d9d370214b1756eb4e.tgz":
+"cql-fhir@file:./localDependencies/cql-fhir-1.0.0-b699969e492c10145053d888b723c8b29a8471a8.tgz":
   version "1.0.0"
-  resolved "file:./localDependencies/cql-fhir-1.0.0-a032a49d75bf82d3c6eb29d9d370214b1756eb4e.tgz#cadaa00adb09ec97a43ca546836dd584168e936e"
+  resolved "file:./localDependencies/cql-fhir-1.0.0-b699969e492c10145053d888b723c8b29a8471a8.tgz#4ca776fc104a7f5a194eac4f35455a86359b5951"
   dependencies:
     xml2js "~0.4.17"
 
@@ -1171,6 +1172,10 @@ mocha@^3.2.0:
     lodash.create "3.1.1"
     mkdirp "0.5.1"
     supports-color "3.1.2"
+
+moment@^2.20.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
 morgan@~1.7.0:
   version "1.7.0"

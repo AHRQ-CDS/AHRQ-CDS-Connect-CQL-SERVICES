@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const apiLibrary = require('./routes/api/library');
+const cdsServices = require('./routes/cds-services');
 
 const app = express();
 
@@ -26,13 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api/library', apiLibrary);
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+app.use('/cds-services', cdsServices);
 
 // error handler
 app.use((err, req, res, next) => {
