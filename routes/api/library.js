@@ -95,7 +95,7 @@ function valuesetter(req, res, next) {
         } else if (Array.isArray(err)) {
           errToSend = err.map(e => e instanceof Error ? e.message : e);
         }
-        res.status(500).send(errToSend);
+        sendError(res, 500, errToSend, false);
       }
     });
   } else { // No valuesets. Go to next handler.
@@ -115,8 +115,7 @@ function execute(req, res, next) {
   const parameters = typeof req.body.parameters !== 'undefined' ? req.body.parameters : {};
   if (typeof parameters !== 'object' || Array.isArray(parameters)) {
     // Set the 400 status and halt the request chain now
-    logError('Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
-    res.status(400).send('Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
+    sendError(res, 400, 'Invalid input.  The "parameters" parameter, if supplied, must be an object with parameter name keys.');
     return;
   }
 
@@ -124,8 +123,7 @@ function execute(req, res, next) {
   const expressions = typeof req.body.returnExpressions !== 'undefined' ? req.body.returnExpressions : [];
   if (!Array.isArray(expressions)) {
     // Set the 400 status and halt the request chain now
-    logError('Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
-    res.status(400).send('Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
+    sendError(res, 400, 'Invalid input.  The "returnExpressions" parameter, if supplied, must be an array of expression names.');
     return;
   }
   for (const expr of expressions) {
@@ -133,8 +131,7 @@ function execute(req, res, next) {
     // Check the library to ensure this is a valid returnable expression
     if (typeof def === 'undefined' || def.constructor.name === 'FunctionDef') {
       // Set the 400 status and halt the request chain now
-      logError(`Expression not found: ${res.locals.library.source.library.identifier} ${expr}`);
-      res.status(400).send(`Invalid input.  Cannot find expression to return with name: ${expr}.`);
+      sendError(res, 400, `Expression not found: ${res.locals.library.source.library.identifier} ${expr}`);
       return;
     }
   }
@@ -142,16 +139,14 @@ function execute(req, res, next) {
   // Check for valid input
   const data = typeof req.body.data !== 'undefined' ? req.body.data : [];
   if (!Array.isArray(data)) {
-    logError('The "data" parameter is not an array');
-    res.status(400).send('Invalid input.  The "data" parameter must be an array of FHIR resources.');
+    sendError(res, 400, 'Invalid input.  The "data" parameter must be an array of FHIR resources.');
     return;
   }
 
   // Load the patient source
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
   if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
-    logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
-    res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
+    sendError(res, 501, `Not Implemented: Unsupported data model: ${lib.source.library.usings.def} (must be FHIR 1.0.2`);
     return;
   }
   const patientSource = fhir.PatientSource.FHIRv102();
@@ -188,7 +183,7 @@ function execute(req, res, next) {
     } else if (Array.isArray(err)) {
       errToSend = err.map(e => e instanceof Error ? e.message : e);
     }
-    res.status(500).send(errToSend);
+    sendError(res, 500, errToSend, false);
   }
 }
 
@@ -198,12 +193,10 @@ function execute(req, res, next) {
 function sendResults(res, results, parameters = {}, returnExpressions = []) {
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
-    logError('Insufficient data to provide results.');
-    res.status(400).send('Insufficient data to provide results.');
+    sendError(res, 400, 'Insufficient data to provide results.');
     return;
   } else if (resultIDs.length > 1) {
-    logError('ERROR: Data contained information about more than one patient.');
-    res.status(400).send('Data contained information about more than one patient.');
+    sendError(res, 400, 'Data contained information about more than one patient.');
     return;
   }
   const pid = resultIDs[0];
@@ -230,6 +223,14 @@ function sendResults(res, results, parameters = {}, returnExpressions = []) {
     }
   }
   res.json(formattedResults);
+}
+
+function sendError(res, code, message, logIt = true) {
+  if (logIt) {
+    logError(message);
+  }
+  res.type('text/plain');
+  res.status(code).send(message);
 }
 
 function logError(err) {

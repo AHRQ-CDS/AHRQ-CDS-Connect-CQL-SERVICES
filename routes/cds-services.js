@@ -45,7 +45,7 @@ function discover(req, res, next) {
 function resolver(req, res, next) {
   // Check to ensure required properties are present
   if (!req.body.hook || !req.body.hookInstance || !req.body.user || !req.body.context) {
-    res.status(400).send('Invalid request. Missing at least one required field from: hook, hookInstance, user, context.');
+    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, user, context.');
     return;
   }
 
@@ -60,7 +60,7 @@ function resolver(req, res, next) {
 
   // Ensure the CQL library is specified in the hook definition
   if (!hook._config || !hook._config.cql || !hook._config.cql.library || !hook._config.cql.library.id) {
-    res.status(500).send('CDS Hook config does not specificy the CQL library to use.');
+    sendError(res, 500, 'CDS Hook config does not specificy the CQL library to use.');
     return;
   }
 
@@ -75,7 +75,7 @@ function resolver(req, res, next) {
   if (typeof lib === 'undefined') {
     logError(`Library not found: ${hook._config.cql.library.id} v${hook._config.cql.library.version}`);
     // Set the 500 status and halt the request chain now
-    res.status(500).send('CDS Hook config specified a CQL library, but library could not be located.');
+    sendError(res, 500, 'CDS Hook config specified a CQL library, but library could not be located.');
     return;
   }
   // Set the library in the res.locals for use by other middleware and/or routes
@@ -121,7 +121,7 @@ function valuesetter(req, res, next) {
         } else if (Array.isArray(err)) {
           errToSend = err.map(e => e instanceof Error ? e.message : e);
         }
-        res.status(500).send(errToSend);
+        sendError(res, 500, errToSend, false);
       }
     });
   } else { // No valuesets. Go to next handler.
@@ -164,7 +164,7 @@ function call(req, res, next) {
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
   if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
     logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
-    res.status(501).send(`Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
+    sendError(res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2`);
     return;
   }
   const patientSource = fhir.PatientSource.FHIRv102();
@@ -185,17 +185,15 @@ function call(req, res, next) {
     } else if (Array.isArray(err)) {
       errToSend = err.map(e => e instanceof Error ? e.message : e);
     }
-    res.status(500).send(errToSend);
+    sendError(res, 500, errToSend, false);
   }
 
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
-    logError('Insufficient data to provide results.');
-    res.status(400).send('Insufficient data to provide results.');
+    sendError(res, 400, 'Insufficient data to provide results.');
     return;
   } else if (resultIDs.length > 1) {
-    logError('ERROR: Data contained information about more than one patient.');
-    res.status(400).send('Data contained information about more than one patient.');
+    sendError(res, 400, 'Data contained information about more than one patient.');
     return;
   }
   const pid = resultIDs[0];
@@ -244,6 +242,14 @@ function resolveExp(result, expr) {
   }
   return result == null ? '' : result;
 }
+
+function sendError(res, code, message, logIt = true) {
+  if (logIt) {
+    logError(message);
+  }
+  res.type('text/plain');
+  res.status(code).send(message);
+  }
 
 function logError(err) {
   if (Array.isArray(err)) {
