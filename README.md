@@ -90,6 +90,64 @@ This service is packaged with the [Statin Use for Primary Prevention of CVD in A
 
 To add other CQL Hooks, add a configuration file for them in the _localHooks_ folder, and add their ELM JSON to the _localRepository_ folder, as described in the above section.
 
+## CQL Hooks Config
+
+CQL libraries are associated with CDS Hooks services via configuration files. CQL Hooks configuration files generally have the following properties:
+
+- **id**: the unique id that identifies this service. This is used directly in the services discovery response.
+- **hook**: the hook that should trigger this service. This is used directly in the services discovery response.
+- **title**: the title of this service. This is used directly in the services discovery response.
+- **description**: a short description of the service. This is used directly in the services discovery response.
+- **_config**: a configuration object that indicates how cards are generated and the CQL library to use for this service.
+  - **cards**: an array of objects describing specific cards to be returned and the conditions under which to return them.
+    - **conditionExpression**: the name of an expression in the CQL that should be checked to determine if the card should be returned.  If the expression evaluates to `null`, `false`, `0`, or `''` for the patient, then the card will be supressed; otherwise it will be returned.  If the configuration does not specify a `conditionExpression`, then the card will always be returned.
+    - **card**: details about the card to be returned if the `conditionExpression` is truthy (or if no `conditionExpression` is provided).
+      - For details about what fields can go into cards, refer to the [CDS Hooks Card Attributes](http://cds-hooks.hl7.org/ballots/2018May/specification/1.0/#card-attributes) documentation.
+      - The CQL Hooks service performs string interpolation on all card values -- allowing you to customize them with the  patient's CQL results.  For example, `${Recommendation}` will be replaced at run-time with the value of the `Recommendation` expression result from the CQL.
+      - Currently, if the CQL has an `Errors` expression, and it is not empty, the errors will be appended to the card's `detail`.  In future versions of CQL Hooks, this will likely be more configurable.
+  - **cql**
+    - **library**
+      - **id**: the id of the CQL library to run when this hook is invoked.
+      - **version**: the version of the CQL library to run when this hook is invoked.
+
+The following is an example of the hook configuration for the Statin Use artifact:
+
+```json
+{
+  "id": "statin-use",
+  "hook": "patient-view",
+  "title": "Statin Use for the Primary Prevention of CVD in Adults",
+  "description": "Presents a United States Preventive Services Task Force (USPSTF) statin therapy recommendation for adults aged 40 to 75 years without a history of cardiovascular disease (CVD) who have 1 or more CVD risk factors (i.e., dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk score of 7.5% or greater.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Statin Use for the Primary Prevention of CVD in Adults",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
+          "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults",
+          "icon": "https://cds.ahrq.gov/themes/custom/cds_connect/images/cdsconnect-circle-logo.png"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+        "version": "1.0.0"
+      }
+    }
+  }
+}
+```
+
+## CQL Hooks Data Exchange
+
+The CDS Hooks API allows two ways of getting patient data: via prefetch data sent with the service call or via direct access to the FHIR server.  CQL Hooks only supports the "prefetch" method.  When CQL is loaded for a CQL Hooks service, the CQL will be analyzed to determine what FHIR resources it needs, and the prefetch requirements will be dynamically generated into the services metadata.
+
+If a CQL Hooks service is invoked without the required prefetch data, an HTTP 412 (Precondition Failed) error will be returned.
+
 # Running CQL Services
 
 To run the server, simply invoke `yarn start`.
@@ -297,7 +355,19 @@ For advanced usage, such as using non-default endpoints or specifying other mess
     -m, --message <path>  The path containing the JSON message to post
 ```
 
+## The CDS Hooks Sandbox
 
+CDS Hooks provides a public sandbox for testing CDS Hooks services.  This sandbox can be used to test CQL Hooks services.
+
+The general steps to test a CQL Hooks service in the CDS Hooks sandbox is as follows:
+
+1. Browse to http://sandbox.cds-hooks.org/
+2. In the top-right of the page, click the gear icon and choose "Add CDS Services"
+3. In the resulting dialog box, type "http://localhost:3000/cds-services" (changing the hostname/port as appropriate)
+4. Click "Save"
+5. Choose your CQL Hooks service from the "Select a Service" dropdown menu
+6. If the current patient triggers any of your card conditions, you should see your card
+7. Refer the the [CDS Hooks sandbox documentation](https://github.com/cds-hooks/sandbox) for more information on using it
 
 # Linting the Code
 
