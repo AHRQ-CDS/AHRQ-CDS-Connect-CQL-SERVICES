@@ -3,6 +3,10 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+td {
+  padding: 10px
+}
+
 a {
   color: #00B7FF;
 }

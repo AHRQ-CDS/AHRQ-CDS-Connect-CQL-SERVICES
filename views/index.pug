@@ -2,13 +2,30 @@ extends layout
 
 block content
   h1= title
+  h2 Loaded Hooks (#[a(href='cds-services') discover])
+  table
+    thead
+      tr
+        th Name
+        th Id
+        th Hook
+        th CQL Hooks Endpoint
+    tbody
+      each hook in hooks
+        tr
+          td #{hook.title}
+          td #{hook.id}
+          td #{hook.hook}
+          - var ep = `${req.baseUrl}/cds-services/${hook.id}`;
+          td: a(href=ep) #{ep}
+  |
   h2 Loaded CQL libraries
   table
     thead
       tr
         th Name
         th Version
-        th Endpoint
+        th CQL Exec Endpoint
     tbody
       each lib in libraries
         tr

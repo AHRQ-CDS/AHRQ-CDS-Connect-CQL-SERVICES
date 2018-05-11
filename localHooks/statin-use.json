@@ -1,0 +1,27 @@
+{
+  "id": "statin-use",
+  "hook": "patient-view",
+  "title": "Statin Use for the Primary Prevention of CVD in Adults",
+  "description": "Presents a United States Preventive Services Task Force (USPSTF) statin therapy recommendation for adults aged 40 to 75 years without a history of cardiovascular disease (CVD) who have 1 or more CVD risk factors (i.e., dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk score of 7.5% or greater.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Statin Use for the Primary Prevention of CVD in Adults",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
+          "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults",
+          "icon": "https://cds.ahrq.gov/themes/custom/cds_connect/images/cdsconnect-circle-logo.png"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

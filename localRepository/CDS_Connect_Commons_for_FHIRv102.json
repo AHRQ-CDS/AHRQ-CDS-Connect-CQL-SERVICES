@@ -34,12 +34,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Not",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
                   "operand" : {
-                     "type" : "IsNull",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "Cpt",
-                        "type" : "OperandRef"
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "Cpt",
+                           "type" : "OperandRef"
+                        }
                      }
                   }
                },
@@ -57,10 +61,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}Concept",
-                     "type" : "NamedTypeSpecifier"
                   }
                }
             },
@@ -79,12 +79,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Not",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
                   "operand" : {
-                     "type" : "IsNull",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "Pd",
-                        "type" : "OperandRef"
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "Pd",
+                           "type" : "OperandRef"
+                        }
                      }
                   }
                },
@@ -146,12 +150,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Not",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
                   "operand" : {
-                     "type" : "IsNull",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "Qty",
-                        "type" : "OperandRef"
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "Qty",
+                           "type" : "OperandRef"
+                        }
                      }
                   }
                },
@@ -207,10 +215,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}Quantity",
-                     "type" : "NamedTypeSpecifier"
                   }
                }
             },

@@ -7,6 +7,7 @@
 const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
 const localRepo = require('../lib/local-repo');
+const localHooks = require('../lib/local-hooks');
 const http = require('http');
 const path = require('path');
 
@@ -18,9 +19,10 @@ if (process.env.IGNORE_VSAC_ERRORS && process.env.IGNORE_VSAC_ERRORS.toLowerCase
 }
 
 /**
- * Load local data into the local repo and local code service
+ * Load local data into the local repo and local hooks
  */
 localRepo.load(path.join(__dirname, '..', 'localRepository'));
+localHooks.load(path.join(__dirname, '..', 'localHooks'));
 
 /**
  * Get port from environment and store in Express.
