@@ -199,28 +199,45 @@ function call(req, res, next) {
   const pid = resultIDs[0];
   const pResults = results.patientResults[pid];
 
-  // Get the card from the config and replace the ${...} expressions
-  let cardStr = JSON.stringify(hook._config.card);
-  const matches = cardStr.match(/\$\{[^}]+\}/g);
-  if (matches) {
-    for (const m of matches) {
-      const exp = /^\$\{(.+)\}$/.exec(m);
-      cardStr = cardStr.replace(`\${${exp[1]}}`, resolveExp(pResults, exp[1]));
-    }
-  }
-  const card = JSON.parse(cardStr);
+  const cards= [];
 
-  // Add errors if any are found
-  let errs = pResults['Errors'];
-  if (errs && errs.length > 0) {
-    if (Array.isArray(errs)) {
-      errs = errs.join('_\n\n_');
+  // Get the cards from the config and replace the ${...} expressions
+  for (const cardCfg of hook._config.cards) {
+    // Check the condition
+    if (cardCfg.conditionExpression != null) {
+      if (!pResults.hasOwnProperty(cardCfg.conditionExpression.split('.')[0])) {
+        sendError(res, 500, 'Hook configuration refers to non-existent conditionExpression');
+        return;
+      }
+      const condition = resolveExp(pResults, cardCfg.conditionExpression);
+      if (!condition) {
+        continue;
+      }
     }
-    card.detail += `\n\n_${errs}_`;
+    let cardStr = JSON.stringify(cardCfg.card);
+    const matches = cardStr.match(/\$\{[^}]+\}/g);
+    if (matches) {
+      for (const m of matches) {
+        const exp = /^\$\{(.+)\}$/.exec(m);
+        cardStr = cardStr.replace(`\${${exp[1]}}`, resolveExp(pResults, exp[1]));
+      }
+    }
+    const card = JSON.parse(cardStr);
+
+    // Add errors if any are found
+    let errs = pResults['Errors'];
+    if (errs && errs.length > 0) {
+      if (Array.isArray(errs)) {
+        errs = errs.join('_\n\n_');
+      }
+      card.detail += `\n\n_${errs}_`;
+    }
+
+    cards.push(card);
   }
 
   res.json({
-    cards: [ card ]
+    cards
   });
 }
 
@@ -249,7 +266,7 @@ function sendError(res, code, message, logIt = true) {
   }
   res.type('text/plain');
   res.status(code).send(message);
-  }
+}
 
 function logError(err) {
   if (Array.isArray(err)) {
