@@ -62,7 +62,7 @@ Windows:
 
 _NOTE: This should only be done during development since unresolved value sets may affect CDS results!_
 
-## Overriding the CQL Execution Service Port
+## Overriding the CQL Services Port
 
 The default port for this web application is `3000`.  To override the port, set your system's `PORT` environment variable to the desired port.
 
@@ -90,7 +90,7 @@ This service is packaged with the [Statin Use for Primary Prevention of CVD in A
 
 To add other CQL Hooks, add a configuration file for them in the _localHooks_ folder, and add their ELM JSON to the _localRepository_ folder, as described in the above section.
 
-# Running the CQL Execution Service
+# Running CQL Services
 
 To run the server, simply invoke `yarn start`.
 ```
@@ -103,7 +103,7 @@ _**NOTE**: This service operates on HTTP only.  This means that information betw
 
 ## The Home Page
 
-If the service is running correctly, you should be able to load its home page in a browser by visiting: [http://localhost:3000](http://localhost:3000) (or replacing _localhost_ with the server name).  This will list out the loaded CQL libraries.
+If the service is running correctly, you should be able to load its home page in a browser by visiting: [http://localhost:3000](http://localhost:3000) (or replacing _localhost_ with the server name).  This will list out the loaded CQL hooks and libraries.
 
 ## Commandline Client
 

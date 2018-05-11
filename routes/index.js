@@ -1,4 +1,5 @@
 const express = require('express');
+const localHooks = require('../lib/local-hooks');
 const localRepo = require('../lib/local-repo');
 const router = express.Router();
 
@@ -16,7 +17,8 @@ router.get('/', (req, res, next) => {
     }
   }
   res.render('index', {
-    title: 'CDS Connect CQL Execution Service',
+    title: 'CDS Connect CQL Services',
+    hooks: localHooks.get().all(false),
     libraries: libraries,
     expressions: expressions,
     req: req
