@@ -1,19 +1,27 @@
 # CQL Services
 
+## About
+
 CQL Services is an Express.js application that provides RESTful services for executing CQL.  Currently two services are provided:
 
 - CQL Exec: A custom RESTful API for invoking CQL and receiving back the calculated results as JSON
 - CQL Hooks: A standards-based RESTful API that exposes configured CQL according to the [CDS Hooks](https://cds-hooks.org/) standard
 
-_NOTE: The CDS Hooks standard is not yet finalized, so some aspects of this service will likely need modification when CDS Hooks 1.0 is released._
+The CQL Exec API was used to pilot the [Statin Use for the Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) artifact in 2017.
+
+The CQL Hooks API was developed as a proof-of-concept and has not yet been piloted in a clinical environment.  As the CDS Hooks standard is not yet finalized, some aspects of the CQL Hooks service will likely need modification when CDS Hooks 1.0 is released.
+
+These prototype services are part of the [CDS Connect](https://cds.ahrq.gov/cdsconnect) project, sponsored by the [Agency for Healthcare Research and Quality](https://www.ahrq.gov/) (AHRQ), and developed under contract with AHRQ by [MITRE's CAMH](https://www.mitre.org/centers/cms-alliances-to-modernize-healthcare/who-we-are) FFRDC.
+
+## Contributions
+
+For information about contributing to this project, please see [CONTRIBUTING](CONTRIBUTING.md).
+
+## Development Details
 
 This project was initialized using the [Express application generator](https://expressjs.com/en/starter/generator.html) (from which it gets its project structure and dependencies).
 
-# Installing as a Service on Windows Server 2012
-
-An earlier version of this service was originally piloted on Windows Server 2012.  Installation instructions are [here](docs/windows_2012_install.md).
-
-# Installing for Development
+### Installing for Development
 
 To use this project in a development environment, you should perform the following steps:
 
@@ -24,9 +32,13 @@ To use this project in a development environment, you should perform the followi
     $ yarn
     ```
 
-# Configuration
+### Installing as a Service on Windows Server 2012
 
-## Setting NLM Credentials for VSAC Downloads
+An earlier version of this service was originally piloted on Windows Server 2012.  Installation instructions are [here](docs/windows_2012_install.md).
+
+## Configuration
+
+### Setting NLM Credentials for VSAC Downloads
 
 The CQL Services require a free Unified Medical Language System (UMLS) account from the National Library of Medicine (NLM).  If you do not yet have an account, [sign up here](https://uts.nlm.nih.gov//license.html).
 
@@ -46,7 +58,7 @@ Windows:
 
 If you do not properly set the above environment variables, the CQL Services will fail to download the required value sets from VSAC.
 
-## Ignoring VSAC Errors
+### Ignoring VSAC Errors
 
 If there are errors downloading value sets, the services will abort the execution request.  To change this behavior so that VSAC errors are ignored set the `IGNORE_VSAC_ERRORS` environment variable to `true`.
 
@@ -62,7 +74,7 @@ Windows:
 
 _NOTE: This should only be done during development since unresolved value sets may affect CDS results!_
 
-## Overriding the CQL Services Port
+### Overriding the CQL Services Port
 
 The default port for this web application is `3000`.  To override the port, set your system's `PORT` environment variable to the desired port.
 
@@ -76,7 +88,7 @@ Windows:
 > set PORT=9000
 ```
 
-# Adding CQL Libraries
+## Adding CQL Libraries
 
 This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL library.  You can find its ELM JSON files in the _localRepository_ folder.
 
@@ -84,13 +96,13 @@ To add other CQL libraries, you must first [translate them to ELM JSON](https://
 
 _NOTE: The CQL Services only support the FHIR 1.0.2 data model.  They will not work with CQL that uses any other data models._
 
-# Adding CQL Hooks
+## Adding CQL Hooks
 
 This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL Hook.  You can find its Hook config in the _localHooks_ folder.  Note that it requires the corresponding ELM JSON files in the _localRepsitory_ folder.
 
 To add other CQL Hooks, add a configuration file for them in the _localHooks_ folder, and add their ELM JSON to the _localRepository_ folder, as described in the above section.
 
-## CQL Hooks Config
+### CQL Hooks Config
 
 CQL libraries are associated with CDS Hooks services via configuration files. CQL Hooks configuration files generally have the following properties:
 
@@ -142,13 +154,13 @@ The following is an example of the hook configuration for the Statin Use artifac
 }
 ```
 
-## CQL Hooks Data Exchange
+### CQL Hooks Data Exchange
 
 The CDS Hooks API allows two ways of getting patient data: via prefetch data sent with the service call or via direct access to the FHIR server.  CQL Hooks only supports the "prefetch" method.  When CQL is loaded for a CQL Hooks service, the CQL will be analyzed to determine what FHIR resources it needs, and the prefetch requirements will be dynamically generated into the services metadata.
 
 If a CQL Hooks service is invoked without the required prefetch data, an HTTP 412 (Precondition Failed) error will be returned.
 
-# Running CQL Services
+## Running CQL Services
 
 To run the server, simply invoke `yarn start`.
 ```
@@ -157,17 +169,17 @@ $ yarn start
 
 _**NOTE**: This service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
 
-# Test the CQL Services
+## Test the CQL Services
 
-## The Home Page
+### The Home Page
 
 If the service is running correctly, you should be able to load its home page in a browser by visiting: [http://localhost:3000](http://localhost:3000) (or replacing _localhost_ with the server name).  This will list out the loaded CQL hooks and libraries.
 
-## Commandline Client
+### Commandline Client
 
 You can also execute a commandline client to ensure the API is working correctly.  This will post messages to the endpoints and show the responses.
 
-### Posting to the CQL Exec Service
+#### Posting to the CQL Exec Service
 
 The following command posts a synthetic patient to the Statin Use library:
 
@@ -210,7 +222,7 @@ connection : close
 --------------- DONE ---------------
 ```
 
-### Discovering CQL Hooks Services
+#### Discovering CQL Hooks Services
 
 The following command issues the "discover" call to the CDS Hooks API:
 
@@ -257,7 +269,7 @@ connection : close
 --------------- DONE ---------------
 ```
 
-### Calling a CQL Hooks Service
+#### Calling a CQL Hooks Service
 
 The following command calls the statin-use CDS Hook with a synthetic patient:
 
@@ -300,7 +312,7 @@ connection : close
 --------------- DONE ---------------
 ```
 
-### Test Client Arguments
+#### Test Client Arguments
 
 For advanced usage, such as using non-default endpoints or specifying other messages, run one of these commands:
 
@@ -355,7 +367,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
     -m, --message <path>  The path containing the JSON message to post
 ```
 
-## The CDS Hooks Sandbox
+### The CDS Hooks Sandbox
 
 CDS Hooks provides a public sandbox for testing CDS Hooks services.  This sandbox can be used to test CQL Hooks services.
 
@@ -369,7 +381,7 @@ The general steps to test a CQL Hooks service in the CDS Hooks sandbox is as fol
 6. If the current patient triggers any of your card conditions, you should see your card
 7. Refer the the [CDS Hooks sandbox documentation](https://github.com/cds-hooks/sandbox) for more information on using it
 
-# Linting the Code
+## Linting the Code
 
 To encourage quality and consistency within the code base, all code should pass eslint without any warnings.  Many text editors can be configured to automatically flag eslint violations.  We also provide an npm script for running eslint on the project.  To run eslint, execute the following command:
 ```
