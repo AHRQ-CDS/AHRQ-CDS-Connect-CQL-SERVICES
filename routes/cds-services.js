@@ -145,14 +145,14 @@ function call(req, res, next) {
   if (hook.prefetch) {
     for (const key of Object.keys(hook.prefetch)) {
       const pf = req.body.prefetch[key];
-      if (!pf || !pf.response || !`${pf.response.status}`.startsWith('200')) {
+      if (!pf) {
         res.sendStatus(412);
         return;
       }
       if (key === 'Patient') {
-        bundle.entry.push({ resource: pf.resource });
-      } else if (pf.resource && pf.resource.entry) {
-        pf.resource.entry.forEach(e => bundle.entry.push({ resource: e.resource }));
+        bundle.entry.push({ resource: pf });
+      } else if (pf.entry) {
+        pf.entry.forEach(e => bundle.entry.push({ resource: e.resource }));
       }
     }
   }
