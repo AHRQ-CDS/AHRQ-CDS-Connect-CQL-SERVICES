@@ -1671,16 +1671,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsTrue",
                      "operand" : {
-                        "type" : "IsTrue",
-                        "operand" : {
-                           "name" : "InPopulation",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "InPopulation",
+                        "type" : "ExpressionRef"
                      }
                   }
                },
@@ -1689,6 +1685,10 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "NamedTypeSpecifier"
                   }
                },
                "else" : {
@@ -1710,16 +1710,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsTrue",
                      "operand" : {
-                        "type" : "IsTrue",
-                        "operand" : {
-                           "name" : "InPopulation",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "InPopulation",
+                        "type" : "ExpressionRef"
                      }
                   }
                },
@@ -1728,6 +1724,10 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "NamedTypeSpecifier"
                   }
                },
                "else" : {
@@ -1793,6 +1793,10 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1851,6 +1855,10 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1909,6 +1917,10 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{urn:hl7-org:elm-types:r1}String",
+                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1919,24 +1931,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "HasMissingOrOldData",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "HasMissingOrOldData",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "type" : "If",
                   "condition" : {
-                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type" : "As",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Recommendation",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Recommendation",
+                        "type" : "ExpressionRef"
                      }
                   },
                   "then" : {
