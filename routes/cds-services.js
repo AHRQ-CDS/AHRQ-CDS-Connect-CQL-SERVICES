@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const cs = require('cds-code-service');
 const cql = require('cql-execution');
-const fhir = require('cql-fhir');
+const fhir = require('cql-exec-fhir');
+const vsac = require('cql-exec-vsac');
 const localHooks = require('../lib/local-hooks');
 const localRepo = require('../lib/local-repo');
 
@@ -99,7 +99,7 @@ function valuesetter(req, res, next) {
   // Check to see if the code service has been initialized yet. If not,
   // create a new CodeService instance.
   if (typeof(codeservice) === 'undefined') {
-    codeservice = new cs.CodeService('localCodeService/vsac_cache');
+    codeservice = new vsac.CodeService('localCodeService/vsac_cache');
     codeservice.loadValueSetsFromFile('localCodeService/vsac_cache/valueset-db.json');
   }
 
