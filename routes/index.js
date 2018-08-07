@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const localHooks = require('../lib/local-hooks');
 const localRepo = require('../lib/local-repo');

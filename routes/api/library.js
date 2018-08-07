@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
