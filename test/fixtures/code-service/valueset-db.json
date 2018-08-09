@@ -1,0 +1,36 @@
+{
+  "0.0.0.0.0": {
+    "20180101": {
+      "oid": "0.0.0.0.0",
+      "version": "20180101",
+      "codes": [
+        {
+          "code": "LAZY",
+          "system": "http://lazycodes.org",
+          "version": "2018"
+        }, {
+          "code": "SUPERLAZY",
+          "system": "http://lazycodes.org",
+          "version": "2018"
+        }
+      ]
+    }
+  },
+  "0.0.0.0.1": {
+    "20180101": {
+      "oid": "0.0.0.0.1",
+      "version": "20180101",
+      "codes": [
+        {
+          "code": "APATHYLEVELTEST",
+          "system": "http://lazycodes.org",
+          "version": "2018"
+        }, {
+          "code": "ANOTHERAPATHYLEVELTEST",
+          "system": "http://lazycodes.org",
+          "version": "2018"
+        }
+      ]
+    }
+  }
+}

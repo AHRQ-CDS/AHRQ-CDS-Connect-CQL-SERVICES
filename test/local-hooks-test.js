@@ -71,7 +71,7 @@ const FULL_HOOK = {
     cards: [{
       conditionExpression: 'InPopulation',
       card: {
-        summary: 'The Lazy Checker',
+        summary: 'Laziness detected',
         indicator: 'info',
         detail: '${Recommendation}',
         source: {

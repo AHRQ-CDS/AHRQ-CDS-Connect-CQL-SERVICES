@@ -17,8 +17,10 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+if(app.get('env') !== 'test') {
+  app.use(logger(':date[iso] :remote-addr ":method :url" :status :res[content-length]'));
+}
 app.use(helmet());
-app.use(logger(':date[iso] :remote-addr ":method :url" :status :res[content-length]'));
 app.use(bodyParser.json({type: function (msg)  {
   return msg.headers['content-type'] && msg.headers['content-type'].startsWith('application/json');
 }}));

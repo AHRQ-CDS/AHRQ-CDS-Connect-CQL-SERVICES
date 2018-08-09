@@ -7,6 +7,8 @@ include FHIRHelpers version '1.0.2' called FHIRHelpers
 valueset "Laziness": '0.0.0.0.0'
 valueset "Level of Apathethy": '0.0.0.0.1'
 
+parameter AllowInsults default false
+
 context Patient
 
 define HasLazinessCondition:
@@ -30,5 +32,8 @@ define InPopulation:
   MeetsInclusionCriteria and not MeetsExclusionCriteria
 
 define Recommendation:
-  if InPopulation then 'Get off the couch!' else null
+  if InPopulation then
+    if AllowInsults then 'Get off the couch, you slouch!'
+    else 'Get off the couch!'
+  else null
 

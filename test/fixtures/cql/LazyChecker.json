@@ -25,6 +25,17 @@
             "version" : "1.0.2"
          } ]
       },
+      "parameters" : {
+         "def" : [ {
+            "name" : "AllowInsults",
+            "accessLevel" : "Public",
+            "default" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "false",
+               "type" : "Literal"
+            }
+         } ]
+      },
       "valueSets" : {
          "def" : [ {
             "name" : "Laziness",
@@ -215,9 +226,25 @@
                   }
                },
                "then" : {
-                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                  "value" : "Get off the couch!",
-                  "type" : "Literal"
+                  "type" : "If",
+                  "condition" : {
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "operand" : {
+                        "name" : "AllowInsults",
+                        "type" : "ParameterRef"
+                     }
+                  },
+                  "then" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Get off the couch, you slouch!",
+                     "type" : "Literal"
+                  },
+                  "else" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Get off the couch!",
+                     "type" : "Literal"
+                  }
                },
                "else" : {
                   "asType" : "{urn:hl7-org:elm-types:r1}String",

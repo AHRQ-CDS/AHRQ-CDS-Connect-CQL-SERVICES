@@ -4,13 +4,9 @@ const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
-const vsac = require('cql-exec-vsac');
+const localCodeService = require('../lib/local-code-service');
 const localHooks = require('../lib/local-hooks');
 const localRepo = require('../lib/local-repo');
-
-// Global variable that will hold our code service.
-// TODO: we should share the code service instance w/ the library endpoint.
-var codeservice;
 
 // Middleware to setup response headers with CORS
 router.use((request, response, next) => {
@@ -98,19 +94,12 @@ function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const valuesets = res.locals.library.valuesets;
 
-  // Check to see if the code service has been initialized yet. If not,
-  // create a new CodeService instance.
-  if (typeof(codeservice) === 'undefined') {
-    codeservice = new vsac.CodeService('localCodeService/vsac_cache');
-    codeservice.loadValueSetsFromFile('localCodeService/vsac_cache/valueset-db.json');
-  }
-
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
   let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
   if (valuesetArray !== null) { // We have some valuesets... get them.
-    codeservice.ensureValueSets(valuesetArray)
+    localCodeService.get().ensureValueSets(valuesetArray)
     .then( () => next() )
     .catch( (err) => {
       logError(err);
@@ -177,7 +166,7 @@ function call(req, res, next) {
   // Execute it and send the results
   let results;
   try {
-    const executor = new cql.Executor(lib, codeservice);
+    const executor = new cql.Executor(lib, localCodeService.get());
     results = executor.exec(patientSource);
   } catch (err) {
     logError(err);

@@ -10,9 +10,9 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./node_modules/.bin/mocha --reporter spec --recursive",
-    "test:watch": "npm test -- --watch",
-    "test:debug": "./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --recursive",
+    "test:watch": "NODE_ENV=test npm test -- --watch",
+    "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
@@ -35,6 +35,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.6.1",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "supertest": "^3.1.0"
   }
 }

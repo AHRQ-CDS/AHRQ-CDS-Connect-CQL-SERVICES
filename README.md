@@ -193,12 +193,17 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
-x-powered-by : Express
+x-dns-prefetch-control : off
+x-frame-options : SAMEORIGIN
+strict-transport-security : max-age=15552000; includeSubDomains
+x-download-options : noopen
+x-content-type-options : nosniff
+x-xss-protection : 1; mode=block
 location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
 content-type : application/json; charset=utf-8
 content-length : 769
-etag : W/"301-S0M0zQt6oH2PdzaP5ph03w"
-date : Wed, 20 Dec 2017 16:28:02 GMT
+etag : W/"301-CZHz47WMw1moDffXL+v0pg"
+date : Thu, 09 Aug 2018 19:30:12 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -211,7 +216,7 @@ connection : close
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2017-12-20T16:28:02.029Z",
+  "timestamp": "2018-08-09T19:30:12.618Z",
   "patientID": "2-1",
   "results": {
     "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
@@ -236,7 +241,12 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
-x-powered-by : Express
+x-dns-prefetch-control : off
+x-frame-options : SAMEORIGIN
+strict-transport-security : max-age=15552000; includeSubDomains
+x-download-options : noopen
+x-content-type-options : nosniff
+x-xss-protection : 1; mode=block
 access-control-allow-origin : *
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
@@ -244,17 +254,17 @@ access-control-allow-headers : Content-Type, Authorization
 access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Requested-With
 content-type : application/json; charset=utf-8
 content-length : 833
-etag : W/"341-9R9eLlD5D7t/Vfu5qc6ZbA"
-date : Thu, 03 May 2018 20:59:23 GMT
+etag : W/"341-t6Nh4DreN5/Hv4V6+WqmKg"
+date : Thu, 09 Aug 2018 19:30:48 GMT
 connection : close
 --------------- BODY ---------------
 {
   "services": [
     {
+      "id": "statin-use",
       "hook": "patient-view",
       "title": "Statin Use for the Primary Prevention of CVD in Adults",
       "description": "Presents a United States Preventive Services Task Force (USPSTF) statin therapy recommendation for adults aged 40 to 75 years without a history of cardiovascular disease (CVD) who have 1 or more CVD risk factors (i.e., dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk score of 7.5% or greater.",
-      "id": "statin-use",
       "prefetch": {
         "Patient": "Patient/{{context.patientId}}",
         "Observation": "Observation?patient={{context.patientId}}",
@@ -283,16 +293,21 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
-x-powered-by : Express
+x-dns-prefetch-control : off
+x-frame-options : SAMEORIGIN
+strict-transport-security : max-age=15552000; includeSubDomains
+x-download-options : noopen
+x-content-type-options : nosniff
+x-xss-protection : 1; mode=block
 access-control-allow-origin : *
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
 access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Requested-With
 content-type : application/json; charset=utf-8
-content-length : 506
-etag : W/"1fa-ObHeBzQNRmJak36DEXnvUg"
-date : Thu, 03 May 2018 21:00:55 GMT
+content-length : 416
+etag : W/"1a0-3Nbiql4WsXU2ekDSxxApOg"
+date : Thu, 09 Aug 2018 19:31:41 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -303,8 +318,7 @@ connection : close
       "detail": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
       "source": {
         "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
-        "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults",
-        "icon": "https://cds.ahrq.gov/themes/custom/cds_connect/images/cdsconnect-circle-logo.png"
+        "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"
       }
     }
   ]
@@ -329,7 +343,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
     --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
-    --message test/fixtures/exec-patients/unhealthy_patient.json
+    --message test/examples/exec/exec-patients/unhealthy_patient.json
 
   Options:
 
@@ -358,7 +372,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Call a CDS Hook.  Options can be passed to specify the endpoint and message to post.
   If not specified, the following defaults are used:
     --endpoint http://localhost:3000/cds-services/statin-use
-    --message test/fixtures/hooks-patients/unhealthy_patient.json
+    --message test/examples/exec/hooks-patients/unhealthy_patient.json
 
   Options:
 

@@ -3,12 +3,9 @@
 const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
-const vsac = require('cql-exec-vsac');
+const localCodeService = require('../../lib/local-code-service');
 const localRepo = require('../../lib/local-repo');
 const router = express.Router();
-
-// Global variable that will hold our code service.
-var codeservice;
 
 // Establish the routes
 router.get('/:library', resolver, get);
@@ -71,19 +68,12 @@ function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const valuesets = res.locals.library.valuesets;
 
-  // Check to see if the code service has been initialized yet. If not,
-  // create a new CodeService instance.
-  if (typeof(codeservice) === 'undefined') {
-    codeservice = new vsac.CodeService('localCodeService/vsac_cache');
-    codeservice.loadValueSetsFromFile('localCodeService/vsac_cache/valueset-db.json');
-  }
-
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
   let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
   if (valuesetArray !== null) { // We have some valuesets... get them.
-    codeservice.ensureValueSets(valuesetArray)
+    localCodeService.get().ensureValueSets(valuesetArray)
     .then( () => next() )
     .catch( (err) => {
       logError(err);
@@ -172,7 +162,7 @@ function execute(req, res, next) {
 
   // Execute it and send the results
   try {
-    const executor = new cql.Executor(lib, codeservice, parameters);
+    const executor = new cql.Executor(lib, localCodeService.get(), parameters);
     const results = executor.exec(patientSource);
     sendResults(res, results, parameters, expressions);
   } catch (err) {
@@ -234,6 +224,9 @@ function sendError(res, code, message, logIt = true) {
 }
 
 function logError(err) {
+  if(process.env.NODE_ENV === 'test') {
+    return;
+  }
   if (Array.isArray(err)) {
     for (const e of err) {
       logError(e);
