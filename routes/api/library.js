@@ -6,7 +6,6 @@ const fhir = require('cql-exec-fhir');
 const vsac = require('cql-exec-vsac');
 const localRepo = require('../../lib/local-repo');
 const router = express.Router();
-const pb = require('../../lib/PatientBundle');
 
 // Global variable that will hold our code service.
 var codeservice;
@@ -148,7 +147,7 @@ function execute(req, res, next) {
   // Load the patient source
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
   if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
-    sendError(res, 501, `Not Implemented: Unsupported data model: ${lib.source.library.usings.def} (must be FHIR 1.0.2`);
+    sendError(res, 501, `Not Implemented: Unsupported data model: ${lib.source.library.usings.def} (must be FHIR 1.0.2)`);
     return;
   }
   const patientSource = fhir.PatientSource.FHIRv102();
@@ -156,20 +155,19 @@ function execute(req, res, next) {
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)
   if (data.length > 0) {
-    // Check the data to confirm it is FHIR.  If it isn't, then we need to convert it.
-    let bundle;
+    // Check the data to confirm it looks like FHIR.  If it looks like FHIR, put it in a bundle and load it.
+    // If it doesn't look like FHIR, return an error.
     if (data.every(r => typeof r.resourceType === 'string')) {
-      // FHIR formatted.  We're all good.
-      bundle = {
+      // FHIR formatted.  We're all good.  Load it.
+      patientSource.loadBundles([{
         resourceType: 'Bundle',
         type: 'collection',
         entry: data.map(r => { return {resource: r}; })
-      };
+      }]);
     } else {
-      // Not FHIR formatted.  Need to convert.
-      bundle = pb.parseMessage(data);
+      sendError(res, 400, `Data must be in FHIR 1.0.2 (DSTU2) format.`);
+      return;
     }
-    patientSource.loadBundles([bundle]);
   }
 
   // Execute it and send the results
