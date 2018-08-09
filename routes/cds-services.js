@@ -36,7 +36,7 @@ router.post('/:id/analytics/:uuid', analytics);
  */
 function discover(req, res, next) {
   res.json({
-    services: localHooks.get().all()
+    services: localHooks.get().all(true)
   });
 }
 

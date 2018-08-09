@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
   }
   res.render('index', {
     title: 'CDS Connect CQL Services',
-    hooks: localHooks.get().all(false),
+    hooks: localHooks.get().all(),
     libraries: libraries,
     expressions: expressions,
     req: req

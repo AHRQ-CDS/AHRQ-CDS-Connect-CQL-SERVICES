@@ -329,7 +329,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
     --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
-    --message test/fixtures/exec/unhealthy_patient.json
+    --message test/fixtures/exec-patients/unhealthy_patient.json
 
   Options:
 
@@ -358,7 +358,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Call a CDS Hook.  Options can be passed to specify the endpoint and message to post.
   If not specified, the following defaults are used:
     --endpoint http://localhost:3000/cds-services/statin-use
-    --message test/fixtures/hooks/unhealthy_patient.json
+    --message test/fixtures/hooks-patients/unhealthy_patient.json
 
   Options:
 
