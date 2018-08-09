@@ -193,6 +193,7 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
+access-control-allow-origin : *
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
@@ -202,8 +203,8 @@ x-xss-protection : 1; mode=block
 location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
 content-type : application/json; charset=utf-8
 content-length : 769
-etag : W/"301-CZHz47WMw1moDffXL+v0pg"
-date : Thu, 09 Aug 2018 19:30:12 GMT
+etag : W/"301-U7SqQJffZDXLckKHLa24ZA"
+date : Thu, 09 Aug 2018 19:45:19 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -216,7 +217,7 @@ connection : close
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2018-08-09T19:30:12.618Z",
+  "timestamp": "2018-08-09T19:45:19.154Z",
   "patientID": "2-1",
   "results": {
     "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
@@ -241,13 +242,13 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
+access-control-allow-origin : *
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
 x-xss-protection : 1; mode=block
-access-control-allow-origin : *
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
@@ -255,7 +256,7 @@ access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Re
 content-type : application/json; charset=utf-8
 content-length : 833
 etag : W/"341-t6Nh4DreN5/Hv4V6+WqmKg"
-date : Thu, 09 Aug 2018 19:30:48 GMT
+date : Thu, 09 Aug 2018 19:46:40 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -293,13 +294,13 @@ If successful, you should see something like this:
 --------------- START --------------
 STATUS: 200 OK
 --------------- HEADERS ------------
+access-control-allow-origin : *
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
 x-xss-protection : 1; mode=block
-access-control-allow-origin : *
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
@@ -307,7 +308,7 @@ access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Re
 content-type : application/json; charset=utf-8
 content-length : 416
 etag : W/"1a0-3Nbiql4WsXU2ekDSxxApOg"
-date : Thu, 09 Aug 2018 19:31:41 GMT
+date : Thu, 09 Aug 2018 19:47:02 GMT
 connection : close
 --------------- BODY ---------------
 {

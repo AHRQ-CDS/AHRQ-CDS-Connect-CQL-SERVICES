@@ -20,6 +20,7 @@
     "body-parser": "~1.16.0",
     "commander": "^2.9.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
     "cql-exec-fhir": "^1.0.1",
     "cql-exec-vsac": "^1.0.1",
     "cql-execution": "^1.2.2",

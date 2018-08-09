@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+var cors = require('cors')
 
 const index = require('./routes/index');
 const apiLibrary = require('./routes/api/library');
@@ -20,6 +21,7 @@ app.set('view engine', 'pug');
 if(app.get('env') !== 'test') {
   app.use(logger(':date[iso] :remote-addr ":method :url" :status :res[content-length]'));
 }
+app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json({type: function (msg)  {
   return msg.headers['content-type'] && msg.headers['content-type'].startsWith('application/json');
