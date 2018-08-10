@@ -1,6 +1,6 @@
 {
   "name": "cql-exec-service",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A RESTful CQL execution service",
   "private": true,
   "license": "UNLICENSED",
@@ -10,30 +10,34 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./node_modules/.bin/mocha --reporter spec --recursive",
-    "test:watch": "npm test -- --watch",
-    "test:debug": "./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --recursive",
+    "test:watch": "NODE_ENV=test npm test -- --watch",
+    "test:debug": "NODE_ENV=test ./node_modules/.bin/mocha --inspect --debug-brk --reporter spec --recursive",
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
-    "body-parser": "~1.16.0",
+    "body-parser": "^1.18.3",
     "commander": "^2.9.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
     "cql-exec-fhir": "^1.0.1",
     "cql-exec-vsac": "^1.0.1",
     "cql-execution": "^1.2.2",
     "debug": "~2.6.0",
-    "express": "~4.14.1",
-    "morgan": "~1.7.0",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "mkdirp": "^0.5.1",
+    "morgan": "^1.9.0",
     "pug": "~2.0.0-beta10",
     "request": "^2.81.0",
     "semver": "^5.3.0",
-    "serve-favicon": "~2.3.2"
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.6.1",
-    "mocha": "^3.2.0"
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
   }
 }

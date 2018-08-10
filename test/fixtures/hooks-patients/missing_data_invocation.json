@@ -1,0 +1,54 @@
+{
+  "hookInstance": "d1577c69-dfbe-44ad-ba6d-3e05e953b2eb",
+  "fhirServer": "http://test:9080",
+  "hook": "patient-view",
+  "fhirAuthorization": {
+    "access_token": "some-opaque-fhir-access-token",
+    "token_type": "Bearer",
+    "expires_in": 300,
+    "scope": "patient/*.read",
+    "subject": "lazy-checker"
+  },
+  "user": "Practitioner/example",
+  "context": {
+    "patientId": "1288992",
+    "encounterId": "89284"
+  },
+  "prefetch": {
+    "Patient": {
+	    "resourceType": "Patient",
+	    "id": "1",
+	    "gender": "female",
+	    "birthDate": "1978-10-22T10:23"
+    },
+    "Observation": {
+        "resourceType": "Bundle",
+        "type": "searchset",
+        "entry": [{
+          "resource":     {
+            "resourceType": "Observation",
+            "id": "2",
+            "status": "final",
+            "code": {
+              "coding": [{
+                "system": "http://lazycodes.org",
+                "code": "APATHYLEVELTEST",
+                "display": "Apathy Level Test"
+              }]
+            },
+            "subject": {
+              "reference": "Patient/1"
+            },
+            "effectiveDateTime": "2017-05-18",
+            "issued": "2017-05-18T15:30:00-04:00",
+            "valueQuantity": {
+              "value": 4.0,
+              "system": "http://unitsofmeasure.org",
+              "code": "%",
+              "unit": "%"
+            }
+          }
+        }]
+    }
+  }
+}

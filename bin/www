@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -8,8 +10,11 @@ const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
 const localRepo = require('../lib/local-repo');
 const localHooks = require('../lib/local-hooks');
+const localCodeService = require('../lib/local-code-service');
+const mkdirp = require('mkdirp');
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 
 /**
  * Check for CDS-specific configuration settings and set in app.locals if applicable
@@ -19,8 +24,13 @@ if (process.env.IGNORE_VSAC_ERRORS && process.env.IGNORE_VSAC_ERRORS.toLowerCase
 }
 
 /**
- * Load local data into the local repo and local hooks
+ * Load local data into the local code service cache, repo, and local hooks
  */
+const codeServiceCachePath = path.join(__dirname, '..', 'localCodeService', 'vsac_cache');
+if (!fs.existsSync(codeServiceCachePath)) {
+  mkdirp.sync(codeServiceCachePath);
+}
+localCodeService.load(codeServiceCachePath);
 localRepo.load(path.join(__dirname, '..', 'localRepository'));
 localHooks.load(path.join(__dirname, '..', 'localHooks'));
 

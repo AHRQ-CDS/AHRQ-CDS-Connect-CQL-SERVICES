@@ -1,0 +1,28 @@
+{
+  "returnExpressions": [ "InPopulation", "Recommendation" ],
+  "data": [
+    {
+	    "resourceType": "Patient",
+	    "id": "1",
+	    "gender": "male",
+	    "birthDate": "1974-10-22T10:23"
+    },
+    {
+      "resourceType": "Condition",
+      "id": "2",
+      "clinicalStatus": "active",
+      "verificationStatus": "confirmed",
+      "code": {
+        "coding": [{
+          "system": "http://lazycodes.org",
+          "code": "LAZY",
+          "display": "Laziness"
+        }]
+      },
+      "subject": {
+        "reference": "Patient/1"
+      },
+      "onsetDateTime": "2017-04-25"
+    }
+  ]
+}

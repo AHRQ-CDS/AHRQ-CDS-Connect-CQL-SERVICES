@@ -1,0 +1,26 @@
+{
+  "id": "lazy-checker",
+  "hook": "patient-view",
+  "title": "The Lazy Checker",
+  "description": "Checks if a person is potentially lazy, and if so, recommends to get off the couch.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Laziness detected",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}
