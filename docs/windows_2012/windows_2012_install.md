@@ -163,7 +163,7 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
 content-type : application/json; charset=utf-8
 content-length : 769
 etag : W/"301-S0M0zQt6oH2PdzaP5ph03w"
@@ -173,7 +173,7 @@ connection : close
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "returnExpressions": [
     "Recommendation",
@@ -203,7 +203,7 @@ By default, the test client posts synthetic records for an "unhealthy patient" t
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
+    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
     --message test/examples/exec/unhealthy_patient.json
 
   Options:
@@ -225,7 +225,7 @@ If successful, , you should see something like this (note the different _results
 STATUS: 200 OK
 --------------- HEADERS ------------
 x-powered-by : Express
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
 content-type : application/json; charset=utf-8
 content-length : 638
 etag : W/"27e-UwHVEowAniejlYIKVKjVOQ"
@@ -235,7 +235,7 @@ connection : close
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "returnExpressions": [
     "Recommendation",

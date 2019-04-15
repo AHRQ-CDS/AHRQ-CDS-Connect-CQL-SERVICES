@@ -2,7 +2,7 @@
    "library" : {
       "identifier" : {
          "id" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-         "version" : "1.0.0"
+         "version" : "1.0.1"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -647,13 +647,34 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "InValueSet",
-               "code" : {
-                  "name" : "MostRecentValidSmokingStatus",
-                  "type" : "ExpressionRef"
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "MostRecentValidSmokingStatus",
+                        "type" : "ExpressionRef"
+                     }
+                  }
                },
-               "valueset" : {
-                  "name" : "Current Tobacco Smoker"
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               },
+               "else" : {
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "MostRecentValidSmokingStatus",
+                     "type" : "ExpressionRef"
+                  },
+                  "valueset" : {
+                     "name" : "Current Tobacco Smoker"
+                  }
                }
             }
          }, {
@@ -1671,12 +1692,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Not",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
                   "operand" : {
-                     "type" : "IsTrue",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "InPopulation",
-                        "type" : "ExpressionRef"
+                        "type" : "IsTrue",
+                        "operand" : {
+                           "name" : "InPopulation",
+                           "type" : "ExpressionRef"
+                        }
                      }
                   }
                },
@@ -1685,10 +1710,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type" : "NamedTypeSpecifier"
                   }
                },
                "else" : {
@@ -1710,12 +1731,16 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "type" : "Not",
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
                   "operand" : {
-                     "type" : "IsTrue",
+                     "type" : "Not",
                      "operand" : {
-                        "name" : "InPopulation",
-                        "type" : "ExpressionRef"
+                        "type" : "IsTrue",
+                        "operand" : {
+                           "name" : "InPopulation",
+                           "type" : "ExpressionRef"
+                        }
                      }
                   }
                },
@@ -1724,10 +1749,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type" : "NamedTypeSpecifier"
                   }
                },
                "else" : {
@@ -1793,10 +1814,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1855,10 +1872,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1917,10 +1930,6 @@
                   "type" : "As",
                   "operand" : {
                      "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "name" : "{urn:hl7-org:elm-types:r1}String",
-                     "type" : "NamedTypeSpecifier"
                   }
                }
             }
@@ -1931,16 +1940,24 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "name" : "HasMissingOrOldData",
-                  "type" : "ExpressionRef"
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "name" : "HasMissingOrOldData",
+                     "type" : "ExpressionRef"
+                  }
                },
                "then" : {
                   "type" : "If",
                   "condition" : {
-                     "type" : "IsNull",
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
                      "operand" : {
-                        "name" : "Recommendation",
-                        "type" : "ExpressionRef"
+                        "type" : "IsNull",
+                        "operand" : {
+                           "name" : "Recommendation",
+                           "type" : "ExpressionRef"
+                        }
                      }
                   },
                   "then" : {

@@ -7,7 +7,7 @@ This assumes you have installed and configured CQL Services as described in the 
 ## The HTTP Request
 
 A request to the CDS service is posted over HTTP to the following URL:
-`http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0`
+`http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1`
 
 It should contain at least the following headers:
 ```
