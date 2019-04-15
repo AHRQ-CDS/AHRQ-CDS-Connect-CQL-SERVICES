@@ -7,7 +7,7 @@
 // ##Source guideline: [USPSTF Statin Use for the Primary Prevention of Cardiovascular Disease in Adults: Preventive Medication](http://jamanetwork.com/journals/jama/fullarticle/2584058)
 // TODO: include link to artifact page on CDS connect
 
-library USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102 version '1.0.0'
+library USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102 version '1.0.1'
 
 // # Data model #
 // The FHIR DSTU2 model is preferred by CDS Connect artifacts due to its current adoption in Health IT products.
@@ -244,7 +244,7 @@ define MostRecentHDLTest:
 define MostRecentValidHDLTest:
   C3F.MostRecent(C3F.Verified(C3F.ObservationLookBack(HDLTests, 6 years)))
 
-// The most recent verified LDL result, converted to mg/dL (if necessary), and no older than 6 years.
+// The most recent verified HDL result, converted to mg/dL (if necessary), and no older than 6 years.
 define MostRecentValidHDLResult:
   Convert.to_mg_per_dL(C3F.QuantityValue(MostRecentValidHDLTest))
 
@@ -271,8 +271,11 @@ define MostRecentValidSmokingStatus:
   C3F.ConceptValue(C3F.MostRecent(C3F.Verified(C3F.ObservationLookBack(C3F.ObservationsByConcept("Tobacco smoking status"), 6 years))))
 
 // Determines if last documented smoking status pointed to patient being a smoker.
+// NOTE: Updated in version 1.0.1 to specifically return null when the code is null since the CQL 1.2 Errata 2 (2018APR)
+// changed InValueSet to return false when the code is null (previously the spec indicated to return null in this case).
 define IsSmoker:
-  MostRecentValidSmokingStatus in "Current Tobacco Smoker"
+  if MostRecentValidSmokingStatus is null then null
+  else MostRecentValidSmokingStatus in "Current Tobacco Smoker"
 
 // The most recent verified (final or amended) ACC/AHA CVD Risk Assessment.  Note that although FHIR DSTU2 has a
 // RiskAssessment resource, we've chosen to use Observation.  This is because RiskAssessment is at maturity level 0

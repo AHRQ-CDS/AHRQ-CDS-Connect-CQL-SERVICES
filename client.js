@@ -6,7 +6,7 @@ const path = require('path');
 const program = require('commander');
 const request = require('request');
 
-const DEFAULT_EXEC_EP = 'http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.0';
+const DEFAULT_EXEC_EP = 'http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1';
 const DEFAULT_EXEC_MSG = path.join('test', 'examples', 'exec', 'unhealthy_patient.json');
 program
   .command('exec-post')
