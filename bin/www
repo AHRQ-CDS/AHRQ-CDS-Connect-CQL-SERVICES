@@ -10,7 +10,7 @@ const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
 const libsLoader = require('../lib/libraries-loader');
 const hooksLoader = require('../lib/hooks-loader');
-const localCodeService = require('../lib/local-code-service');
+const csLoader = require('../lib/code-service-loader');
 const mkdirp = require('mkdirp');
 const http = require('http');
 const path = require('path');
@@ -26,11 +26,11 @@ if (process.env.IGNORE_VSAC_ERRORS && process.env.IGNORE_VSAC_ERRORS.toLowerCase
 /**
  * Load local data into the local code service cache, repo, and local hooks
  */
-const codeServiceCachePath = path.join(__dirname, '..', 'localCodeService', 'vsac_cache');
+const codeServiceCachePath = path.join(__dirname, '..', '.vsac_cache');
 if (!fs.existsSync(codeServiceCachePath)) {
   mkdirp.sync(codeServiceCachePath);
 }
-localCodeService.load(codeServiceCachePath);
+csLoader.load(codeServiceCachePath);
 libsLoader.load(path.join(__dirname, '..', 'config', 'libraries'));
 hooksLoader.load(path.join(__dirname, '..', 'config', 'hooks'));
 

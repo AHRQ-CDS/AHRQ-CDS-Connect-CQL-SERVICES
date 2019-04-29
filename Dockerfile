@@ -23,8 +23,8 @@ COPY ./CONTRIBUTING.md /usr/src/app/CONTRIBUTING.md
 COPY ./cql-es.config.js /usr/src/app/cql-es.config.js
 COPY ./LICENSE /usr/src/app/LICENSE
 COPY ./README.md /usr/src/app/README.md
-RUN mkdir -p /usr/src/app/localCodeService/vsac_cache
-RUN chown node /usr/src/app/localCodeService/vsac_cache
+RUN mkdir -p /usr/src/app/.vsac_cache
+RUN chown node /usr/src/app/.vsac_cache
 
 # Clean up a bit to save space
 RUN yarn cache clean

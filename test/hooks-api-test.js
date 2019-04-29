@@ -2,7 +2,7 @@ const path = require('path');
 const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
-const localCodeService = require('../lib/local-code-service');
+const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
 const lazyPersonInvocation = require('./fixtures/hooks-patients/lazy_person_invocation.json');
@@ -11,7 +11,7 @@ const missingDataInvocation = require('./fixtures/hooks-patients/missing_data_in
 
 describe('hooks-api', () => {
   before(() => {
-    localCodeService.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+    csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
     libsLoader.reset();
     libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
     hooksLoader.reset();

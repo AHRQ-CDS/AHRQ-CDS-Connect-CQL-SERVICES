@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
-const localCodeService = require('../lib/local-code-service');
+const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
 
@@ -99,7 +99,7 @@ function valuesetter(req, res, next) {
   // downloaded from VSAC.
   let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
   if (valuesetArray !== null) { // We have some valuesets... get them.
-    localCodeService.get().ensureValueSets(valuesetArray)
+    csLoader.get().ensureValueSets(valuesetArray)
     .then( () => next() )
     .catch( (err) => {
       logError(err);
@@ -166,7 +166,7 @@ function call(req, res, next) {
   // Execute it and send the results
   let results;
   try {
-    const executor = new cql.Executor(lib, localCodeService.get());
+    const executor = new cql.Executor(lib, csLoader.get());
     results = executor.exec(patientSource);
   } catch (err) {
     logError(err);
