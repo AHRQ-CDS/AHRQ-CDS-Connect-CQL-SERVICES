@@ -1,16 +1,15 @@
 'use strict';
 
-// See: http://pm2.keymetrics.io/docs/usage/application-declaration/
+// See: https://pm2.io/doc/en/runtime/guide/ecosystem-file
 module.exports = {
-  apps : [
-    {
-      name      : 'cql-es',
-      script    : 'bin/www',
-      env: {
-        NODE_ENV: 'production',
-        UMLS_USER_NAME: 'umls_user_name',
-        UMLS_PASSWORD: 'umls_password'
-      }
+  apps : [{
+    name      : 'cql-es',
+    script    : 'bin/www',
+    env: {
+      NODE_ENV: 'development',
+    },
+    env_production: {
+      NODE_ENV: 'production',
     }
-  ]
+  }]
 };
