@@ -22,6 +22,12 @@ COPY ./CONTRIBUTING.md /usr/src/app/CONTRIBUTING.md
 COPY ./cql-es.config.js /usr/src/app/cql-es.config.js
 COPY ./LICENSE /usr/src/app/LICENSE
 COPY ./README.md /usr/src/app/README.md
+RUN mkdir -p /usr/src/app/config
+RUN chown node /usr/src/app/config
+RUN mkdir -p /usr/src/app/config/libraries
+RUN chown node /usr/src/app/config/libraries
+RUN mkdir -p /usr/src/app/config/hooks
+RUN chown node /usr/src/app/config/hooks
 RUN mkdir -p /usr/src/app/.vsac_cache
 RUN chown node /usr/src/app/.vsac_cache
 

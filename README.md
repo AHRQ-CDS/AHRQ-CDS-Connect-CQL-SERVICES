@@ -165,6 +165,38 @@ $ yarn start
 
 _**NOTE**: This service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
 
+## CQL Services for Docker
+
+CQL Services also includes a `Dockerfile` for building a [Docker](https://www.docker.com/) image that can be used for deploying CQL Services as a container.
+
+To build the CQL Services Docker image:
+```
+$ docker build -t cql-services .
+```
+
+To ceate and run a `cql-services` container:
+```
+$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
+```
+
+* `docker run` creates and runs a new container based on the requested image.
+* `--name cql-services` gives the container a name by which it can be referred to via other Docker commands.
+* `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
+* `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
+* `-e "UMLS_USER_NAME=myUser"` passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
+* `-e "UMLS_PASSWORD=myPass"` passes the UMLS password as an environment variable.  This is required to download value sets for execution.
+* `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
+* `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
+
+The following commands may also be helpful:
+```
+docker ps                 # list all running containers
+docker ps -a              # list all containers (running or not)
+docker stop cql-services  # stops the container named cql-services
+docker start cql-services # starts the container named cql-services
+docker rm cql-services    # removes the container named cql-services
+```
+
 ## Test the CQL Services
 
 ### The Home Page
