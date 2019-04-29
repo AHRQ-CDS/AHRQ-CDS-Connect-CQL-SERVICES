@@ -5,8 +5,9 @@ const localRepo = require('../lib/local-repo');
 
 describe('local-hooks', () => {
   beforeEach(() => {
+    localRepo.reset();
     localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
-    localHooks.clear();
+    localHooks.reset();
     localHooks.load(path.resolve(__dirname, 'fixtures', 'hooks'));
   });
 
@@ -48,10 +49,10 @@ describe('local-hooks', () => {
     });
   });
 
-  describe('#clear()', () => {
-    it('should clear the hooks', () => {
+  describe('#reset()', () => {
+    it('should reset the hooks', () => {
       expect(localHooks.get().all()).to.not.be.empty;
-      localHooks.clear();
+      localHooks.reset();
       expect(localHooks.get().all()).to.be.empty;
     });
   });

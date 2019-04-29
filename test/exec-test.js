@@ -12,6 +12,7 @@ const lazyPersonMeanInvocation = require('./fixtures/exec-patients/lazy_person_m
 describe('exec', () => {
   before(() => {
     localCodeService.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+    localRepo.reset();
     localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
   });
 

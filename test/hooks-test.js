@@ -12,8 +12,9 @@ const missingDataInvocation = require('./fixtures/hooks-patients/missing_data_in
 describe('hooks', () => {
   before(() => {
     localCodeService.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+    localRepo.reset();
     localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
-    localHooks.clear();
+    localHooks.reset();
     localHooks.load(path.resolve(__dirname, 'fixtures', 'hooks'));
   });
 

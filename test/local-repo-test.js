@@ -4,6 +4,7 @@ const localRepo = require('../lib/local-repo');
 
 describe('local-repo', () => {
   beforeEach(() => {
+    localRepo.reset();
     localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
   });
 
@@ -27,6 +28,14 @@ describe('local-repo', () => {
       const lib = localRepo.get().resolveLatest('LazyChecker');
       expect(lib.source.library.identifier.id).to.equal('LazyChecker');
       expect(lib.source.library.identifier.version).to.equal('1.0.0');
+    });
+  });
+
+  describe('#reset()', () => {
+    it('should reset the hooks', () => {
+      expect(localRepo.get().all()).to.not.be.empty;
+      localRepo.reset();
+      expect(localRepo.get().all()).to.be.empty;
     });
   });
 });
