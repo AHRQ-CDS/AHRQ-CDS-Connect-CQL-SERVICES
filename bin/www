@@ -2,9 +2,7 @@
 
 'use strict';
 
-/**
- * Module dependencies.
- */
+/* eslint-disable-next-line no-console */
 
 const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
@@ -32,7 +30,12 @@ if (!fs.existsSync(codeServiceCachePath)) {
 }
 csLoader.load(codeServiceCachePath);
 libsLoader.load(path.join(__dirname, '..', 'config', 'libraries'));
+console.log(`Loaded ${libsLoader.get().all().length} libraries`);
+libsLoader.get().all().forEach(lib => console.log(`  - ${lib.source.library.identifier.id}:${lib.source.library.identifier.version}`));
 hooksLoader.load(path.join(__dirname, '..', 'config', 'hooks'));
+console.log(`Loaded ${hooksLoader.get().all().length} hooks`);
+hooksLoader.get().all().forEach(hook => console.log(`  - ${hook.id}`));
+
 
 /**
  * Get port from environment and store in Express.
