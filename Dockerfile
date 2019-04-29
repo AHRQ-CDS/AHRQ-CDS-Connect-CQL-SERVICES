@@ -13,7 +13,6 @@ RUN yarn install --production
 # Now copy over the remaining relevant files
 COPY ./bin /usr/src/app/bin
 COPY ./lib /usr/src/app/lib
-COPY ./config /usr/src/app/config
 COPY ./public /usr/src/app/public
 COPY ./routes /usr/src/app/routes
 COPY ./views /usr/src/app/views
@@ -31,6 +30,9 @@ RUN yarn cache clean
 
 # Expose the server port
 EXPOSE 3000
+
+# Create a volume for the VSAC cache
+VOLUME ["/usr/src/app/.vsac_cache"]
 
 # Run using the node user (otherwise runs as root, which is security risk)
 USER node
