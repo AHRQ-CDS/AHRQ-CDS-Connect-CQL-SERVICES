@@ -8,8 +8,8 @@
 
 const app = require('../app');
 const debug = require('debug')('cql-exec-service:server');
-const localRepo = require('../lib/local-repo');
-const localHooks = require('../lib/local-hooks');
+const libsLoader = require('../lib/libraries-loader');
+const hooksLoader = require('../lib/hooks-loader');
 const localCodeService = require('../lib/local-code-service');
 const mkdirp = require('mkdirp');
 const http = require('http');
@@ -31,8 +31,8 @@ if (!fs.existsSync(codeServiceCachePath)) {
   mkdirp.sync(codeServiceCachePath);
 }
 localCodeService.load(codeServiceCachePath);
-localRepo.load(path.join(__dirname, '..', 'localRepository'));
-localHooks.load(path.join(__dirname, '..', 'localHooks'));
+libsLoader.load(path.join(__dirname, '..', 'config', 'libraries'));
+hooksLoader.load(path.join(__dirname, '..', 'config', 'hooks'));
 
 /**
  * Get port from environment and store in Express.

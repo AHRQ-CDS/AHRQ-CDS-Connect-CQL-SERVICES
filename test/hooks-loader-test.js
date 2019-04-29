@@ -1,30 +1,30 @@
 const path = require('path');
 const { expect } = require('chai');
-const localHooks = require('../lib/local-hooks');
-const localRepo = require('../lib/local-repo');
+const hooksLoader = require('../lib/hooks-loader');
+const libsLoader = require('../lib/libraries-loader');
 
-describe('local-hooks', () => {
+describe('hooks-loader', () => {
   beforeEach(() => {
-    localRepo.reset();
-    localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
-    localHooks.reset();
-    localHooks.load(path.resolve(__dirname, 'fixtures', 'hooks'));
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    hooksLoader.reset();
+    hooksLoader.load(path.resolve(__dirname, 'fixtures', 'hooks'));
   });
 
   describe('#all()', () => {
     it('should return the local hooks file', () => {
-      expect(localHooks.get().all()).to.eql([FULL_HOOK]);
+      expect(hooksLoader.get().all()).to.eql([FULL_HOOK]);
     });
 
     it('should hide config when requested', () => {
-      expect(localHooks.get().all(true)).to.eql([CONFIGLESS_HOOK]);
+      expect(hooksLoader.get().all(true)).to.eql([CONFIGLESS_HOOK]);
     });
 
     it('should not allow source hooks to be mutated', () => {
-      const hook1 = localHooks.get().all()[0];
+      const hook1 = hooksLoader.get().all()[0];
       hook1.title = 'Imposter';
       hook1.prefetch.Patient = 'Boo';
-      const hook2 = localHooks.get().all()[0];
+      const hook2 = hooksLoader.get().all()[0];
       expect(hook2).to.eql(FULL_HOOK);
       expect(hook2).not.to.eql(hook1);
     });
@@ -32,18 +32,18 @@ describe('local-hooks', () => {
 
   describe('#find()', () => {
     it('should find by id', () => {
-      expect(localHooks.get().find('lazy-checker')).to.eql(FULL_HOOK);
+      expect(hooksLoader.get().find('lazy-checker')).to.eql(FULL_HOOK);
     });
 
     it('should return undefined for unfound id', () => {
-      expect(localHooks.get().find('happiness')).to.be.undefined;
+      expect(hooksLoader.get().find('happiness')).to.be.undefined;
     });
 
     it('should not allow source hooks to be mutated', () => {
-      const hook1 = localHooks.get().find('lazy-checker');
+      const hook1 = hooksLoader.get().find('lazy-checker');
       hook1.title = 'Imposter';
       hook1.prefetch.Patient = 'Boo';
-      const hook2 = localHooks.get().find('lazy-checker');
+      const hook2 = hooksLoader.get().find('lazy-checker');
       expect(hook2).to.eql(FULL_HOOK);
       expect(hook2).not.to.eql(hook1);
     });
@@ -51,9 +51,9 @@ describe('local-hooks', () => {
 
   describe('#reset()', () => {
     it('should reset the hooks', () => {
-      expect(localHooks.get().all()).to.not.be.empty;
-      localHooks.reset();
-      expect(localHooks.get().all()).to.be.empty;
+      expect(hooksLoader.get().all()).to.not.be.empty;
+      hooksLoader.reset();
+      expect(hooksLoader.get().all()).to.be.empty;
     });
   });
 });

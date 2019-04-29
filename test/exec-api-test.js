@@ -3,17 +3,17 @@ const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
 const localCodeService = require('../lib/local-code-service');
-const localRepo = require('../lib/local-repo');
+const libsLoader = require('../lib/libraries-loader');
 const lazyPersonInvocation = require('./fixtures/exec-patients/lazy_person_invocation.json');
 const lazyPersonReturnExpressionsInvocation = require('./fixtures/exec-patients/lazy_person_return_expressions_invocation.json');
 const lazyPersonMeanInvocation = require('./fixtures/exec-patients/lazy_person_mean_invocation.json');
 
 
-describe('exec', () => {
+describe('exec-api', () => {
   before(() => {
     localCodeService.load(path.resolve(__dirname, 'fixtures', 'code-service'));
-    localRepo.reset();
-    localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
   });
 
   describe('GET /api/library/LazyChecker', () => {

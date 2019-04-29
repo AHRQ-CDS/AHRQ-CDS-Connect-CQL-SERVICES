@@ -13,8 +13,7 @@ RUN yarn install --production
 # Now copy over the remaining relevant files
 COPY ./bin /usr/src/app/bin
 COPY ./lib /usr/src/app/lib
-COPY ./localHooks /usr/src/app/localHooks
-COPY ./localRepository /usr/src/app/localRepository
+COPY ./config /usr/src/app/config
 COPY ./public /usr/src/app/public
 COPY ./routes /usr/src/app/routes
 COPY ./views /usr/src/app/views

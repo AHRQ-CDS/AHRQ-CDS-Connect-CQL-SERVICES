@@ -1,13 +1,13 @@
 'use strict';
 
 const express = require('express');
-const localHooks = require('../lib/local-hooks');
-const localRepo = require('../lib/local-repo');
+const hooksLoader = require('../lib/hooks-loader');
+const libsLoader = require('../lib/libraries-loader');
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  const libraries = localRepo.get().all();
+  const libraries = libsLoader.get().all();
   const expressions = {};
   for (const lib of libraries) {
     const key = `${lib.source.library.identifier.id}.${lib.source.library.identifier.version}`;
@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
   }
   res.render('index', {
     title: 'CDS Connect CQL Services',
-    hooks: localHooks.get().all(),
+    hooks: hooksLoader.get().all(),
     libraries: libraries,
     expressions: expressions,
     req: req

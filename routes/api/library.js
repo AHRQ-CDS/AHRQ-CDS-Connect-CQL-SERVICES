@@ -4,7 +4,7 @@ const express = require('express');
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
 const localCodeService = require('../../lib/local-code-service');
-const localRepo = require('../../lib/local-repo');
+const libsLoader = require('../../lib/libraries-loader');
 const router = express.Router();
 
 // Establish the routes
@@ -21,9 +21,9 @@ function resolver(req, res, next) {
   // Load the library
   let lib;
   if (typeof req.params.version === 'undefined') {
-    lib = localRepo.get().resolveLatest(req.params.library);
+    lib = libsLoader.get().resolveLatest(req.params.library);
   } else {
-    lib = localRepo.get().resolve(req.params.library, req.params.version);
+    lib = libsLoader.get().resolve(req.params.library, req.params.version);
   }
   if (typeof lib === 'undefined') {
     // Set the 404 status and halt the request chain now
