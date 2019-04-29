@@ -32,10 +32,6 @@ To use this project in a development environment, you should perform the followi
     $ yarn
     ```
 
-### Installing as a Service on Windows Server 2012
-
-An earlier version of this service was originally piloted on Windows Server 2012.  Installation instructions are [here](docs/windows_2012_install.md).
-
 ## Configuration
 
 ### Setting NLM Credentials for VSAC Downloads
