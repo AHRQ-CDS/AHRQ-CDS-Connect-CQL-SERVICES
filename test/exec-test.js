@@ -58,7 +58,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,
@@ -115,7 +115,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,
@@ -180,7 +180,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,
