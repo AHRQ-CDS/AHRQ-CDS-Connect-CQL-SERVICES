@@ -90,15 +90,15 @@ Windows:
 
 ## Adding CQL Libraries
 
-This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL library.  You can find its ELM JSON files in the _localRepository_ folder.
+This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL libraries.  You can find their ELM JSON files in subfolders of the _localRepository_ folder.
 
-To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _localRepository_ folder.
+To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _localRepository_ folder or any subfolder within it.
 
 _NOTE: The CQL Services only support the FHIR 1.0.2 data model.  They will not work with CQL that uses any other data models._
 
 ## Adding CQL Hooks
 
-This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL Hook.  You can find its Hook config in the _localHooks_ folder.  Note that it requires the corresponding ELM JSON files in the _localRepsitory_ folder.
+This service is packaged with example [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL Hooks.  You can find the hook configs in the _localHooks_ folder.  Note that they require the corresponding ELM JSON files in the _localRepsitory_ folder.
 
 To add other CQL Hooks, add a configuration file for them in the _localHooks_ folder, and add their ELM JSON to the _localRepository_ folder, as described in the above section.
 
@@ -261,6 +261,19 @@ connection : close
 --------------- BODY ---------------
 {
   "services": [
+        {
+      "id": "ascvd-risk",
+      "hook": "patient-view",
+      "title": "CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk",
+      "description": "Provides the ability to calculate a baseline 10-Year ASCVD risk score to support primary prevention of ASCVD. It utilizes the 2013 ACC/AHA pooled cohort equation to calculate the risk of developing a first time \"hard\" ASCVD event, defined as: nonfatal myocardial infarction (MI), coronary heart disease (CHD) death, nonfatal stroke, or fatal stroke.",
+      "prefetch": {
+        "Patient": "Patient/{{context.patientId}}",
+        "Observation": "Observation?patient={{context.patientId}}",
+        "Condition": "Condition?patient={{context.patientId}}",
+        "MedicationStatement": "MedicationStatement?patient={{context.patientId}}",
+        "MedicationOrder": "MedicationOrder?patient={{context.patientId}}"
+      }
+    },
     {
       "id": "statin-use",
       "hook": "patient-view",
