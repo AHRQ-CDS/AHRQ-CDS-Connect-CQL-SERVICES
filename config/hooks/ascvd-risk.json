@@ -1,0 +1,25 @@
+{
+  "id": "ascvd-risk",
+  "hook": "patient-view",
+  "title": "CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk",
+  "description": "Provides the ability to calculate a baseline 10-Year ASCVD risk score to support primary prevention of ASCVD. It utilizes the 2013 ACC/AHA pooled cohort equation to calculate the risk of developing a first time \"hard\" ASCVD event, defined as: nonfatal myocardial infarction (MI), coronary heart disease (CHD) death, nonfatal stroke, or fatal stroke.",
+  "_config": {
+    "cards": [{
+      "card": {
+        "summary": "Baseline 10-Year ASCVD risk score: ${PatientBaselineRisk}",
+        "indicator": "info",
+        "detail": "Baseline 10-Year ASCVD risk score: ${PatientBaselineRisk}",
+        "source": {
+          "label": "CDS Connect: CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk",
+          "url": "https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv102",
+        "version": "1.0.2"
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "CDS_Connect_Conversions",
+         "version" : "1.0.1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "to_mg_per_dL_for_blood_cholesterol",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Case",
+               "caseItem" : [ {
+                  "when" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "unit",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Q",
+                           "type" : "OperandRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mg/dL",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "name" : "Q",
+                     "type" : "OperandRef"
+                  }
+               }, {
+                  "when" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "path" : "unit",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Q",
+                           "type" : "OperandRef"
+                        }
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "mmol/L",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "then" : {
+                     "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
+                     "type" : "Instance",
+                     "element" : [ {
+                        "name" : "value",
+                        "value" : {
+                           "type" : "Multiply",
+                           "operand" : [ {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Q",
+                                 "type" : "OperandRef"
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "value" : "38.66976",
+                              "type" : "Literal"
+                           } ]
+                        }
+                     }, {
+                        "name" : "unit",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "mg/dL",
+                           "type" : "Literal"
+                        }
+                     } ]
+                  }
+               } ],
+               "else" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "Q",
+               "operandTypeSpecifier" : {
+                  "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         } ]
+      }
+   }
+}
+

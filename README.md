@@ -32,10 +32,6 @@ To use this project in a development environment, you should perform the followi
     $ yarn
     ```
 
-### Installing as a Service on Windows Server 2012
-
-An earlier version of this service was originally piloted on Windows Server 2012.  Installation instructions are [here](docs/windows_2012_install.md).
-
 ## Configuration
 
 ### Setting NLM Credentials for VSAC Downloads
@@ -90,17 +86,17 @@ Windows:
 
 ## Adding CQL Libraries
 
-This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL library.  You can find its ELM JSON files in the _localRepository_ folder.
+This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL libraries.  You can find their ELM JSON files in subfolders of the _config/libraries_ folder.
 
-To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _localRepository_ folder.
+To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _config/libraries_ folder or any subfolder within it.
 
 _NOTE: The CQL Services only support the FHIR 1.0.2 data model.  They will not work with CQL that uses any other data models._
 
 ## Adding CQL Hooks
 
-This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) CQL Hook.  You can find its Hook config in the _localHooks_ folder.  Note that it requires the corresponding ELM JSON files in the _localRepsitory_ folder.
+This service is packaged with example [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL Hooks.  You can find the hook configs in the _config/hooks_ folder.  Note that they require the corresponding ELM JSON files in the _localRepsitory_ folder.
 
-To add other CQL Hooks, add a configuration file for them in the _localHooks_ folder, and add their ELM JSON to the _localRepository_ folder, as described in the above section.
+To add other CQL Hooks, add a configuration file for them in the _config/hooks_ folder, and add their ELM JSON to the _config/libraries_ folder, as described in the above section.
 
 ### CQL Hooks Config
 
@@ -168,6 +164,38 @@ $ yarn start
 ```
 
 _**NOTE**: This service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
+
+## CQL Services for Docker
+
+CQL Services also includes a `Dockerfile` for building a [Docker](https://www.docker.com/) image that can be used for deploying CQL Services as a container.
+
+To build the CQL Services Docker image:
+```
+$ docker build -t cql-services .
+```
+
+To ceate and run a `cql-services` container:
+```
+$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
+```
+
+* `docker run` creates and runs a new container based on the requested image.
+* `--name cql-services` gives the container a name by which it can be referred to via other Docker commands.
+* `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
+* `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
+* `-e "UMLS_USER_NAME=myUser"` passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
+* `-e "UMLS_PASSWORD=myPass"` passes the UMLS password as an environment variable.  This is required to download value sets for execution.
+* `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
+* `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
+
+The following commands may also be helpful:
+```
+docker ps                 # list all running containers
+docker ps -a              # list all containers (running or not)
+docker stop cql-services  # stops the container named cql-services
+docker start cql-services # starts the container named cql-services
+docker rm cql-services    # removes the container named cql-services
+```
 
 ## Test the CQL Services
 
@@ -261,6 +289,19 @@ connection : close
 --------------- BODY ---------------
 {
   "services": [
+        {
+      "id": "ascvd-risk",
+      "hook": "patient-view",
+      "title": "CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk",
+      "description": "Provides the ability to calculate a baseline 10-Year ASCVD risk score to support primary prevention of ASCVD. It utilizes the 2013 ACC/AHA pooled cohort equation to calculate the risk of developing a first time \"hard\" ASCVD event, defined as: nonfatal myocardial infarction (MI), coronary heart disease (CHD) death, nonfatal stroke, or fatal stroke.",
+      "prefetch": {
+        "Patient": "Patient/{{context.patientId}}",
+        "Observation": "Observation?patient={{context.patientId}}",
+        "Condition": "Condition?patient={{context.patientId}}",
+        "MedicationStatement": "MedicationStatement?patient={{context.patientId}}",
+        "MedicationOrder": "MedicationOrder?patient={{context.patientId}}"
+      }
+    },
     {
       "id": "statin-use",
       "hook": "patient-view",

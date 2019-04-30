@@ -1,4 +1,5 @@
-/localCodeService/vsac_cache
+/localCodeService
+/.vsac_cache
 # Logs
 logs
 *.log

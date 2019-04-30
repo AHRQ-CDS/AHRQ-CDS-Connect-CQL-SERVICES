@@ -2,17 +2,18 @@ const path = require('path');
 const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
-const localCodeService = require('../lib/local-code-service');
-const localRepo = require('../lib/local-repo');
+const csLoader = require('../lib/code-service-loader');
+const libsLoader = require('../lib/libraries-loader');
 const lazyPersonInvocation = require('./fixtures/exec-patients/lazy_person_invocation.json');
 const lazyPersonReturnExpressionsInvocation = require('./fixtures/exec-patients/lazy_person_return_expressions_invocation.json');
 const lazyPersonMeanInvocation = require('./fixtures/exec-patients/lazy_person_mean_invocation.json');
 
 
-describe('exec', () => {
+describe('exec-api', () => {
   before(() => {
-    localCodeService.load(path.resolve(__dirname, 'fixtures', 'code-service'));
-    localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
   });
 
   describe('GET /api/library/LazyChecker', () => {
@@ -58,7 +59,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,
@@ -115,7 +116,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,
@@ -180,7 +181,7 @@ describe('exec', () => {
             results: {
               HasLazinessCondition: true,
               MostRecentApathyTest: null,
-              IsApathetic: false,
+              IsApathetic: null,
               MeetsInclusionCriteria: true,
               MeetsExclusionCriteria: false,
               InPopulation: true,

@@ -240,7 +240,7 @@ The example below provides the general shape of the response from the previously
 
 The default config of the statin-use service returns, at most, one card.  A card is only returned when the Grade B or Grade C recommendation applies to the patient.  Otherwise the cards array will be empty (e.g., `[]`).
 
-_NOTE: It is possible to configure the statin-use service to use different values for the card, or to use `"suggestions"` or `"links"` if applicable.  For an example, see [localHooks/statin-use.json.alternate](../../localHooks/statin-use.json.alternate)._
+_NOTE: It is possible to configure the statin-use service to use different values for the card, or to use `"suggestions"` or `"links"` if applicable.  For an example, see [config/hooks/statin-use.json.alternate](../../config/hooks/statin-use.json.alternate)._
 
 **Example Response: Start a low-to-moderate intensity statin (Grade B):**
 

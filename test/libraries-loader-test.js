@@ -1,15 +1,16 @@
 const path = require('path');
 const { expect } = require('chai');
-const localRepo = require('../lib/local-repo');
+const libsLoader = require('../lib/libraries-loader');
 
-describe('local-repo', () => {
+describe('libraries-loader', () => {
   beforeEach(() => {
-    localRepo.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
   });
 
   describe('#all()', () => {
     it('should return all libraries', () => {
-      const libs = localRepo.get().all();
+      const libs = libsLoader.get().all();
       expect(libs).length.to.be(2);
       expect(libs.some(l => {
         const identifier = l.source.library.identifier;
@@ -24,9 +25,17 @@ describe('local-repo', () => {
 
   describe('#resolveLatest()', () => {
     it('should resolve to the latest version of a library', () => {
-      const lib = localRepo.get().resolveLatest('LazyChecker');
+      const lib = libsLoader.get().resolveLatest('LazyChecker');
       expect(lib.source.library.identifier.id).to.equal('LazyChecker');
       expect(lib.source.library.identifier.version).to.equal('1.0.0');
+    });
+  });
+
+  describe('#reset()', () => {
+    it('should reset the hooks', () => {
+      expect(libsLoader.get().all()).to.not.be.empty;
+      libsLoader.reset();
+      expect(libsLoader.get().all()).to.be.empty;
     });
   });
 });

@@ -25,57 +25,30 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
+               "lowClosed" : true,
+               "highClosed" : true,
+               "type" : "Interval",
+               "low" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "path" : "start",
+                     "type" : "Property",
+                     "source" : {
                         "name" : "period",
                         "type" : "OperandRef"
                      }
                   }
                },
-               "then" : {
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "type" : "IntervalTypeSpecifier",
-                     "pointType" : {
-                        "name" : "{urn:hl7-org:elm-types:r1}DateTime",
-                        "type" : "NamedTypeSpecifier"
-                     }
-                  }
-               },
-               "else" : {
-                  "lowClosed" : true,
-                  "highClosed" : true,
-                  "type" : "Interval",
-                  "low" : {
-                     "path" : "value",
+               "high" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "path" : "end",
                      "type" : "Property",
                      "source" : {
-                        "path" : "start",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "period",
-                           "type" : "OperandRef"
-                        }
-                     }
-                  },
-                  "high" : {
-                     "path" : "value",
-                     "type" : "Property",
-                     "source" : {
-                        "path" : "end",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "period",
-                           "type" : "OperandRef"
-                        }
+                        "name" : "period",
+                        "type" : "OperandRef"
                      }
                   }
                }
@@ -93,58 +66,37 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "quantity",
-                        "type" : "OperandRef"
-                     }
-                  }
-               },
-               "then" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  }
-               },
-               "else" : {
-                  "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "Instance",
-                  "element" : [ {
-                     "name" : "value",
-                     "value" : {
+               "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
+               "type" : "Instance",
+               "element" : [ {
+                  "name" : "value",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
                         "path" : "value",
                         "type" : "Property",
                         "source" : {
-                           "path" : "value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "quantity",
-                              "type" : "OperandRef"
-                           }
+                           "name" : "quantity",
+                           "type" : "OperandRef"
                         }
                      }
-                  }, {
-                     "name" : "unit",
-                     "value" : {
-                        "path" : "value",
+                  }
+               }, {
+                  "name" : "unit",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "unit",
                         "type" : "Property",
                         "source" : {
-                           "path" : "unit",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "quantity",
-                              "type" : "OperandRef"
-                           }
+                           "name" : "quantity",
+                           "type" : "OperandRef"
                         }
                      }
-                  } ]
-               }
+                  }
+               } ]
             },
             "operand" : [ {
                "name" : "quantity",
@@ -159,59 +111,32 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
+               "lowClosed" : true,
+               "highClosed" : true,
+               "type" : "Interval",
+               "low" : {
+                  "name" : "ToQuantity",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "low",
+                     "type" : "Property",
+                     "source" : {
                         "name" : "range",
                         "type" : "OperandRef"
                      }
-                  }
+                  } ]
                },
-               "then" : {
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  },
-                  "asTypeSpecifier" : {
-                     "type" : "IntervalTypeSpecifier",
-                     "pointType" : {
-                        "name" : "{urn:hl7-org:elm-types:r1}Quantity",
-                        "type" : "NamedTypeSpecifier"
+               "high" : {
+                  "name" : "ToQuantity",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "high",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "range",
+                        "type" : "OperandRef"
                      }
-                  }
-               },
-               "else" : {
-                  "lowClosed" : true,
-                  "highClosed" : true,
-                  "type" : "Interval",
-                  "low" : {
-                     "name" : "ToQuantity",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "path" : "low",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "range",
-                           "type" : "OperandRef"
-                        }
-                     } ]
-                  },
-                  "high" : {
-                     "name" : "ToQuantity",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "path" : "high",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "range",
-                           "type" : "OperandRef"
-                        }
-                     } ]
-                  }
+                  } ]
                }
             },
             "operand" : [ {
@@ -227,86 +152,65 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "coding",
-                        "type" : "OperandRef"
+               "classType" : "{urn:hl7-org:elm-types:r1}Code",
+               "type" : "Instance",
+               "element" : [ {
+                  "name" : "code",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "code",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "coding",
+                           "type" : "OperandRef"
+                        }
                      }
                   }
-               },
-               "then" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Code",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
+               }, {
+                  "name" : "system",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "system",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "coding",
+                           "type" : "OperandRef"
+                        }
+                     }
                   }
-               },
-               "else" : {
-                  "classType" : "{urn:hl7-org:elm-types:r1}Code",
-                  "type" : "Instance",
-                  "element" : [ {
-                     "name" : "code",
-                     "value" : {
-                        "path" : "value",
+               }, {
+                  "name" : "version",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "version",
                         "type" : "Property",
                         "source" : {
-                           "path" : "code",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "coding",
-                              "type" : "OperandRef"
-                           }
+                           "name" : "coding",
+                           "type" : "OperandRef"
                         }
                      }
-                  }, {
-                     "name" : "system",
-                     "value" : {
-                        "path" : "value",
+                  }
+               }, {
+                  "name" : "display",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "display",
                         "type" : "Property",
                         "source" : {
-                           "path" : "system",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "coding",
-                              "type" : "OperandRef"
-                           }
+                           "name" : "coding",
+                           "type" : "OperandRef"
                         }
                      }
-                  }, {
-                     "name" : "version",
-                     "value" : {
-                        "path" : "value",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "version",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "coding",
-                              "type" : "OperandRef"
-                           }
-                        }
-                     }
-                  }, {
-                     "name" : "display",
-                     "value" : {
-                        "path" : "value",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "display",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "coding",
-                              "type" : "OperandRef"
-                           }
-                        }
-                     }
-                  } ]
-               }
+                  }
+               } ]
             },
             "operand" : [ {
                "name" : "coding",
@@ -321,71 +225,50 @@
             "accessLevel" : "Public",
             "type" : "FunctionDef",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "concept",
-                        "type" : "OperandRef"
-                     }
-                  }
-               },
-               "then" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Concept",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  }
-               },
-               "else" : {
-                  "classType" : "{urn:hl7-org:elm-types:r1}Concept",
-                  "type" : "Instance",
-                  "element" : [ {
-                     "name" : "codes",
-                     "value" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "C",
-                           "expression" : {
-                              "path" : "coding",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "concept",
-                                 "type" : "OperandRef"
-                              }
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "return" : {
-                           "expression" : {
-                              "name" : "ToCode",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "name" : "C",
-                                 "type" : "AliasRef"
-                              } ]
-                           }
-                        }
-                     }
-                  }, {
-                     "name" : "display",
-                     "value" : {
-                        "path" : "value",
-                        "type" : "Property",
-                        "source" : {
-                           "path" : "text",
+               "classType" : "{urn:hl7-org:elm-types:r1}Concept",
+               "type" : "Instance",
+               "element" : [ {
+                  "name" : "codes",
+                  "value" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "coding",
                            "type" : "Property",
                            "source" : {
                               "name" : "concept",
                               "type" : "OperandRef"
                            }
                         }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "name" : "ToCode",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "C",
+                              "type" : "AliasRef"
+                           } ]
+                        }
                      }
-                  } ]
-               }
+                  }
+               }, {
+                  "name" : "display",
+                  "value" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "path" : "text",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "concept",
+                           "type" : "OperandRef"
+                        }
+                     }
+                  }
+               } ]
             },
             "operand" : [ {
                "name" : "concept",
@@ -795,7 +678,7 @@
                }
             } ]
          }, {
-            "name" : "ToDate",
+            "name" : "ToDateTime",
             "context" : "Patient",
             "accessLevel" : "Public",
             "type" : "FunctionDef",

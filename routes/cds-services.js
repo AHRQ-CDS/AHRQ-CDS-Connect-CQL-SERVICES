@@ -4,9 +4,9 @@ const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
-const localCodeService = require('../lib/local-code-service');
-const localHooks = require('../lib/local-hooks');
-const localRepo = require('../lib/local-repo');
+const csLoader = require('../lib/code-service-loader');
+const hooksLoader = require('../lib/hooks-loader');
+const libsLoader = require('../lib/libraries-loader');
 
 // Middleware to setup response headers with CORS
 router.use((request, response, next) => {
@@ -32,7 +32,7 @@ router.post('/:id/analytics/:uuid', analytics);
  */
 function discover(req, res, next) {
   res.json({
-    services: localHooks.get().all(true)
+    services: hooksLoader.get().all(true)
   });
 }
 
@@ -48,7 +48,7 @@ function resolver(req, res, next) {
   }
 
   // Load the service definition
-  const hook = localHooks.get().find(req.params.id);
+  const hook = hooksLoader.get().find(req.params.id);
   if (!hook) {
     logError(`Hook not found: ${req.params.id}`);
     res.sendStatus(404);
@@ -65,9 +65,9 @@ function resolver(req, res, next) {
   // Load the library
   let lib;
   if (typeof hook._config.cql.library.version === 'undefined') {
-    lib = localRepo.get().resolveLatest(hook._config.cql.library.id);
+    lib = libsLoader.get().resolveLatest(hook._config.cql.library.id);
   } else {
-    lib = localRepo.get().resolve(hook._config.cql.library.id, hook._config.cql.library.version);
+    lib = libsLoader.get().resolve(hook._config.cql.library.id, hook._config.cql.library.version);
   }
 
   if (typeof lib === 'undefined') {
@@ -99,7 +99,7 @@ function valuesetter(req, res, next) {
   // downloaded from VSAC.
   let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
   if (valuesetArray !== null) { // We have some valuesets... get them.
-    localCodeService.get().ensureValueSets(valuesetArray)
+    csLoader.get().ensureValueSets(valuesetArray)
     .then( () => next() )
     .catch( (err) => {
       logError(err);
@@ -166,7 +166,7 @@ function call(req, res, next) {
   // Execute it and send the results
   let results;
   try {
-    const executor = new cql.Executor(lib, localCodeService.get());
+    const executor = new cql.Executor(lib, csLoader.get());
     results = executor.exec(patientSource);
   } catch (err) {
     logError(err);
