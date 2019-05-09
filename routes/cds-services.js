@@ -215,14 +215,18 @@ function call(req, res, next) {
     }
     const card = JSON.parse(cardStr);
 
-    // Add errors if any are found
-    let errs = pResults['Errors'];
-    if (errs && errs.length > 0) {
-      if (Array.isArray(errs)) {
-        errs = errs.join('_\n\n_');
+    // If there are errors or warnings, report them as extensions
+    const report = (label, items) => {
+      if (items == null || items.length === 0) {
+        return;
+      } else if (!Array.isArray(items)) {
+        items = [items];
       }
-      card.detail += `\n\n_${errs}_`;
-    }
+      card.extension = card.extension || {};
+      card.extension[label] = items;
+    };
+    report('errors', pResults['Errors']);
+    report('warnings', pResults['Warnings']);
 
     cards.push(card);
   }

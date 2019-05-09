@@ -106,17 +106,22 @@ CQL libraries are associated with CDS Hooks services via configuration files. CQ
 - **hook**: the hook that should trigger this service. This is used directly in the services discovery response.
 - **title**: the title of this service. This is used directly in the services discovery response.
 - **description**: a short description of the service. This is used directly in the services discovery response.
+- **extension**: an _optional_ object to support arbitrary [extensions](https://cds-hooks.org/specification/1.0/#extensions) in the service definition. This is used directly in the services discovery response.
 - **_config**: a configuration object that indicates how cards are generated and the CQL library to use for this service.
   - **cards**: an array of objects describing specific cards to be returned and the conditions under which to return them.
     - **conditionExpression**: the name of an expression in the CQL that should be checked to determine if the card should be returned.  If the expression evaluates to `null`, `false`, `0`, or `''` for the patient, then the card will be supressed; otherwise it will be returned.  If the configuration does not specify a `conditionExpression`, then the card will always be returned.
     - **card**: details about the card to be returned if the `conditionExpression` is truthy (or if no `conditionExpression` is provided).
       - For details about what fields can go into cards, refer to the [CDS Hooks Card Attributes](http://cds-hooks.hl7.org/ballots/2018May/specification/1.0/#card-attributes) documentation.
+      - Specify [extensions](https://cds-hooks.org/specification/1.0/#extensions) using the reserved `extension` property.
+      - If the CQL has an expression named `Errors`, and if its result is non-empty, the card's `extension` object will contain an `errors` property whose value is the array of errors.
+      - If the CQL has an expression named `Warnings`, and if its result is non-empty, the card's `extension` object will contain a `warnings` property whose value is the array of warnings.
       - The CQL Hooks service performs string interpolation on all card values -- allowing you to customize them with the  patient's CQL results.  For example, `${Recommendation}` will be replaced at run-time with the value of the `Recommendation` expression result from the CQL.
-      - Currently, if the CQL has an `Errors` expression, and it is not empty, the errors will be appended to the card's `detail`.  In future versions of CQL Hooks, this will likely be more configurable.
   - **cql**
     - **library**
       - **id**: the id of the CQL library to run when this hook is invoked.
       - **version**: the version of the CQL library to run when this hook is invoked.
+
+_NOTE: If additional properties are specified in the top-level of the CQL Hooks config, these will be mirrored in the service discovery response.  Similarly, if additional properties are specified in the CQL Hooks config's `_config.cards.card` object, these will be mirrored in the card response. The CDS Hooks specification, however, suggests that all non-standard data should be exchanged via the [extension](https://cds-hooks.org/specification/1.0/#extensions) mechanism._
 
 The following is an example of the hook configuration for the Statin Use artifact:
 
@@ -347,9 +352,9 @@ access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
 access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Requested-With
 content-type : application/json; charset=utf-8
-content-length : 416
+content-length : 815
 etag : W/"1a0-3Nbiql4WsXU2ekDSxxApOg"
-date : Thu, 09 Aug 2018 19:47:02 GMT
+date : Thu, 09 May 2019 21:02:49 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -361,6 +366,10 @@ connection : close
       "source": {
         "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
         "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"
+      },
+      "extension": {
+        "grade": "B",
+        "rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater."
       }
     }
   ]
