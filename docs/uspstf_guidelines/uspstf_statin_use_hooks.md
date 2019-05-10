@@ -237,6 +237,9 @@ The example below provides the general shape of the response from the previously
         * For the default config of the statin-use service, this is the recommendation message.
     * `source`: JSON object representing source information for the CDS.
         * For the default config of the statin-use service, the `"label"` is always `"CDS Connect: Statin Use for the Primary Prevention of CVD in Adults"` and the `"url"` is always `"https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"`
+    * `extension`: Optional JSON object containing [extensions](https://cds-hooks.org/specification/1.0/#extensions) defined by the hook.
+        * For the default config of the statin-use service, the `extension` object contains the recommendation `grade` (`"B" or "C"`) and `rationale`.
+        * In some cases, `extension` might contain `errors` or `warnings`, but the default config of the statin-use service will return _no cards_ if there are errors (and never reports warnings).
 
 The default config of the statin-use service returns, at most, one card.  A card is only returned when the Grade B or Grade C recommendation applies to the patient.  Otherwise the cards array will be empty (e.g., `[]`).
 
@@ -256,6 +259,10 @@ In this example response, the patient receives the Grade B recommendation to sta
       "source": {
         "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
         "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"
+      },
+      "extension": {
+        "grade": "B",
+        "rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater."
       }
     }
   ]
@@ -286,6 +293,10 @@ In this example response, the patient receives the Grade C recommendation to dis
       "source": {
         "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
         "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"
+      },
+      "extension": {
+        "grade": "C",
+        "rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of  CVD events and mortality by at least a small amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 7.5% to 10%."
       }
     }
   ]
