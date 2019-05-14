@@ -92,32 +92,27 @@ function resolver(req, res, next) {
  */
 function valuesetter(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
-  const valuesets = res.locals.library.valuesets;
+  const library = res.locals.library;
 
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
-  let valuesetArray = Object.keys(valuesets).map(function(idx) {return valuesets[idx];});
-  if (valuesetArray !== null) { // We have some valuesets... get them.
-    csLoader.get().ensureValueSets(valuesetArray)
-    .then( () => next() )
-    .catch( (err) => {
-      logError(err);
-      if (req.app.locals.ignoreVSACErrors) {
-        next();
-      } else {
-        let errToSend = err;
-        if (err instanceof Error) {
-          errToSend = err.message;
-        } else if (Array.isArray(err)) {
-          errToSend = err.map(e => e instanceof Error ? e.message : e);
-        }
-        sendError(res, 500, errToSend, false);
+  csLoader.get().ensureValueSetsInLibrary(library)
+  .then( () => next() )
+  .catch( (err) => {
+    logError(err);
+    if (req.app.locals.ignoreVSACErrors) {
+      next();
+    } else {
+      let errToSend = err;
+      if (err instanceof Error) {
+        errToSend = err.message;
+      } else if (Array.isArray(err)) {
+        errToSend = err.map(e => e instanceof Error ? e.message : e);
       }
-    });
-  } else { // No valuesets. Go to next handler.
-    next();
-  }
+      sendError(res, 500, errToSend, false);
+    }
+  });
 }
 
 /**
