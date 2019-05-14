@@ -23,7 +23,7 @@
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "cql-exec-fhir": "^1.3.0",
-    "cql-exec-vsac": "^1.0.2",
+    "cql-exec-vsac": "^1.0.3",
     "cql-execution": "^1.3.2",
     "debug": "~2.6.0",
     "express": "^4.16.3",
