@@ -12,6 +12,9 @@ const index = require('./routes/index');
 const apiLibrary = require('./routes/api/library');
 const cdsServices = require('./routes/cds-services');
 
+// Set up a default request size limit of 1mb, but allow it to be overridden via environment
+const limit = process.env.CQL_SERVICES_MAX_REQUEST_SIZE || '1mb';
+
 const app = express();
 
 // view engine setup
@@ -23,10 +26,16 @@ if(app.get('env') !== 'test') {
 }
 app.use(cors());
 app.use(helmet());
-app.use(bodyParser.json({type: function (msg)  {
-  return msg.headers['content-type'] && msg.headers['content-type'].startsWith('application/json');
-}}));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({
+  limit,
+  type: function (msg)  {
+    return msg.headers['content-type'] && msg.headers['content-type'].startsWith('application/json');
+  }
+}));
+app.use(bodyParser.urlencoded({
+  limit,
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

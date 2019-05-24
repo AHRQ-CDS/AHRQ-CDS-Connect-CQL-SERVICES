@@ -84,6 +84,20 @@ Windows:
 > set PORT=9000
 ```
 
+### Overriding the Maximum Request Size
+
+By default, requests over 1 MB large will be rejected.  To override the max request size, set your system's `CQL_SERVICES_MAX_REQUEST_SIZE` environment variable to the desired value using one of the following units: `b`, `kb`, `mb`, and `gb`.
+
+Mac/Linux:
+```
+$ export CQL_SERVICES_MAX_REQUEST_SIZE=2mb
+```
+
+Windows:
+```
+> set CQL_SERVICES_MAX_REQUEST_SIZE=2mb
+```
+
 ## Adding CQL Libraries
 
 This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL libraries.  You can find their ELM JSON files in subfolders of the _config/libraries_ folder.
@@ -181,7 +195,7 @@ $ docker build -t cql-services .
 
 To ceate and run a `cql-services` container:
 ```
-$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
+$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
 ```
 
 * `docker run` creates and runs a new container based on the requested image.
@@ -190,6 +204,7 @@ $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e
 * `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
 * `-e "UMLS_USER_NAME=myUser"` passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
 * `-e "UMLS_PASSWORD=myPass"` passes the UMLS password as an environment variable.  This is required to download value sets for execution.
+* `-e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb"` passes the max request size allowed as an environment variable.  This flag is optional and defaults to 1mb if not passed in.
 * `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
 * `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
 
