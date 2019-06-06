@@ -205,6 +205,11 @@ function call(req, res, next) {
     if (matches) {
       for (const m of matches) {
         const exp = /^\$\{(.+)\}$/.exec(m);
+        // First replace any expressions that are just wrapped in "" to be the direct JSON result
+        // e.g., "${InPopulation}" should be replaced with true, not "true"
+        cardStr = cardStr.replace(`"\${${exp[1]}}"`, JSON.stringify(resolveExp(pResults, exp[1])));
+        // Then do it one more time, this time capturing the the others (embedded in phrases in strings)
+        // e.g., "The result is ${result}"
         cardStr = cardStr.replace(`\${${exp[1]}}`, resolveExp(pResults, exp[1]));
       }
     }
