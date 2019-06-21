@@ -40,5 +40,8 @@
     "eslint": "^5.16.0",
     "mocha": "^5.2.0",
     "supertest": "^3.1.0"
+  },
+  "resolutions": {
+    "lodash": "^4.17.11"
   }
 }
