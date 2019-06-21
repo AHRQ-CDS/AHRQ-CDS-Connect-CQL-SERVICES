@@ -72,21 +72,21 @@ function valuesetter(req, res, next) {
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
   csLoader.get().ensureValueSetsInLibrary(library)
-  .then( () => next() )
-  .catch( (err) => {
-    logError(err);
-    if (req.app.locals.ignoreVSACErrors) {
-      next();
-    } else {
-      let errToSend = err;
-      if (err instanceof Error) {
-        errToSend = err.message;
-      } else if (Array.isArray(err)) {
-        errToSend = err.map(e => e instanceof Error ? e.message : e);
+    .then( () => next() )
+    .catch( (err) => {
+      logError(err);
+      if (req.app.locals.ignoreVSACErrors) {
+        next();
+      } else {
+        let errToSend = err;
+        if (err instanceof Error) {
+          errToSend = err.message;
+        } else if (Array.isArray(err)) {
+          errToSend = err.map(e => e instanceof Error ? e.message : e);
+        }
+        sendError(res, 500, errToSend, false);
       }
-      sendError(res, 500, errToSend, false);
-    }
-  });
+    });
 }
 
 /**

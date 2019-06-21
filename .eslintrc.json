@@ -1,9 +1,6 @@
 {
     "parserOptions": {
-        "ecmaVersion": 6,
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
+        "ecmaVersion": 6
     },
     "rules": {
         "indent": ["error", 2],
