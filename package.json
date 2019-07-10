@@ -1,6 +1,6 @@
 {
   "name": "cql-exec-service",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A RESTful CQL execution service",
   "private": true,
   "license": "UNLICENSED",

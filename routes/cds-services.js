@@ -166,12 +166,19 @@ function call(req, res, next) {
   } catch (err) {
     logError(err);
     let errToSend = err;
+    let responseCode = 500;
     if (err instanceof Error) {
       errToSend = err.message;
+      // If it's an invalid UCUM unit or other invalid value, send 422 response code instead
+      // of 500. Ideally this would be a more specific error type we could catch, but it isn't;
+      // so detect it via a simple string match for the word 'invalid' or 'UCUM' for now.
+      if (errToSend.indexOf('invalid') !== -1 || errToSend.indexOf('UCUM') !== -1) {
+        responseCode = 422;
+      }
     } else if (Array.isArray(err)) {
       errToSend = err.map(e => e instanceof Error ? e.message : e);
     }
-    sendError(res, 500, errToSend, false);
+    sendError(res, responseCode, errToSend, false);
   }
 
   const resultIDs = Object.keys(results.patientResults);
