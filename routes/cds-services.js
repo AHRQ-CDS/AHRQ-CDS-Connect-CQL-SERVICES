@@ -42,8 +42,8 @@ function discover(req, res, next) {
  */
 function resolver(req, res, next) {
   // Check to ensure required properties are present
-  if (!req.body.hook || !req.body.hookInstance || !req.body.user || !req.body.context) {
-    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, user, context.');
+  if (!req.body.hook || !req.body.hookInstance || !req.body.context) {
+    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, context.');
     return;
   }
 

@@ -2,8 +2,8 @@
   "hookInstance": "d1577c69-dfbe-44ad-ba6d-3e05e953b2ea",
   "fhirServer": "http://example.org",
   "hook": "patient-view",
-  "user": "Practitioner/example",
   "context": {
+    "userId": "Practitioner/example",
     "patientId": "2-1",
     "encounterId": "99-1"
   },

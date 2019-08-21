@@ -9,8 +9,8 @@
     "scope": "patient/*.read",
     "subject": "lazy-checker"
   },
-  "user": "Practitioner/example",
   "context": {
+    "userId": "Practitioner/example",
     "patientId": "1288992",
     "encounterId": "89284"
   },

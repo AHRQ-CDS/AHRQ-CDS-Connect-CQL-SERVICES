@@ -1,5 +1,7 @@
 /localCodeService
 /.vsac_cache
+.DS_Store
+
 # Logs
 logs
 *.log
