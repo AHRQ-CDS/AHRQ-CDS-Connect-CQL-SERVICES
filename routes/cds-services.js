@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
+const cloneDeep = require('lodash/cloneDeep');
+const isPlainObject = require('lodash/isPlainObject');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
@@ -42,8 +44,8 @@ function discover(req, res, next) {
  */
 function resolver(req, res, next) {
   // Check to ensure required properties are present
-  if (!req.body.hook || !req.body.hookInstance || !req.body.user || !req.body.context) {
-    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, user, context.');
+  if (!req.body.hook || !req.body.hookInstance || !req.body.context) {
+    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, context.');
     return;
   }
 
@@ -195,7 +197,9 @@ function call(req, res, next) {
   const cards= [];
 
   // Get the cards from the config and replace the ${...} expressions
-  for (const cardCfg of hook._config.cards) {
+  for (let i = 0; i < hook._config.cards.length; i++) {
+    const cardCfg = cloneDeep(hook._config.cards[i]);
+
     // Check the condition
     if (cardCfg.conditionExpression != null) {
       if (!pResults.hasOwnProperty(cardCfg.conditionExpression.split('.')[0])) {
@@ -207,20 +211,7 @@ function call(req, res, next) {
         continue;
       }
     }
-    let cardStr = JSON.stringify(cardCfg.card);
-    const matches = cardStr.match(/\$\{[^}]+\}/g);
-    if (matches) {
-      for (const m of matches) {
-        const exp = /^\$\{(.+)\}$/.exec(m);
-        // First replace any expressions that are just wrapped in "" to be the direct JSON result
-        // e.g., "${InPopulation}" should be replaced with true, not "true"
-        cardStr = cardStr.replace(`"\${${exp[1]}}"`, JSON.stringify(resolveExp(pResults, exp[1])));
-        // Then do it one more time, this time capturing the the others (embedded in phrases in strings)
-        // e.g., "The result is ${result}"
-        cardStr = cardStr.replace(`\${${exp[1]}}`, resolveExp(pResults, exp[1]));
-      }
-    }
-    const card = JSON.parse(cardStr);
+    const card = interpolateVariables(cardCfg.card, pResults);
 
     // If there are errors or warnings, report them as extensions
     const report = (label, items) => {
@@ -241,6 +232,40 @@ function call(req, res, next) {
   res.json({
     cards
   });
+}
+
+function interpolateVariables(arg, results) {
+  if (typeof arg === 'string') {
+    // Look for embedded variables of form ${myVar}
+    const matches = arg.match(/\$\{[^}]+\}/g);
+    if (matches) {
+      for (const m of matches) {
+        // Get the variable name and then the result of the variable from execution
+        const exp = /^\$\{(.+)\}$/.exec(m);
+        const expVal = resolveExp(results, exp[1]);
+        if (m === arg) {
+          // The value contains *only* the expression variable, so replace it with the proper typed result
+          // e.g., "${InPopulation}" should be replaced with true, not "true"
+          return expVal;
+        }
+        // Otherwise, the value is embedded in a string, so replace it within the string
+        // e.g., "The result is ${result}"
+        arg = arg.replace(`\${${exp[1]}}`, expVal);
+      }
+    }
+    return arg;
+  } else if (Array.isArray(arg)) {
+    // It's an array, so interpolate each item in the array
+    return arg.map(a => interpolateVariables(a, results));
+  } else if (isPlainObject(arg)) {
+    // It's a plain object so interpolate the value of each key
+    for (const key of Object.keys(arg)) {
+      arg[key] = interpolateVariables(arg[key], results);
+    }
+    return arg;
+  }
+  // Whatever it is, just pass it through
+  return arg;
 }
 
 /**

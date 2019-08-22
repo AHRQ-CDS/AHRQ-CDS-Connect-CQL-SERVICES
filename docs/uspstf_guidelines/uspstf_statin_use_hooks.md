@@ -23,10 +23,8 @@ The body contains a JSON structure with:
 * required `hookInstance`: A UUID for this particular hook call.  This is not currently used by CQL Hooks, but is _required_ by the CDS Hooks specification.
 * optional `fhirServer`: The base URL of the CDS Client's FHIR server.  This is not currently supported by CQL Hooks; if sent, it will be ignored.
 * optional `fhirAuthorization`: Information required to allow the service to call back to the FHIR server.  This is not currently supported by CQL Hooks; if sent, it will be ignored.
-* required `user`: The user on whose behalf to execute the request.  This is not currently used by CQL Hooks, but was _required_ by the CDS Hooks specification at the time CQL Hooks was developed.  Since then, the `user` parameter has been removed from the CDS Hooks specification and will soon be removed by CQL Hooks.
-    * For the statin-use service, this can be any string, as it will be ignored since only the prefetch data is used.
-* required `context`: Hook-specific contextual data that the CDS Service may need.  This is not currently used by CQL Hooks, but is _required_ by the CDS Hooks specification.
-    * For the statin-use service, this should be a JSON object containing a `"patientId"` key and its corresponding value.
+* required `context`: Hook-specific contextual data that the CDS Service may need.
+    * For the statin-use service, this should be a JSON object containing a `"patientId"` key and its corresponding value.  While `"userId"` is also required in the `context` for `patient-view` hooks, CQL Services does not currently use it.
 * required `prefetch`: A JSON object containing the FHIR resource instances representing the data elements listed above for a specific patient.  Do not send data for more than one patient at once.  The `prefetch` is optional in the CDS Hooks specification, but it required in CQL Hooks as it is the _only_ way to provide patient data to the CDS service.
     * The format of the prefetch JSON object should match the prefetch criteria published by the service.  For each prefetch key, the value should be the result of executing the prefetch.  Even if the search result is empty, an empty bundle should still be provided in the prefetch.
     * For the statin-use service, the prefetch should contain the following keys and values: `"Patient"` (Patient resource), `"Observation"` (Bundle containing Observation resources), `"Condition"` (Bundle containing Condition resources), `"Procedure"` (Bundle containing Procedure resources), `"MedicationStatement"` (Bundle containing MedicationStatement resources), and `"MedicationOrder"` (Bundle containing MedicationOrder resources).
@@ -39,8 +37,8 @@ _NOTE that CQL Hooks does not currently provide a way to pass parameter values. 
 {
   "hookInstance": "d1577c69-dfbe-44ad-ba6d-3e05e953b2ea",
   "hook": "patient-view",
-  "user": "Practitioner/example",
   "context": {
+    "userId": "Practitioner/example",
     "patientId": "1288992"
   },
   "prefetch": {
