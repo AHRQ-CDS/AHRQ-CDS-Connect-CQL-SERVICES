@@ -7,7 +7,7 @@ CQL Services is an Express.js application that provides RESTful services for exe
 - CQL Exec: A custom RESTful API for invoking CQL and receiving back the calculated results as JSON
 - CQL Hooks: A standards-based RESTful API that exposes configured CQL according to the [CDS Hooks](https://cds-hooks.org/) standard
 
-The CQL Exec API was used to pilot the [Statin Use for the Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) artifact in 2017.
+The CQL Exec API was used to pilot the [Statin Use for the Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults-clinician-facing-cds-intervention) artifact in 2017.
 
 The CQL Hooks API was developed as a proof-of-concept and has not yet been piloted in a clinical environment.  As the CDS Hooks standard is not yet finalized, some aspects of the CQL Hooks service will likely need modification when CDS Hooks 1.0 is released.
 
