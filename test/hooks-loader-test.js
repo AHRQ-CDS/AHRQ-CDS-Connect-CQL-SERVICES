@@ -58,16 +58,30 @@ describe('hooks-loader', () => {
   });
 });
 
-describe('malformed-hooks-loader', () => {
+describe('negative-test-hooks', () => {
   beforeEach(() => {
     libsLoader.reset();
     libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
     hooksLoader.reset();
   });
 
+  describe('#missing()', () => {
+    it('should throw an error if the specified path cannot be found', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks')+'/notFound')).to.throw('Failed to load local hooks at: notFound.  Not a valid folder path.');
+    });
+    it('should throw an error if a hook has been disabled', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','disabled-hook'))).to.throw('Hook disabled-hook is disabled.');
+    });
+    it('should throw an error if a referenced CQL library is missing', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','missing-cql-library'))).to.throw('Failed to load CQL library referenced by missing-cql-library: DoesNotExist 0.0.1');
+    });
+    it('should throw an error if a required field is missing', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','missing-required-fields'))).to.throw('Local hook missing required fields: missing-required-fields.json');
+    });
+  });
   describe('#validate()', () => {
     it('should throw an error if a suggestion is provided but selectionBehavior is not set', () => {
-      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'malformed-hooks'))).to.throw();
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','missing-selectionBehavior'))).to.throw('Card has suggestions but no selectionBehavior field.');
     });
   });
 

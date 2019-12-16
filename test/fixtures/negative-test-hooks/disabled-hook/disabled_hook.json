@@ -1,0 +1,27 @@
+{
+  "id": "disabled-hook",
+  "hook": "patient-view",
+  "title": "This hook configuration is disabled",
+  "description": "CQL Services should throw an error if a hook has been disabled.",
+  "_config": {
+    "disabled": true,
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Do not listen to me, I have been disabled.",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

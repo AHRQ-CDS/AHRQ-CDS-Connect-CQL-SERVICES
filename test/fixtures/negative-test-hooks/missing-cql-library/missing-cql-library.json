@@ -1,0 +1,26 @@
+{
+  "id": "missing-cql-library",
+  "hook": "patient-view",
+  "title": "This hook configuration specifies a CQL library that does not exist.",
+  "description": "CQL Services should throw an error if a hook references a nonexistant library.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Has anyone seen my library?",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "DoesNotExist",
+        "version": "0.0.1"
+      }
+    }
+  }
+}
