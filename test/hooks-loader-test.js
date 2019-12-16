@@ -58,6 +58,21 @@ describe('hooks-loader', () => {
   });
 });
 
+describe('malformed-hooks-loader', () => {
+  beforeEach(() => {
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    hooksLoader.reset();
+  });
+
+  describe('#validate()', () => {
+    it('should throw an error if a suggestion is provided but selectionBehavior is not set', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'malformed-hooks'))).to.throw();
+    });
+  });
+
+});
+
 const FULL_HOOK = {
   id: 'lazy-checker',
   hook: 'patient-view',
