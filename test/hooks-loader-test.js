@@ -83,6 +83,19 @@ describe('negative-test-hooks', () => {
     it('should throw an error if a suggestion is provided but selectionBehavior is not set', () => {
       expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','missing-selectionBehavior'))).to.throw('Card has suggestions but no selectionBehavior field.');
     });
+    it('should throw an error if selectionBehavior is set but has any value other than at-most-one', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','invalid-selectionBehavior'))).to.throw('Card has an invalid selectionBehavior: pick-as-many-as-you-want.');
+    });
+  });
+  describe('#prefetch()', () => {
+    beforeEach(() => {
+      libsLoader.reset();
+      libsLoader.load(path.resolve(__dirname, 'fixtures', 'unsupported-cql'));
+      hooksLoader.reset();
+    });
+    it('should throw an error if a referenced CQL library has an expression that uses an unsupported dataType', () => {
+      expect(() => hooksLoader.load(path.resolve(__dirname, 'fixtures', 'negative-test-hooks','unsupported-cql-dataType'))).to.throw('A referenced CQL library contains an expression which references an unsupported dataType: {http://hl7.org/fhir}ExplanationOfBenefit.');
+    });
   });
 
 });
