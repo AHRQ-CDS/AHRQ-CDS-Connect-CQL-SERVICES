@@ -93,13 +93,4 @@ describe('hooks-api', () => {
         .expect(412, done);
     });
   });
-
-  describe('POST /cds-services/lazy-checker/analytics/e9ff1eb6-944a-4164-a2fd-65e1ee2dc24a', () => {
-    it('should not error on sending analytics (even though we do nothing with them)', function(done) {
-      request(app)
-        .post('/cds-services/lazy-checker/analytics/e9ff1eb6-944a-4164-a2fd-65e1ee2dc24a')
-        .set('Accept', 'application/json')
-        .expect(200, done);
-    });
-  });
 });

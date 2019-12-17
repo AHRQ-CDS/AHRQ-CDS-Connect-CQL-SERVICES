@@ -1,0 +1,32 @@
+{
+  "id": "missing-selectionBehavior",
+  "hook": "patient-view",
+  "title": "This hook configuration is missing selectionBehavior",
+  "description": "In CDS Hooks 1.0, selectionBehavior must be provided if there is a suggestion in the card.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Providing a suggestion but no selectionBehavior",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "suggestions": [{
+          "label": "Suggestion 1"
+          }, {
+          "label": "Suggestion 2"
+          }
+        ],
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

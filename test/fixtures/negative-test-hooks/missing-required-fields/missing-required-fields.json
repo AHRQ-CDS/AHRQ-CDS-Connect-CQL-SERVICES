@@ -1,0 +1,24 @@
+{
+  "id": "missing-required-fields",
+  "title": "This hook configuration is missing some required fields",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Has anyone seen my required fields?",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

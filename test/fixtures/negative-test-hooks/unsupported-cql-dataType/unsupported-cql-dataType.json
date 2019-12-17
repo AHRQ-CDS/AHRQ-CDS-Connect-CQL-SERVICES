@@ -1,0 +1,26 @@
+{
+  "id": "unsupported-cql-dataType",
+  "hook": "patient-view",
+  "title": "This hook configuration specifies a CQL library that uses an unsupported data type.",
+  "description": "CQL Services should throw an error if a hook cannot build a prefetch query because a CQL library is using an unsupported data type.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "I am using an unsupported data type in a CQL retrieve expression",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "Unsupported",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

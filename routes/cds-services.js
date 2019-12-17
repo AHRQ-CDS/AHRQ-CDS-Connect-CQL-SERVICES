@@ -26,7 +26,6 @@ router.use((request, response, next) => {
 // Establish the routes
 router.get('/', discover);
 router.post('/:id', resolver, valuesetter, call);
-router.post('/:id/analytics/:uuid', analytics);
 
 /**
  * Route handler that returns the list of available CDS services.
@@ -266,14 +265,6 @@ function interpolateVariables(arg, results) {
   }
   // Whatever it is, just pass it through
   return arg;
-}
-
-/**
- * Route handler that handles tracking analytics.
- * @see {@link https://cds-hooks.org/specification/1.0/#suggestion-tracking-analytics|Analytics}
- */
-function analytics(req, res, next) {
-  res.sendStatus(200);
 }
 
 function resolveExp(result, expr) {

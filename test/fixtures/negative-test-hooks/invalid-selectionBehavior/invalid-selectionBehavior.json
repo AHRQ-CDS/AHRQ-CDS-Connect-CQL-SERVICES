@@ -1,0 +1,33 @@
+{
+  "id": "invalid-selectionBehavior",
+  "hook": "patient-view",
+  "title": "This hook configuration has an invalid selectionBehavior",
+  "description": "In CDS Hooks 1.0, selectionBehavior is only allowed to take on the value at-most-one.",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Providing an invalid selectionBehavior",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "suggestions": [{
+          "label": "Suggestion 1"
+          }, {
+          "label": "Suggestion 2"
+          }
+        ],
+        "selectionBehavior": "pick-as-many-as-you-want",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

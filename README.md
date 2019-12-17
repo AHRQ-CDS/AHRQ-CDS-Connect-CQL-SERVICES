@@ -5,11 +5,16 @@
 CQL Services is an Express.js application that provides RESTful services for executing CQL.  Currently two services are provided:
 
 - CQL Exec: A custom RESTful API for invoking CQL and receiving back the calculated results as JSON
-- CQL Hooks: A standards-based RESTful API that exposes configured CQL according to the [CDS Hooks](https://cds-hooks.org/) standard
+- CQL Hooks: A standards-based RESTful API that exposes configured CQL according to version 1.0 of the [CDS Hooks](https://cds-hooks.hl7.org/) standard
 
 The CQL Exec API was used to pilot the [Statin Use for the Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults-clinician-facing-cds-intervention) artifact in 2017.
 
-The CQL Hooks API was developed as a proof-of-concept and has not yet been piloted in a clinical environment.  As the CDS Hooks standard is not yet finalized, some aspects of the CQL Hooks service will likely need modification when CDS Hooks 1.0 is released.
+The CQL Hooks API was used to pilot the following artifacts in 2019:
+- [Statin Use for the Primary Prevention of CVD in Adults: Patient-Facing CDS Intervention](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults-patient-facing-cds-intervention)
+- [Healthful Diet and Physical Activity for CVD Prevention in Adults With Cardiovascular Risk Factors](https://cds.ahrq.gov/cdsconnect/artifact/healthful-diet-and-physical-activity-cvd-prevention-adults-cardiovascular-risk)
+- [Abnormal Blood Glucose and Type 2 Diabetes Mellitus: Part One, Screening](https://cds.ahrq.gov/cdsconnect/artifact/abnormal-blood-glucose-and-type-2-diabetes-mellitus-part-one-screening)
+- [Abnormal Blood Glucose and Type 2 Diabetes Mellitus: Part Two, Counseling](https://cds.ahrq.gov/cdsconnect/artifact/abnormal-blood-glucose-and-type-2-diabetes-mellitus-part-two-counseling)
+For more information, please see the 2019 [pilot report](https://cds.ahrq.gov/sites/default/files/cds/artifact/1056/CDS%20Connect_Year%203%20Pilot%20Report_Final.pdf).
 
 These prototype services are part of the [CDS Connect](https://cds.ahrq.gov/cdsconnect) project, sponsored by the [Agency for Healthcare Research and Quality](https://www.ahrq.gov/) (AHRQ), and developed under contract with AHRQ by [MITRE's CAMH](https://www.mitre.org/centers/cms-alliances-to-modernize-healthcare/who-we-are) FFRDC.
 
@@ -135,7 +140,7 @@ CQL libraries are associated with CDS Hooks services via configuration files. CQ
       - **id**: the id of the CQL library to run when this hook is invoked.
       - **version**: the version of the CQL library to run when this hook is invoked.
 
-_NOTE: If additional properties are specified in the top-level of the CQL Hooks config, these will be mirrored in the service discovery response.  Similarly, if additional properties are specified in the CQL Hooks config's `_config.cards.card` object, these will be mirrored in the card response. The CDS Hooks specification, however, suggests that all non-standard data should be exchanged via the [extension](https://cds-hooks.org/specification/1.0/#extensions) mechanism._
+_NOTE: If additional properties are specified in the top-level of the CQL Hooks config, these will be mirrored in the service discovery response.  Similarly, if additional properties are specified in the CQL Hooks config's `_config.cards.card` object, these will be mirrored in the card response. The CDS Hooks specification, however, suggests that all non-standard data should be exchanged via the [extension](https://cds-hooks.hl7.org/1.0/#extensions) mechanism._
 
 The following is an example of the hook configuration for the Statin Use artifact:
 
@@ -169,11 +174,15 @@ The following is an example of the hook configuration for the Statin Use artifac
 }
 ```
 
+_**Note**: No checking is performed by CQL Services that any hook configurations are actually valid. It is up to the user to ensure hook configurations used with the service comply with the CDS Hooks specification._
+
 ### CQL Hooks Data Exchange
 
 The CDS Hooks API allows two ways of getting patient data: via prefetch data sent with the service call or via direct access to the FHIR server.  CQL Hooks only supports the "prefetch" method.  When CQL is loaded for a CQL Hooks service, the CQL will be analyzed to determine what FHIR resources it needs, and the prefetch requirements will be dynamically generated into the services metadata.
 
 If a CQL Hooks service is invoked without the required prefetch data, an HTTP 412 (Precondition Failed) error will be returned.
+
+_**Note**: This service does not attempt to decode and validate any JSON Web Tokens (JWT) sent along with any requests.  This means that all requests are implicitly trusted and that all calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
 
 ## Running CQL Services
 
