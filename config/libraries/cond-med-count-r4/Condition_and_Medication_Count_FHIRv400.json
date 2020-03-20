@@ -1,0 +1,211 @@
+{
+   "library" : {
+      "identifier" : {
+         "id" : "Condition_and_Medication_Count_FHIRv400",
+         "version" : "0.0.1"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "CONDVERSTATUS",
+            "id" : "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "Condition Confirmed code",
+            "id" : "confirmed",
+            "display" : "Confirmed",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "CONDVERSTATUS"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "Condition Confirmed",
+            "display" : "Confirmed",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Condition Confirmed code"
+            } ]
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "NumberConfirmedConditions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "C",
+                     "expression" : {
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "type" : "Retrieve"
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "verificationStatus",
+                           "scope" : "C",
+                           "type" : "Property"
+                        } ]
+                     }, {
+                        "name" : "Condition Confirmed",
+                        "type" : "ConceptRef"
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "NumberMedicationRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Count",
+               "source" : {
+                  "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "HasCount",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Greater",
+               "operand" : [ {
+                  "type" : "Add",
+                  "operand" : [ {
+                     "name" : "NumberConfirmedConditions",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "NumberMedicationRequests",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "0",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "Summary",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Concatenate",
+               "operand" : [ {
+                  "type" : "Concatenate",
+                  "operand" : [ {
+                     "type" : "Concatenate",
+                     "operand" : [ {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "type" : "Indexer",
+                                 "operand" : [ {
+                                    "path" : "given",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "type" : "Indexer",
+                                       "operand" : [ {
+                                          "path" : "name",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "Patient",
+                                             "type" : "ExpressionRef"
+                                          }
+                                       }, {
+                                          "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                          "value" : "0",
+                                          "type" : "Literal"
+                                       } ]
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "0",
+                                    "type" : "Literal"
+                                 } ]
+                              } ]
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : " has ",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "type" : "ToString",
+                           "operand" : {
+                              "name" : "NumberConfirmedConditions",
+                              "type" : "ExpressionRef"
+                           }
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : " confirmed conditions and ",
+                        "type" : "Literal"
+                     } ]
+                  }, {
+                     "type" : "ToString",
+                     "operand" : {
+                        "name" : "NumberMedicationRequests",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                  "value" : " MedicationRequests.",
+                  "type" : "Literal"
+               } ]
+            }
+         } ]
+      }
+   }
+}
+

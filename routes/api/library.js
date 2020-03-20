@@ -130,12 +130,17 @@ function execute(req, res, next) {
   }
 
   // Load the patient source
+  let patientSource;
   const usingFHIR = lib.source.library.usings.def.find(d => d.url == 'http://hl7.org/fhir' || d.localIdentifier == 'FHIR');
-  if (typeof usingFHIR === 'undefined' || usingFHIR.version != '1.0.2') {
-    sendError(res, 501, `Not Implemented: Unsupported data model: ${lib.source.library.usings.def} (must be FHIR 1.0.2)`);
+  switch (usingFHIR.version) {
+  case '1.0.2': patientSource = fhir.PatientSource.FHIRv102(); break;
+  case '3.0.0': patientSource = fhir.PatientSource.FHIRv300(); break;
+  case '4.0.0': patientSource = fhir.PatientSource.FHIRv400(); break;
+  default:
+    logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
+    sendError(res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2, 3.0.0, or 4.0.0`);
     return;
   }
-  const patientSource = fhir.PatientSource.FHIRv102();
 
   // Load the data into the patient source
   // Since the data is an array of patient records, we need to wrap them in a bundle (as the executor expects)

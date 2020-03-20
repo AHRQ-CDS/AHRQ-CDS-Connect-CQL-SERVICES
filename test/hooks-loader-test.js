@@ -6,7 +6,7 @@ const libsLoader = require('../lib/libraries-loader');
 describe('hooks-loader', () => {
   beforeEach(() => {
     libsLoader.reset();
-    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
     hooksLoader.reset();
     hooksLoader.load(path.resolve(__dirname, 'fixtures', 'hooks'));
   });
