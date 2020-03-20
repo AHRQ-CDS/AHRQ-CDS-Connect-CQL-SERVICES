@@ -7,7 +7,7 @@ const program = require('commander');
 const request = require('request');
 
 const DEFAULT_EXEC_EP = 'http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1';
-const DEFAULT_EXEC_MSG = path.join('test', 'examples', 'exec', 'unhealthy_patient.json');
+const DEFAULT_EXEC_MSG = path.join('test', 'examples', 'exec', 'DSTU2', 'unhealthy_patient.json');
 program
   .command('exec-post')
   .alias('ep')
@@ -91,7 +91,7 @@ program
   });
 
 const DEFAULT_HOOKS_CALL_EP = 'http://localhost:3000/cds-services/statin-use';
-const DEFAULT_HOOKS_MSG = path.join('test', 'examples', 'hooks', 'unhealthy_patient.json');
+const DEFAULT_HOOKS_MSG = path.join('test', 'examples', 'hooks', 'DSTU2', 'unhealthy_patient.json');
 program
   .command('hooks-call')
   .alias('hc')

@@ -1,0 +1,53 @@
+{
+  "hookInstance": "d1577c69-dfbe-44ad-ba6d-3e05e953b2ea",
+  "fhirServer": "http://test:9080",
+  "hook": "patient-view",
+  "fhirAuthorization": {
+    "access_token": "some-opaque-fhir-access-token",
+    "token_type": "Bearer",
+    "expires_in": 300,
+    "scope": "patient/*.read",
+    "subject": "lazy-checker"
+  },
+  "context": {
+    "userId": "Practitioner/example",
+    "patientId": "1288992",
+    "encounterId": "89284"
+  },
+  "prefetch": {
+    "Patient": {
+	    "resourceType": "Patient",
+	    "id": "1",
+	    "gender": "male",
+	    "birthDate": "1974-10-22"
+    },
+    "Condition": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": [{
+        "resource": {
+          "resourceType": "Condition",
+          "id": "2",
+          "clinicalStatus": "active",
+          "verificationStatus": "confirmed",
+          "code": {
+            "coding": [{
+              "system": "http://lazycodes.org",
+              "code": "LAZY",
+              "display": "Laziness"
+            }]
+          },
+          "subject": {
+            "reference": "Patient/1"
+          },
+          "onsetDateTime": "2017-04-25"
+        }
+      }]
+    },
+    "Observation": {
+        "resourceType": "Bundle",
+        "type": "searchset",
+        "entry": []
+    }
+  }
+}

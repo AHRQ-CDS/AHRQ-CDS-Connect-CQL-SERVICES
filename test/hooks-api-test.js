@@ -5,15 +5,12 @@ const app = require('../app');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
-const lazyPersonInvocation = require('./fixtures/hooks-patients/lazy_person_invocation.json');
-const activePersonInvocation = require('./fixtures/hooks-patients/active_person_invocation.json');
-const missingDataInvocation = require('./fixtures/hooks-patients/missing_data_invocation.json');
 
-describe('hooks-api', () => {
+describe('hooks-api (version-agnostic)', () => {
   before(() => {
     csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
     libsLoader.reset();
-    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
     hooksLoader.reset();
     hooksLoader.load(path.resolve(__dirname, 'fixtures', 'hooks'));
   });
@@ -43,54 +40,71 @@ describe('hooks-api', () => {
         });
     });
   });
+});
 
-  describe('POST /cds-services/lazy-checker', () => {
-    it('should return a card for a lazy person', function(done) {
-      request(app)
-        .post('/cds-services/lazy-checker')
-        .send(lazyPersonInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            cards: [
-              {
-                summary: 'Laziness detected',
-                indicator: 'info',
-                detail: 'Get off the couch!',
-                source: {
-                  label: 'My Imagination',
-                  url: 'https://example.org/my/imagination'
+// Run Exec Tests for DSTU2, STU3, and R4
+['DSTU2', 'STU3', 'R4'].forEach(version => {
+  describe(`hooks-api ${version}`, () => {
+    before(() => {
+      csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+      libsLoader.reset();
+      libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', version));
+      hooksLoader.reset();
+      hooksLoader.load(path.resolve(__dirname, 'fixtures', 'hooks'));
+    });
+
+    describe('POST /cds-services/lazy-checker', () => {
+      it('should return a card for a lazy person', function(done) {
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(getLazyPersonInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              cards: [
+                {
+                  summary: 'Laziness detected',
+                  indicator: 'info',
+                  detail: 'Get off the couch!',
+                  source: {
+                    label: 'My Imagination',
+                    url: 'https://example.org/my/imagination'
+                  }
                 }
-              }
-            ]
+              ]
+            });
+            done();
           });
-          done();
-        });
-    });
+      });
 
-    it('should return no cards for an active person', function(done) {
-      request(app)
-        .post('/cds-services/lazy-checker')
-        .send(activePersonInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            cards: []
+      it('should return no cards for an active person', function(done) {
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(getActivePersonInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              cards: []
+            });
+            done();
           });
-          done();
-        });
-    });
+      });
 
-    it('should return an error if the prefetch is missing a prefetch token', function(done) {
-      request(app)
-        .post('/cds-services/lazy-checker')
-        .send(missingDataInvocation)
-        .set('Accept', 'application/json')
-        .expect(412, done);
+      it('should return an error if the prefetch is missing a prefetch token', function(done) {
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(getMissingDataInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(412, done);
+      });
     });
   });
 });
+
+const getLazyPersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/lazy_person_invocation.json`);
+const getActivePersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/active_person_invocation.json`);
+const getMissingDataInvocation = (version) => require(`./fixtures/hooks-patients/${version}/missing_data_invocation.json`);

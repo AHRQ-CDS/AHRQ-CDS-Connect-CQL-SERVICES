@@ -4,16 +4,12 @@ const request = require('supertest');
 const app = require('../app');
 const csLoader = require('../lib/code-service-loader');
 const libsLoader = require('../lib/libraries-loader');
-const lazyPersonInvocation = require('./fixtures/exec-patients/lazy_person_invocation.json');
-const lazyPersonReturnExpressionsInvocation = require('./fixtures/exec-patients/lazy_person_return_expressions_invocation.json');
-const lazyPersonMeanInvocation = require('./fixtures/exec-patients/lazy_person_mean_invocation.json');
 
-
-describe('exec-api', () => {
+describe('exec-api (version-agnostic)', () => {
   before(() => {
     csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
     libsLoader.reset();
-    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
   });
 
   describe('GET /api/library/LazyChecker', () => {
@@ -40,99 +36,11 @@ describe('exec-api', () => {
     });
   });
 
-  describe('POST /api/library/LazyChecker', () => {
-    it('should return full CQL results', function(done) {
-      request(app)
-        .post('/api/library/LazyChecker')
-        .send(lazyPersonInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            library: {
-              name: 'LazyChecker',
-              version: '1.0.0'
-            },
-            timestamp: res.body.timestamp,
-            patientID: '1',
-            results: {
-              HasLazinessCondition: true,
-              MostRecentApathyTest: null,
-              IsApathetic: null,
-              MeetsInclusionCriteria: true,
-              MeetsExclusionCriteria: false,
-              InPopulation: true,
-              Recommendation: 'Get off the couch!'
-            }
-          });
-          done();
-        });
-    });
-
-    it('should return only requested expressions', function(done) {
-      request(app)
-        .post('/api/library/LazyChecker')
-        .send(lazyPersonReturnExpressionsInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            library: {
-              name: 'LazyChecker',
-              version: '1.0.0'
-            },
-            returnExpressions: [ 'InPopulation', 'Recommendation' ],
-            timestamp: res.body.timestamp,
-            patientID: '1',
-            results: {
-              InPopulation: true,
-              Recommendation: 'Get off the couch!'
-            }
-          });
-          done();
-        });
-    });
-
-    it('should honor parameters', function(done) {
-      request(app)
-        .post('/api/library/LazyChecker')
-        .send(lazyPersonMeanInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            library: {
-              name: 'LazyChecker',
-              version: '1.0.0'
-            },
-            parameters: {
-              AllowInsults: true
-            },
-            timestamp: res.body.timestamp,
-            patientID: '1',
-            results: {
-              HasLazinessCondition: true,
-              MostRecentApathyTest: null,
-              IsApathetic: null,
-              MeetsInclusionCriteria: true,
-              MeetsExclusionCriteria: false,
-              InPopulation: true,
-              Recommendation: 'Get off the couch, you slouch!'
-            }
-          });
-          done();
-        });
-    });
-  });
-
   describe('POST /api/library/INVALIDLazyChecker', () => {
     it('should return return a HTTP 404 error', function(done) {
       request(app)
         .post('/api/library/INVALIDLazyChecker')
-        .send(lazyPersonInvocation)
+        .send(getLazyPersonInvocation('R4'))
         .set('Accept', 'application/json')
         .expect(404, done);
     });
@@ -162,44 +70,147 @@ describe('exec-api', () => {
     });
   });
 
-  describe('POST /api/library/LazyChecker/version/1.0.0', () => {
-    it('should return full CQL results', function(done) {
-      request(app)
-        .post('/api/library/LazyChecker/version/1.0.0')
-        .send(lazyPersonInvocation)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .end(function(err, res) {
-          if (err) return done(err);
-          expect(res.body).to.eql({
-            library: {
-              name: 'LazyChecker',
-              version: '1.0.0'
-            },
-            timestamp: res.body.timestamp,
-            patientID: '1',
-            results: {
-              HasLazinessCondition: true,
-              MostRecentApathyTest: null,
-              IsApathetic: null,
-              MeetsInclusionCriteria: true,
-              MeetsExclusionCriteria: false,
-              InPopulation: true,
-              Recommendation: 'Get off the couch!'
-            }
-          });
-          done();
-        });
-    });
-  });
-
   describe('POST /api/library/LazyChecker/version/9.9.9', () => {
     it('should return a HTTP 404 for wrong version', function(done) {
       request(app)
         .post('/api/library/LazyChecker/version/9.9.9')
-        .send(lazyPersonInvocation)
+        .send(getLazyPersonInvocation('R4'))
         .set('Accept', 'application/json')
         .expect(404, done);
     });
   });
 });
+
+// Run Exec Tests for DSTU2, STU3, and R4
+['DSTU2', 'STU3', 'R4'].forEach(version => {
+  describe(`exec-api ${version}`, () => {
+    before(() => {
+      csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
+      libsLoader.reset();
+      libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', version));
+    });
+
+    describe('POST /api/library/LazyChecker', () => {
+      it('should return full CQL results', function(done) {
+        request(app)
+          .post('/api/library/LazyChecker')
+          .send(getLazyPersonInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              library: {
+                name: 'LazyChecker',
+                version: '1.0.0'
+              },
+              timestamp: res.body.timestamp,
+              patientID: '1',
+              results: {
+                HasLazinessCondition: true,
+                MostRecentApathyTest: null,
+                IsApathetic: null,
+                MeetsInclusionCriteria: true,
+                MeetsExclusionCriteria: false,
+                InPopulation: true,
+                Recommendation: 'Get off the couch!'
+              }
+            });
+            done();
+          });
+      });
+
+      it('should return only requested expressions', function(done) {
+        request(app)
+          .post('/api/library/LazyChecker')
+          .send(getLazyPersonReturnExpressionsInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              library: {
+                name: 'LazyChecker',
+                version: '1.0.0'
+              },
+              returnExpressions: [ 'InPopulation', 'Recommendation' ],
+              timestamp: res.body.timestamp,
+              patientID: '1',
+              results: {
+                InPopulation: true,
+                Recommendation: 'Get off the couch!'
+              }
+            });
+            done();
+          });
+      });
+
+      it('should honor parameters', function(done) {
+        request(app)
+          .post('/api/library/LazyChecker')
+          .send(getLazyPersonMeanInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              library: {
+                name: 'LazyChecker',
+                version: '1.0.0'
+              },
+              parameters: {
+                AllowInsults: true
+              },
+              timestamp: res.body.timestamp,
+              patientID: '1',
+              results: {
+                HasLazinessCondition: true,
+                MostRecentApathyTest: null,
+                IsApathetic: null,
+                MeetsInclusionCriteria: true,
+                MeetsExclusionCriteria: false,
+                InPopulation: true,
+                Recommendation: 'Get off the couch, you slouch!'
+              }
+            });
+            done();
+          });
+      });
+    });
+
+    describe('POST /api/library/LazyChecker/version/1.0.0', () => {
+      it('should return full CQL results', function(done) {
+        request(app)
+          .post('/api/library/LazyChecker/version/1.0.0')
+          .send(getLazyPersonInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              library: {
+                name: 'LazyChecker',
+                version: '1.0.0'
+              },
+              timestamp: res.body.timestamp,
+              patientID: '1',
+              results: {
+                HasLazinessCondition: true,
+                MostRecentApathyTest: null,
+                IsApathetic: null,
+                MeetsInclusionCriteria: true,
+                MeetsExclusionCriteria: false,
+                InPopulation: true,
+                Recommendation: 'Get off the couch!'
+              }
+            });
+            done();
+          });
+      });
+    });
+  });
+});
+
+const getLazyPersonInvocation = (version) => require(`./fixtures/exec-patients/${version}/lazy_person_invocation.json`);
+const getLazyPersonReturnExpressionsInvocation = (version) => require(`./fixtures/exec-patients/${version}/lazy_person_return_expressions_invocation.json`);
+const getLazyPersonMeanInvocation = (version) => require(`./fixtures/exec-patients/${version}/lazy_person_mean_invocation.json`);

@@ -16,6 +16,8 @@ The CQL Hooks API was used to pilot the following artifacts in 2019:
 - [Abnormal Blood Glucose and Type 2 Diabetes Mellitus: Part Two, Counseling](https://cds.ahrq.gov/cdsconnect/artifact/abnormal-blood-glucose-and-type-2-diabetes-mellitus-part-two-counseling)
 For more information, please see the 2019 [pilot report](https://cds.ahrq.gov/sites/default/files/cds/artifact/1056/CDS%20Connect_Year%203%20Pilot%20Report_Final.pdf).
 
+Since these pilots, CQL Services has also been updated to support FHIR STU3 and FHIR R4.  The version of FHIR will automatically be detected from the CQL library.
+
 These prototype services are part of the [CDS Connect](https://cds.ahrq.gov/cdsconnect) project, sponsored by the [Agency for Healthcare Research and Quality](https://www.ahrq.gov/) (AHRQ), and developed under contract with AHRQ by [MITRE's CAMH](https://www.mitre.org/centers/cms-alliances-to-modernize-healthcare/who-we-are) FFRDC.
 
 ## Contributions
@@ -109,7 +111,7 @@ This service is packaged with the [Statin Use for Primary Prevention of CVD in A
 
 To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _config/libraries_ folder or any subfolder within it.
 
-_NOTE: The CQL Services only support the FHIR 1.0.2 data model.  They will not work with CQL that uses any other data models._
+_NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, and 4.0.0 data models.  They will not work with CQL that uses any other data models._
 
 ## Adding CQL Hooks
 
@@ -418,7 +420,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
     --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
-    --message test/examples/exec/exec-patients/unhealthy_patient.json
+    --message test/examples/exec/DSTU2/unhealthy_patient.json
 
   Options:
 
@@ -447,7 +449,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Call a CDS Hook.  Options can be passed to specify the endpoint and message to post.
   If not specified, the following defaults are used:
     --endpoint http://localhost:3000/cds-services/statin-use
-    --message test/examples/exec/hooks-patients/unhealthy_patient.json
+    --message test/examples/hooks/DSTU2/unhealthy_patient.json
 
   Options:
 

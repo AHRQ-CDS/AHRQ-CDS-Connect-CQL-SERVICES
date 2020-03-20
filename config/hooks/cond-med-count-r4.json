@@ -1,0 +1,26 @@
+{
+  "id": "cond-med-count-r4",
+  "hook": "patient-view",
+  "title": "Condition and Medication Request Count",
+  "description": "Counts the number of confirmed conditions and medication requests",
+  "_config": {
+    "cards": [{
+      "conditionExpression": "HasCount",
+      "card": {
+        "summary": "Condition and MedicationRequest Count",
+        "indicator": "info",
+        "detail": "${Summary}",
+        "source": {
+          "label": "CDS Connect: CQL Services Test Artifact",
+          "url": "https://github.com/AHRQ-CDS/AHRQ-CDS-Connect-CQL-SERVICES"
+        }
+      }
+    }],
+    "cql": {
+      "library": {
+        "id": "Condition_and_Medication_Count_FHIRv400",
+        "version": "0.0.1"
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ const libsLoader = require('../lib/libraries-loader');
 describe('libraries-loader', () => {
   beforeEach(() => {
     libsLoader.reset();
-    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql'));
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
   });
 
   describe('#all()', () => {
@@ -18,7 +18,7 @@ describe('libraries-loader', () => {
       })).to.be.true;
       expect(libs.some(l => {
         const identifier = l.source.library.identifier;
-        return identifier.id === 'FHIRHelpers' && identifier.version === '1.0.2';
+        return identifier.id === 'FHIRHelpers' && identifier.version === '4.0.0';
       })).to.be.true;
     });
   });
