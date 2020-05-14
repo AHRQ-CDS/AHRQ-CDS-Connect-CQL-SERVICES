@@ -4,8 +4,8 @@ using FHIR version '3.0.0'
 
 include FHIRHelpers version '3.0.0' called FHIRHelpers
 
-valueset "Laziness": '0.0.0.0.0'
-valueset "Level of Apathethy": '0.0.0.0.1'
+valueset "Laziness": 'urn:oid:0.0.0.0.0'
+valueset "Level of Apathethy": 'urn:oid:0.0.0.0.1'
 
 parameter AllowInsults default false
 
