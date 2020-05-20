@@ -39,11 +39,11 @@
       "valueSets" : {
          "def" : [ {
             "name" : "Laziness",
-            "id" : "0.0.0.0.0",
+            "id" : "urn:oid:0.0.0.0.0",
             "accessLevel" : "Public"
          }, {
             "name" : "Level of Apathethy",
-            "id" : "0.0.0.0.1",
+            "id" : "urn:oid:0.0.0.0.1",
             "accessLevel" : "Public"
          } ]
       },
