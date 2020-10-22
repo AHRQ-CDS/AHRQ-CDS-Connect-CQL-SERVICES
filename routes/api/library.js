@@ -6,6 +6,7 @@ const fhir = require('cql-exec-fhir');
 const csLoader = require('../../lib/code-service-loader');
 const libsLoader = require('../../lib/libraries-loader');
 const router = express.Router();
+const process = require('process');
 
 // Establish the routes
 router.get('/:library', resolver, get);
@@ -71,22 +72,42 @@ function valuesetter(req, res, next) {
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
-  csLoader.get().ensureValueSetsInLibrary(library)
-    .then( () => next() )
-    .catch( (err) => {
-      logError(err);
-      if (req.app.locals.ignoreVSACErrors) {
-        next();
-      } else {
-        let errToSend = err;
-        if (err instanceof Error) {
-          errToSend = err.message;
-        } else if (Array.isArray(err)) {
-          errToSend = err.map(e => e instanceof Error ? e.message : e);
+  // Use of API Key is preferred, as username/password will not be supported on Jan 1 2021
+  if(process.env['UMLS_API_KEY']){
+    csLoader.get().ensureValueSetsInLibraryWithAPIKey(library)
+      .then( () => next() )
+      .catch( (err) => {
+        logError(err);
+        if (req.app.locals.ignoreVSACErrors) {
+          next();
+        } else {
+          let errToSend = err;
+          if (err instanceof Error) {
+            errToSend = err.message;
+          } else if (Array.isArray(err)) {
+            errToSend = err.map(e => e instanceof Error ? e.message : e);
+          }
+          sendError(res, 500, errToSend, false);
         }
-        sendError(res, 500, errToSend, false);
-      }
-    });
+      });
+  }else{
+    csLoader.get().ensureValueSetsInLibrary(library)
+      .then( () => next() )
+      .catch( (err) => {
+        logError(err);
+        if (req.app.locals.ignoreVSACErrors) {
+          next();
+        } else {
+          let errToSend = err;
+          if (err instanceof Error) {
+            errToSend = err.message;
+          } else if (Array.isArray(err)) {
+            errToSend = err.map(e => e instanceof Error ? e.message : e);
+          }
+          sendError(res, 500, errToSend, false);
+        }
+      });
+  }
 }
 
 /**
