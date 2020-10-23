@@ -232,7 +232,7 @@ $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e
 * `--name cql-services` gives the container a name by which it can be referred to via other Docker commands.
 * `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
 * `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
-* `-e "UMLS_API_KEY=apiKey"` passes the UMLS API Key as an environemtn variable.  This is required, and the preferred credential to download value sets for execution.
+* `-e "UMLS_API_KEY=apiKey"` passes the UMLS API Key as an environment variable.  This is required, and the preferred credential to download value sets for execution.
 * `-e "UMLS_USER_NAME=myUser"` **DEPRECATED** passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
 * `-e "UMLS_PASSWORD=myPass"` **DEPRECATED** passes the UMLS password as an environment variable.  This is required to download value sets for execution.
 * `-e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb"` passes the max request size allowed as an environment variable.  This flag is optional and defaults to 1mb if not passed in.
