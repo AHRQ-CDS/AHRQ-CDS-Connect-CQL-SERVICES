@@ -45,15 +45,29 @@ To use this project in a development environment, you should perform the followi
 
 The CQL Services require a free Unified Medical Language System (UMLS) account from the National Library of Medicine (NLM).  If you do not yet have an account, [sign up here](https://uts.nlm.nih.gov//license.html).
 
-Once you have your NLM credentials, you must assign them to the `UMLS_USER_NAME` and `UMLS_PASSWORD` environment variables.
+Once you have your NLM credentials, you must assign your API Key to the `UMLS_API_KEY` environment variable.  Your API Key may be found in your [UMLS Profile](https://uts.nlm.nih.gov//uts.html#profile).
+
+Alternatively, you may set the `UMLS_USER_NAME` and `UMLS_PASSWORD` environment variables.  If all three environment variables are present, the `UMLS_API_KEY` will be used.
+
+**NOTE:** As of January 1 2021, NLM will no longer accept username and password for authentication.  You MUST use an API Key to download value sets from VSAC after this date.
 
 Mac/Linux:
+```
+$ export UMLS_API_KEY=myapikey
+```
+
+Alternative Mac/Linux (deprecated, expires Jan 1 2021):
 ```
 $ export UMLS_USER_NAME=myusername
 $ export UMLS_PASSWORD=mypassword
 ```
 
 Windows:
+```
+> set UMLS_API_KEY=myapikey
+```
+
+Alternative Windows (deprecated, expires Jan 1 2021):
 ```
 > set UMLS_USER_NAME=myusername
 > set UMLS_PASSWORD=mypassword
@@ -206,6 +220,11 @@ $ docker build -t cql-services .
 
 To ceate and run a `cql-services` container:
 ```
+$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_API_KEY=myKey" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
+```
+
+Alternatively, you may pass UMLS user name and password credentials (deprecated, expires Jan 1 2021):
+```
 $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
 ```
 
@@ -213,8 +232,9 @@ $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e
 * `--name cql-services` gives the container a name by which it can be referred to via other Docker commands.
 * `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
 * `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
-* `-e "UMLS_USER_NAME=myUser"` passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
-* `-e "UMLS_PASSWORD=myPass"` passes the UMLS password as an environment variable.  This is required to download value sets for execution.
+* `-e "UMLS_API_KEY=apiKey"` passes the UMLS API Key as an environment variable.  This is required, and the preferred credential to download value sets for execution.
+* `-e "UMLS_USER_NAME=myUser"` **DEPRECATED** passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
+* `-e "UMLS_PASSWORD=myPass"` **DEPRECATED** passes the UMLS password as an environment variable.  This is required to download value sets for execution.
 * `-e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb"` passes the max request size allowed as an environment variable.  This flag is optional and defaults to 1mb if not passed in.
 * `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
 * `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
