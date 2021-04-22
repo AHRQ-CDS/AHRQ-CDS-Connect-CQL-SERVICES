@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:8-alpine
+FROM keymetrics/pm2:12-alpine
 
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
