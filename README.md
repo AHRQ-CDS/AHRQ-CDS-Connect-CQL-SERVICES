@@ -125,7 +125,7 @@ This service is packaged with the [Statin Use for Primary Prevention of CVD in A
 
 To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _config/libraries_ folder or any subfolder within it.
 
-_NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, and 4.0.0 data models.  They will not work with CQL that uses any other data models._
+_NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, 4.0.0, and 4.0.1 data models.  They will not work with CQL that uses any other data models._
 
 ## Adding CQL Hooks
 

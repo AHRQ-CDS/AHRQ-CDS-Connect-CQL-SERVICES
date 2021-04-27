@@ -18,8 +18,8 @@
     }],
     "cql": {
       "library": {
-        "id": "Condition_and_Medication_Count_FHIRv400",
-        "version": "0.0.1"
+        "id": "Condition_and_Medication_Count_FHIRv401",
+        "version": "0.0.2"
       }
     }
   }

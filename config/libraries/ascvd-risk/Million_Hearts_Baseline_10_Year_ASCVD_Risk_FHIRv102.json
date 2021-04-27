@@ -1,5 +1,9 @@
 {
    "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
       "identifier" : {
          "id" : "Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv102",
          "version" : "1.0.2"
@@ -132,6 +136,11 @@
             "code" : [ {
                "name" : "Tobacco smoking status code"
             } ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
          } ]
       },
       "statements" : {
@@ -290,9 +299,14 @@
                         "where" : {
                            "type" : "Equal",
                            "operand" : [ {
-                              "path" : "url",
-                              "scope" : "Ext",
-                              "type" : "Property"
+                              "name" : "ToString",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "url",
+                                 "scope" : "Ext",
+                                 "type" : "Property"
+                              } ]
                            }, {
                               "valueType" : "{urn:hl7-org:elm-types:r1}String",
                               "value" : "http://hl7.org/fhir/StructureDefinition/us-core-race",
@@ -310,16 +324,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Race",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Race",
+                        "type" : "ExpressionRef"
                      }
                   }
                },
@@ -348,16 +358,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Race",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Race",
+                        "type" : "ExpressionRef"
                      }
                   }
                },
@@ -386,16 +392,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Race",
-                           "type" : "ExpressionRef"
-                        }
+                        "name" : "Race",
+                        "type" : "ExpressionRef"
                      }
                   }
                },
@@ -427,22 +429,18 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "path" : "value",
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "gender",
                            "type" : "Property",
                            "source" : {
-                              "path" : "gender",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
                            }
                         }
                      }
@@ -482,22 +480,18 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "path" : "value",
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "gender",
                            "type" : "Property",
                            "source" : {
-                              "path" : "gender",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
                            }
                         }
                      }
@@ -537,22 +531,18 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "path" : "value",
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "gender",
                            "type" : "Property",
                            "source" : {
-                              "path" : "gender",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "Patient",
+                              "type" : "ExpressionRef"
                            }
                         }
                      }
@@ -598,6 +588,7 @@
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Observation",
                         "codeProperty" : "code",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Systolic Blood Pressure",
@@ -618,28 +609,24 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Equal",
-                     "operand" : [ {
-                        "path" : "unit",
-                        "type" : "Property",
-                        "source" : {
-                           "name" : "QuantityValue",
-                           "libraryName" : "C3F",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "MostRecentValidSystolicBPReading",
-                              "type" : "ExpressionRef"
-                           } ]
-                        }
-                     }, {
-                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                        "value" : "mm[Hg]",
-                        "type" : "Literal"
-                     } ]
-                  }
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "path" : "unit",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "QuantityValue",
+                        "libraryName" : "C3F",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "MostRecentValidSystolicBPReading",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "mm[Hg]",
+                     "type" : "Literal"
+                  } ]
                },
                "then" : {
                   "name" : "QuantityValue",
@@ -701,6 +688,7 @@
                "operand" : [ {
                   "dataType" : "{http://hl7.org/fhir}Observation",
                   "codeProperty" : "code",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "Total Cholesterol Laboratory Test",
@@ -709,6 +697,7 @@
                }, {
                   "dataType" : "{http://hl7.org/fhir}Observation",
                   "codeProperty" : "code",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "Total Cholesterol LOINC",
@@ -804,6 +793,7 @@
                "operand" : [ {
                   "dataType" : "{http://hl7.org/fhir}Observation",
                   "codeProperty" : "code",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "HDL-C Laboratory Test",
@@ -812,6 +802,7 @@
                }, {
                   "dataType" : "{http://hl7.org/fhir}Observation",
                   "codeProperty" : "code",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "High Density Lipoprotein (HDL) LOINC",
@@ -942,14 +933,10 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "IsNull",
                   "operand" : {
-                     "type" : "IsNull",
-                     "operand" : {
-                        "name" : "MostRecentValidSmokingStatus",
-                        "type" : "ExpressionRef"
-                     }
+                     "name" : "MostRecentValidSmokingStatus",
+                     "type" : "ExpressionRef"
                   }
                },
                "then" : {
@@ -966,7 +953,8 @@
                      "type" : "ExpressionRef"
                   },
                   "valueset" : {
-                     "name" : "Current Tobacco Smoker"
+                     "name" : "Current Tobacco Smoker",
+                     "type" : "ValueSetRef"
                   }
                }
             }
@@ -1028,6 +1016,7 @@
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
                         "codeProperty" : "code",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Diabetes",
@@ -1044,12 +1033,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "HasDiabetes",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "HasDiabetes",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -1079,6 +1064,7 @@
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
                         "codeProperty" : "code",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Hypertension",
@@ -1103,6 +1089,7 @@
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}MedicationStatement",
                         "codeProperty" : "medicationCodeableConcept",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Anti-Hypertensive Pharmacologic Therapy",
@@ -1119,6 +1106,7 @@
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}MedicationOrder",
                         "codeProperty" : "medicationCodeableConcept",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Anti-Hypertensive Pharmacologic Therapy",
@@ -1149,12 +1137,8 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "BloodPressureIsTreated",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "BloodPressureIsTreated",
+                  "type" : "ExpressionRef"
                },
                "then" : {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
@@ -2010,27 +1994,23 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "And",
-                     "operand" : [ {
-                        "type" : "Not",
+                  "type" : "And",
+                  "operand" : [ {
+                     "type" : "Not",
+                     "operand" : {
+                        "type" : "IsNull",
                         "operand" : {
-                           "type" : "IsNull",
-                           "operand" : {
-                              "name" : "Params",
-                              "type" : "ExpressionRef"
-                           }
-                        }
-                     }, {
-                        "type" : "Not",
-                        "operand" : {
-                           "name" : "HasMissingOrOldData",
+                           "name" : "Params",
                            "type" : "ExpressionRef"
                         }
-                     } ]
-                  }
+                     }
+                  }, {
+                     "type" : "Not",
+                     "operand" : {
+                        "name" : "HasMissingOrOldData",
+                        "type" : "ExpressionRef"
+                     }
+                  } ]
                },
                "then" : {
                   "type" : "Sum",
@@ -2419,14 +2399,10 @@
                      "element" : [ {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsFalse",
                            "operand" : {
-                              "type" : "IsFalse",
-                              "operand" : {
-                                 "name" : "InDemographic",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "InDemographic",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2444,20 +2420,16 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
+                              "precision" : "Year",
+                              "type" : "CalculateAge",
                               "operand" : {
-                                 "precision" : "Year",
-                                 "type" : "CalculateAge",
-                                 "operand" : {
-                                    "path" : "birthDate.value",
-                                    "type" : "Property",
-                                    "source" : {
-                                       "name" : "Patient",
-                                       "type" : "ExpressionRef"
-                                    }
+                                 "path" : "birthDate.value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "Patient",
+                                    "type" : "ExpressionRef"
                                  }
                               }
                            }
@@ -2477,14 +2449,10 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "name" : "Race",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "Race",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2502,29 +2470,25 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
-                           "operand" : {
-                              "type" : "Or",
-                              "operand" : [ {
-                                 "type" : "IsNull",
-                                 "operand" : {
-                                    "path" : "value",
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "IsNull",
+                              "operand" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "gender",
                                     "type" : "Property",
                                     "source" : {
-                                       "path" : "gender",
-                                       "type" : "Property",
-                                       "source" : {
-                                          "name" : "Patient",
-                                          "type" : "ExpressionRef"
-                                       }
+                                       "name" : "Patient",
+                                       "type" : "ExpressionRef"
                                     }
                                  }
-                              }, {
-                                 "name" : "IsOtherGender",
-                                 "type" : "ExpressionRef"
-                              } ]
-                           }
+                              }
+                           }, {
+                              "name" : "IsOtherGender",
+                              "type" : "ExpressionRef"
+                           } ]
                         },
                         "then" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -2541,14 +2505,10 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "name" : "MostRecentValidTotalCholesterolResult",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "MostRecentValidTotalCholesterolResult",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2566,14 +2526,10 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "name" : "MostRecentValidHDLResult",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "MostRecentValidHDLResult",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2591,14 +2547,10 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "name" : "MostRecentValidSystolicBPResult",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "MostRecentValidSystolicBPResult",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2616,14 +2568,10 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "IsNull",
                            "operand" : {
-                              "type" : "IsNull",
-                              "operand" : {
-                                 "name" : "IsSmoker",
-                                 "type" : "ExpressionRef"
-                              }
+                              "name" : "IsSmoker",
+                              "type" : "ExpressionRef"
                            }
                         },
                         "then" : {
@@ -2666,12 +2614,8 @@
                      "element" : [ {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
-                           "operand" : {
-                              "name" : "IsOtherRace",
-                              "type" : "ExpressionRef"
-                           }
+                           "name" : "IsOtherRace",
+                           "type" : "ExpressionRef"
                         },
                         "then" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}String",
@@ -2688,20 +2632,16 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "Not",
                            "operand" : {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "In",
-                                 "operand" : [ {
-                                    "name" : "MostRecentValidTotalCholesterolResult",
-                                    "type" : "ExpressionRef"
-                                 }, {
-                                    "name" : "AllowedTotalCholesterolRange",
-                                    "type" : "ExpressionRef"
-                                 } ]
-                              }
+                              "type" : "In",
+                              "operand" : [ {
+                                 "name" : "MostRecentValidTotalCholesterolResult",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "AllowedTotalCholesterolRange",
+                                 "type" : "ExpressionRef"
+                              } ]
                            }
                         },
                         "then" : {
@@ -2739,20 +2679,16 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "Not",
                            "operand" : {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "In",
-                                 "operand" : [ {
-                                    "name" : "MostRecentValidHDLResult",
-                                    "type" : "ExpressionRef"
-                                 }, {
-                                    "name" : "AllowedHDLRange",
-                                    "type" : "ExpressionRef"
-                                 } ]
-                              }
+                              "type" : "In",
+                              "operand" : [ {
+                                 "name" : "MostRecentValidHDLResult",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "AllowedHDLRange",
+                                 "type" : "ExpressionRef"
+                              } ]
                            }
                         },
                         "then" : {
@@ -2790,20 +2726,16 @@
                      }, {
                         "type" : "If",
                         "condition" : {
-                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                           "type" : "As",
+                           "type" : "Not",
                            "operand" : {
-                              "type" : "Not",
-                              "operand" : {
-                                 "type" : "In",
-                                 "operand" : [ {
-                                    "name" : "MostRecentValidSystolicBPResult",
-                                    "type" : "ExpressionRef"
-                                 }, {
-                                    "name" : "AllowedSystolicBPRange",
-                                    "type" : "ExpressionRef"
-                                 } ]
-                              }
+                              "type" : "In",
+                              "operand" : [ {
+                                 "name" : "MostRecentValidSystolicBPResult",
+                                 "type" : "ExpressionRef"
+                              }, {
+                                 "name" : "AllowedSystolicBPRange",
+                                 "type" : "ExpressionRef"
+                              } ]
                            }
                         },
                         "then" : {

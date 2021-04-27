@@ -1,5 +1,9 @@
 {
    "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
       "identifier" : {
          "id" : "CDS_Connect_Commons_for_FHIRv102",
          "version" : "1.0.0"
@@ -34,16 +38,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Cpt",
-                           "type" : "OperandRef"
-                        }
+                        "name" : "Cpt",
+                        "type" : "OperandRef"
                      }
                   }
                },
@@ -79,16 +79,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Pd",
-                           "type" : "OperandRef"
-                        }
+                        "name" : "Pd",
+                        "type" : "OperandRef"
                      }
                   }
                },
@@ -150,16 +146,12 @@
             "expression" : {
                "type" : "If",
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
+                  "type" : "Not",
                   "operand" : {
-                     "type" : "Not",
+                     "type" : "IsNull",
                      "operand" : {
-                        "type" : "IsNull",
-                        "operand" : {
-                           "name" : "Qty",
-                           "type" : "OperandRef"
-                        }
+                        "name" : "Qty",
+                        "type" : "OperandRef"
                      }
                   }
                },

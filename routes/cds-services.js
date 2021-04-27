@@ -158,9 +158,10 @@ function call(req, res, next) {
   case '1.0.2': patientSource = fhir.PatientSource.FHIRv102(); break;
   case '3.0.0': patientSource = fhir.PatientSource.FHIRv300(); break;
   case '4.0.0': patientSource = fhir.PatientSource.FHIRv400(); break;
+  case '4.0.1': patientSource = fhir.PatientSource.FHIRv401(); break;
   default:
     logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
-    sendError(res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2, 3.0.0, or 4.0.0`);
+    sendError(res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2, 3.0.0, 4.0.0, or 4.0.1`);
     return;
   }
 
