@@ -183,7 +183,7 @@ The following is an example of the hook configuration for the Statin Use artifac
     "cql": {
       "library": {
         "id": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-        "version": "1.0.1"
+        "version": "1.1.0"
       }
     }
   }
@@ -279,7 +279,7 @@ strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
 x-xss-protection : 1; mode=block
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
 content-type : application/json; charset=utf-8
 content-length : 769
 etag : W/"301-U7SqQJffZDXLckKHLa24ZA"
@@ -289,7 +289,7 @@ connection : close
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1.0.1"
+    "version": "1.1.0"
   },
   "returnExpressions": [
     "Recommendation",
@@ -439,7 +439,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
+    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
     --message test/examples/exec/DSTU2/unhealthy_patient.json
 
   Options:
