@@ -209,7 +209,8 @@ function call(req, res, next) {
 
     // Check the condition
     if (cardCfg.conditionExpression != null) {
-      if (!pResults.hasOwnProperty(cardCfg.conditionExpression.split('.')[0])) {
+      const hasConditionExpression = Object.prototype.hasOwnProperty.call(pResults, cardCfg.conditionExpression.split('.')[0]);
+      if (!hasConditionExpression) {
         sendError(res, 500, 'Hook configuration refers to non-existent conditionExpression');
         return;
       }

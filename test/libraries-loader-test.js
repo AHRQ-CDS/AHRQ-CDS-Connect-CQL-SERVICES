@@ -11,7 +11,7 @@ describe('libraries-loader', () => {
   describe('#all()', () => {
     it('should return all libraries', () => {
       const libs = libsLoader.get().all();
-      expect(libs).length.to.be(2);
+      expect(libs).to.have.length(2);
       expect(libs.some(l => {
         const identifier = l.source.library.identifier;
         return identifier.id === 'LazyChecker' && identifier.version === '1.0.0';
