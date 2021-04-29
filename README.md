@@ -125,7 +125,7 @@ This service is packaged with the [Statin Use for Primary Prevention of CVD in A
 
 To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _config/libraries_ folder or any subfolder within it.
 
-_NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, and 4.0.0 data models.  They will not work with CQL that uses any other data models._
+_NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, 4.0.0, and 4.0.1 data models.  They will not work with CQL that uses any other data models._
 
 ## Adding CQL Hooks
 
@@ -183,7 +183,7 @@ The following is an example of the hook configuration for the Statin Use artifac
     "cql": {
       "library": {
         "id": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-        "version": "1.0.1"
+        "version": "1.1.0"
       }
     }
   }
@@ -279,7 +279,7 @@ strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
 x-xss-protection : 1; mode=block
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
+location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
 content-type : application/json; charset=utf-8
 content-length : 769
 etag : W/"301-U7SqQJffZDXLckKHLa24ZA"
@@ -289,7 +289,7 @@ connection : close
 {
   "library": {
     "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1.0.1"
+    "version": "1.1.0"
   },
   "returnExpressions": [
     "Recommendation",
@@ -439,7 +439,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.0.1
+    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
     --message test/examples/exec/DSTU2/unhealthy_patient.json
 
   Options:

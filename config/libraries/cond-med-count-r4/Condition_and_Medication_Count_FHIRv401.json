@@ -1,8 +1,12 @@
 {
    "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
       "identifier" : {
-         "id" : "Condition_and_Medication_Count_FHIRv400",
-         "version" : "0.0.1"
+         "id" : "Condition_and_Medication_Count_FHIRv401",
+         "version" : "0.0.2"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -15,14 +19,14 @@
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "4.0.0"
+            "version" : "4.0.1"
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "FHIRHelpers",
             "path" : "FHIRHelpers",
-            "version" : "4.0.0"
+            "version" : "4.0.1"
          } ]
       },
       "codeSystems" : {
@@ -53,6 +57,11 @@
             } ]
          } ]
       },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient"
+         } ]
+      },
       "statements" : {
          "def" : [ {
             "name" : "Patient",
@@ -61,6 +70,7 @@
                "type" : "SingletonFrom",
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Patient",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/Patient",
                   "type" : "Retrieve"
                }
             }
@@ -76,6 +86,7 @@
                      "alias" : "C",
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "type" : "Retrieve"
                      }
                   } ],
@@ -106,6 +117,7 @@
                "type" : "Count",
                "source" : {
                   "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
                   "type" : "Retrieve"
                }
             }

@@ -174,12 +174,22 @@
       "type": "searchset",
       "entry": []
     },
+    "Encounter": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": []
+    },
     "MedicationStatement": {
       "resourceType": "Bundle",
       "type": "searchset",
       "entry": []
     },
     "MedicationOrder": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": []
+    },
+    "MedicationDispense": {
       "resourceType": "Bundle",
       "type": "searchset",
       "entry": []
