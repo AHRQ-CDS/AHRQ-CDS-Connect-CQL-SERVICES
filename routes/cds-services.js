@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
 const fhir = require('cql-exec-fhir');
+const fhirclient  = require('fhirclient');
 const cloneDeep = require('lodash/cloneDeep');
 const isPlainObject = require('lodash/isPlainObject');
 const csLoader = require('../lib/code-service-loader');
@@ -124,27 +125,49 @@ function valuesetter(req, res, next) {
  * Route handler that handles a service call.
  * @see {@link https://cds-hooks.org/specification/1.0/#calling-a-cds-service|Calling a CDS Service}
  */
-function call(req, res, next) {
+async function call(req, res, next) {
   const hook = res.locals.hook;
 
-  // Build up a single bundle representing all data, while also checking all prefetch queries are supplied
+  // Build up a single bundle representing all data
   const bundle = {
     resourceType: 'Bundle',
     type: 'collection',
     entry: []
   };
   if (hook.prefetch) {
+    // Create a FHIR client in case we need to call out to the FHIR server
+    const client = getFHIRClient(req, res);
+    const searchRequests = [];
+    // Iterate through the prefetch keys to determine if they are supplied or if we need to query for the data
     for (const key of Object.keys(hook.prefetch)) {
       const pf = req.body.prefetch[key];
-      if (!pf) {
-        res.sendStatus(412);
-        return;
+      if (typeof pf === 'undefined') {
+        // The prefetch was not provided, so use the FHIR client (if available) to request the data
+        if (client == null) {
+          res.sendStatus(412);
+          return;
+        }
+        let searchURL = hook.prefetch[key];
+        // Replace the context placeholders in the queries
+        Object.keys(req.body.context || {}).forEach(contextKey => {
+          searchURL = searchURL.split(`{{context.${contextKey}}}`).join(req.body.context[contextKey]);
+        });
+        // Perform the search and add the response to the bundle
+        const searchRequest = client.request(searchURL, { pageLimit: 0, flat: true })
+          .then(result => addResponseToBundle(result, bundle));
+        // Push the promise onto the array so we can await it later
+        searchRequests.push(searchRequest);
+      } else {
+        // The prefetch was supplied so just add it directly to the bundle
+        addResponseToBundle(pf, bundle);
       }
-      if (key === 'Patient') {
-        bundle.entry.push({ resource: pf });
-      } else if (pf.entry) {
-        pf.entry.forEach(e => bundle.entry.push({ resource: e.resource }));
-      }
+    }
+    // Wait for any open requests to finish, returning if there is an error
+    try {
+      await Promise.all(searchRequests);
+    } catch(err) {
+      res.sendStatus(412);
+      return;
     }
   }
 
@@ -241,6 +264,49 @@ function call(req, res, next) {
   res.json({
     cards
   });
+}
+
+function getFHIRClient(req, res) {
+  if (req.body.fhirServer) {
+    const state = {
+      serverUrl: req.body.fhirServer,
+    };
+    if (req.body.fhirAuthorization) {
+      const auth = req.body.fhirAuthorization;
+      Object.assign(state, {
+        clientId: auth.subject,
+        scope: auth.scope,
+        tokenResponse: {
+          token_type: auth.token_type,
+          scope: auth.scope,
+          client_id: auth.subject,
+          expires_in: auth.expires_in,
+          access_token: auth.access_token
+        }
+      });
+    }
+    return fhirclient(req, res).client(state);
+  }
+}
+
+function addResponseToBundle(response, bundle) {
+  if (response == null) {
+    // no results, do nothing
+  } else if (Array.isArray(response)) {
+    response.forEach(resource => {
+      bundle.entry.push({ resource });
+    });
+  } else if (response.resourceType === 'Bundle' && response.type === 'searchset') {
+    if (response.entry && response.entry.length > 0) {
+      response.entry.forEach(entry => {
+        if (entry != null && entry.resource != null) {
+          bundle.entry.push({ resource: entry.resource });
+        }
+      });
+    }
+  } else {
+    bundle.entry.push({ resource: response });
+  }
 }
 
 function interpolateVariables(arg, results) {

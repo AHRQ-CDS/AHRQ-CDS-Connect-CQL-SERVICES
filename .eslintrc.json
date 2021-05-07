@@ -1,7 +1,4 @@
 {
-    "parserOptions": {
-        "ecmaVersion": 6
-    },
     "rules": {
         "indent": ["error", 2],
         "linebreak-style": ["error", "unix"],
@@ -11,7 +8,7 @@
         "semi": ["error", "always"]
     },
     "env": {
-        "es6": true,
+        "es2017": true,
         "node": true,
         "mocha": true
     },
