@@ -1,6 +1,7 @@
 const path = require('path');
 const { expect } = require('chai');
 const request = require('supertest');
+const nock = require('nock');
 const app = require('../app');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
@@ -79,6 +80,46 @@ describe('hooks-api (version-agnostic)', () => {
           });
       });
 
+      it('should return a card for a lazy person (using fhirServer callback)', function(done) {
+        // Setup the network call to assert the correct headers and return the response
+        const call = getLazyPersonInvocation(version);
+        const options = {
+          reqheaders: {
+            accept: 'application/json',
+            Authorization: 'Bearer some-opaque-fhir-access-token'
+          },
+        };
+        nock('http://test:9080', options)
+          .get('/Condition?patient=1288992')
+          .reply(200, call.prefetch.Condition);
+
+        // delete the Condition prefetch to force a call to the FHIR server
+        delete call.prefetch.Condition;
+
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(call)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              cards: [
+                {
+                  summary: 'Laziness detected',
+                  indicator: 'info',
+                  detail: 'Get off the couch!',
+                  source: {
+                    label: 'My Imagination',
+                    url: 'https://example.org/my/imagination'
+                  }
+                }
+              ]
+            });
+            done();
+          });
+      });
+
       it('should return no cards for an active person', function(done) {
         request(app)
           .post('/cds-services/lazy-checker')
@@ -94,10 +135,39 @@ describe('hooks-api (version-agnostic)', () => {
           });
       });
 
-      it('should return an error if the prefetch is missing a prefetch token', function(done) {
+      it('should not consider null prefetch values as missing data', function(done) {
         request(app)
           .post('/cds-services/lazy-checker')
-          .send(getMissingDataInvocation(version))
+          .send(getNullPrefetchValuesInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              cards: []
+            });
+            done();
+          });
+      });
+
+      it('should return an error if the prefetch is missing a prefetch token and the fhir server returns an error', function(done) {
+        nock('http://test:9080')
+          .get('/Condition?patient=1288992')
+          .reply(500);
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(getMissingPrefetchKeysInvocation(version))
+          .set('Accept', 'application/json')
+          .expect(412, done);
+      });
+
+      it('should return an error if the prefetch is missing a prefetch token and no fhirServer is specified', function(done) {
+        const call = getMissingPrefetchKeysInvocation(version);
+        delete call.fhirServer;
+        delete call.fhirAuthorization;
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(call)
           .set('Accept', 'application/json')
           .expect(412, done);
       });
@@ -107,4 +177,5 @@ describe('hooks-api (version-agnostic)', () => {
 
 const getLazyPersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/lazy_person_invocation.json`);
 const getActivePersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/active_person_invocation.json`);
-const getMissingDataInvocation = (version) => require(`./fixtures/hooks-patients/${version}/missing_data_invocation.json`);
+const getNullPrefetchValuesInvocation = (version) => require(`./fixtures/hooks-patients/${version}/null_prefetch_values_invocation.json`);
+const getMissingPrefetchKeysInvocation = (version) => require(`./fixtures/hooks-patients/${version}/missing_prefetch_keys_invocation.json`);

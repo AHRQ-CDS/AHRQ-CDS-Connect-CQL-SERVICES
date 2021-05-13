@@ -194,9 +194,9 @@ _**Note**: No checking is performed by CQL Services that any hook configurations
 
 ### CQL Hooks Data Exchange
 
-The CDS Hooks API allows two ways of getting patient data: via prefetch data sent with the service call or via direct access to the FHIR server.  CQL Hooks only supports the "prefetch" method.  When CQL is loaded for a CQL Hooks service, the CQL will be analyzed to determine what FHIR resources it needs, and the prefetch requirements will be dynamically generated into the services metadata.
+The CDS Hooks API allows two ways of getting patient data: via prefetch data sent with the service call or via direct access to the FHIR server.  When CQL is loaded for a CQL Hooks service, the CQL will be analyzed to determine what FHIR resources it needs, and the prefetch requirements will be dynamically generated into the services metadata.
 
-If a CQL Hooks service is invoked without the required prefetch data, an HTTP 412 (Precondition Failed) error will be returned.
+If a CQL Hooks service is invoked without the required prefetch data, CQL Services will attempt to query the FHIR server (specified in the request) for the data.  If it fails to retrieve the data from the FHIR server, then an HTTP 412 (Precondition Failed) error will be returned.
 
 _**Note**: This service does not attempt to decode and validate any JSON Web Tokens (JWT) sent along with any requests.  This means that all requests are implicitly trusted and that all calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
 
