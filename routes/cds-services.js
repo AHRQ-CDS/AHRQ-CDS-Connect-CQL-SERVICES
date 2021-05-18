@@ -140,7 +140,7 @@ async function call(req, res, next) {
     const searchRequests = [];
     // Iterate through the prefetch keys to determine if they are supplied or if we need to query for the data
     for (const key of Object.keys(hook.prefetch)) {
-      const pf = req.body.prefetch[key];
+      const pf = (req.body.prefetch || {})[key];
       if (typeof pf === 'undefined') {
         // The prefetch was not provided, so use the FHIR client (if available) to request the data
         if (client == null) {

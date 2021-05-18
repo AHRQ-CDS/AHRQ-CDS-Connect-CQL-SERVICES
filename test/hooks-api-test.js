@@ -102,6 +102,52 @@ describe('hooks-api (version-agnostic)', () => {
           .set('Accept', 'application/json')
           .expect(200)
           .end(function(err, res) {
+            nock.isDone();
+            if (err) return done(err);
+            expect(res.body).to.eql({
+              cards: [
+                {
+                  summary: 'Laziness detected',
+                  indicator: 'info',
+                  detail: 'Get off the couch!',
+                  source: {
+                    label: 'My Imagination',
+                    url: 'https://example.org/my/imagination'
+                  }
+                }
+              ]
+            });
+            done();
+          });
+      });
+
+      it('should return a card when the body contains no prefetch at all (using fhirServer callback)', function(done) {
+        // Setup the network call to assert the correct headers and return the response
+        const call = getLazyPersonInvocation(version);
+        const options = {
+          reqheaders: {
+            accept: 'application/json',
+            Authorization: 'Bearer some-opaque-fhir-access-token'
+          },
+        };
+        nock('http://test:9080', options)
+          .get('/Patient/1288992')
+          .reply(200, call.prefetch.Patient)
+          .get('/Condition?patient=1288992')
+          .reply(200, call.prefetch.Condition)
+          .get('/Observation?patient=1288992')
+          .reply(200, call.prefetch.Observation);
+
+        // delete the prefetch from the body
+        delete call.prefetch;
+
+        request(app)
+          .post('/cds-services/lazy-checker')
+          .send(call)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            nock.isDone();
             if (err) return done(err);
             expect(res.body).to.eql({
               cards: [
