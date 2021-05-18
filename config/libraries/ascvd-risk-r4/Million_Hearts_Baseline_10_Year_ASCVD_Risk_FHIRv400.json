@@ -5,8 +5,8 @@
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv102",
-         "version" : "1.0.2"
+         "id" : "Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv400",
+         "version" : "1.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -19,14 +19,14 @@
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "1.0.2"
+            "version" : "4.0.0"
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "C3F",
-            "path" : "CDS_Connect_Commons_for_FHIRv102",
-            "version" : "1.0.0"
+            "path" : "CDS_Connect_Commons_for_FHIRv400",
+            "version" : "1.0.1"
          }, {
             "localIdentifier" : "Convert",
             "path" : "CDS_Connect_Conversions",
@@ -34,7 +34,7 @@
          }, {
             "localIdentifier" : "FHIRHelpers",
             "path" : "FHIRHelpers",
-            "version" : "1.0.2"
+            "version" : "4.0.0"
          } ]
       },
       "codeSystems" : {
@@ -43,66 +43,66 @@
             "id" : "http://loinc.org",
             "accessLevel" : "Public"
          }, {
-            "name" : "HL7 v3 Race",
-            "id" : "http://hl7.org/fhir/v3/Race",
+            "name" : "Race & Ethnicity - CDC",
+            "id" : "urn:oid:2.16.840.1.113883.6.238",
             "accessLevel" : "Public"
          } ]
       },
       "valueSets" : {
          "def" : [ {
             "name" : "Total Cholesterol Laboratory Test",
-            "id" : "2.16.840.1.113883.3.464.1003.104.11.1033",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.11.1033",
             "accessLevel" : "Public"
          }, {
             "name" : "Total Cholesterol LOINC",
-            "id" : "2.16.840.1.113883.3.600.877",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.877",
             "accessLevel" : "Public"
          }, {
             "name" : "HDL-C Laboratory Test",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.12.1012",
             "accessLevel" : "Public"
          }, {
             "name" : "High Density Lipoprotein (HDL) LOINC",
-            "id" : "2.16.840.1.113883.3.600.873",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.873",
             "accessLevel" : "Public"
          }, {
             "name" : "Systolic Blood Pressure",
-            "id" : "2.16.840.1.113762.1.4.1104.2",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.2",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "Hypertension",
-            "id" : "2.16.840.1.113762.1.4.1032.9",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.9",
             "accessLevel" : "Public"
          }, {
             "name" : "Anti-Hypertensive Pharmacologic Therapy",
-            "id" : "2.16.840.1.113883.3.600.1476",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1476",
             "accessLevel" : "Public"
          }, {
             "name" : "Current Tobacco Smoker",
-            "id" : "2.16.840.1.113883.3.600.2390",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.2390",
             "accessLevel" : "Public"
          } ]
       },
       "codes" : {
          "def" : [ {
-            "name" : "White code",
+            "name" : "White",
             "id" : "2106-3",
             "display" : "White",
             "accessLevel" : "Public",
             "codeSystem" : {
-               "name" : "HL7 v3 Race"
+               "name" : "Race & Ethnicity - CDC"
             }
          }, {
-            "name" : "Black or African American code",
+            "name" : "Black or African American",
             "id" : "2054-5",
             "display" : "Black or African American",
             "accessLevel" : "Public",
             "codeSystem" : {
-               "name" : "HL7 v3 Race"
+               "name" : "Race & Ethnicity - CDC"
             }
          }, {
             "name" : "Tobacco smoking status code",
@@ -112,29 +112,40 @@
             "codeSystem" : {
                "name" : "LOINC"
             }
+         }, {
+            "name" : "Blood pressure panel code",
+            "id" : "85354-9",
+            "display" : "Blood pressure panel with all children optional",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Blood pressure panel alternate code",
+            "id" : "55284-4",
+            "display" : "Blood Pressure",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
          } ]
       },
       "concepts" : {
          "def" : [ {
-            "name" : "White",
-            "display" : "White",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "White code"
-            } ]
-         }, {
-            "name" : "Black or African American",
-            "display" : "Black or African American",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Black or African American code"
-            } ]
-         }, {
             "name" : "Tobacco smoking status",
             "display" : "Tobacco smoking status",
             "accessLevel" : "Public",
             "code" : [ {
                "name" : "Tobacco smoking status code"
+            } ]
+         }, {
+            "name" : "Blood pressure panel",
+            "display" : "Blood pressure panel with all children optional",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Blood pressure panel code"
+            }, {
+               "name" : "Blood pressure panel alternate code"
             } ]
          } ]
       },
@@ -154,6 +165,114 @@
                   "type" : "Retrieve"
                }
             }
+         }, {
+            "name" : "ToQuantity",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "type" : "IsNull",
+                  "operand" : {
+                     "name" : "quantity",
+                     "type" : "OperandRef"
+                  }
+               },
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               },
+               "else" : {
+                  "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "Instance",
+                  "element" : [ {
+                     "name" : "value",
+                     "value" : {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "quantity",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "name" : "unit",
+                     "value" : {
+                        "type" : "Coalesce",
+                        "operand" : [ {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "unit",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "quantity",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        }, {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "quantity",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "quantity",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Quantity",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "QuantityValue",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "name" : "ToQuantity",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "strict" : false,
+                  "type" : "As",
+                  "operand" : {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Obs",
+                        "type" : "OperandRef"
+                     }
+                  },
+                  "asTypeSpecifier" : {
+                     "name" : "{http://hl7.org/fhir}Quantity",
+                     "type" : "NamedTypeSpecifier"
+                  }
+               } ]
+            },
+            "operand" : [ {
+               "name" : "Obs",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Observation",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
          }, {
             "name" : "AdjustedResult",
             "context" : "Patient",
@@ -270,50 +389,146 @@
                } ]
             }
          }, {
+            "name" : "RaceExtension",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "type" : "Query",
+                  "source" : [ {
+                     "alias" : "Ext",
+                     "expression" : {
+                        "path" : "extension",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef"
+                        }
+                     }
+                  } ],
+                  "relationship" : [ ],
+                  "where" : {
+                     "type" : "Equal",
+                     "operand" : [ {
+                        "name" : "ToString",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "url",
+                           "scope" : "Ext",
+                           "type" : "Property"
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                        "type" : "Literal"
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "RaceOMBCategoryCodes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Ext",
+                  "expression" : {
+                     "path" : "extension",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "RaceExtension",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "name" : "ToString",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "path" : "url",
+                        "scope" : "Ext",
+                        "type" : "Property"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "ombCategory",
+                     "type" : "Literal"
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "name" : "ToCode",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "value",
+                           "scope" : "Ext",
+                           "type" : "Property"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Coding",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
             "name" : "Race",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "NullSafeToConcept",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
+               "type" : "Coalesce",
                "operand" : [ {
-                  "path" : "valueCodeableConcept",
-                  "type" : "Property",
+                  "type" : "First",
                   "source" : {
-                     "type" : "SingletonFrom",
-                     "operand" : {
-                        "type" : "Query",
-                        "source" : [ {
-                           "alias" : "Ext",
-                           "expression" : {
-                              "path" : "extension",
-                              "type" : "Property",
-                              "source" : {
-                                 "name" : "Patient",
-                                 "type" : "ExpressionRef"
-                              }
-                           }
-                        } ],
-                        "relationship" : [ ],
-                        "where" : {
-                           "type" : "Equal",
-                           "operand" : [ {
-                              "name" : "ToString",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "path" : "url",
-                                 "scope" : "Ext",
-                                 "type" : "Property"
-                              } ]
-                           }, {
-                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                              "value" : "http://hl7.org/fhir/StructureDefinition/us-core-race",
-                              "type" : "Literal"
-                           } ]
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "R",
+                        "expression" : {
+                           "name" : "RaceOMBCategoryCodes",
+                           "type" : "ExpressionRef"
                         }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Equivalent",
+                           "operand" : [ {
+                              "name" : "R",
+                              "type" : "AliasRef"
+                           }, {
+                              "name" : "White",
+                              "type" : "CodeRef"
+                           } ]
+                        }, {
+                           "type" : "Equivalent",
+                           "operand" : [ {
+                              "name" : "R",
+                              "type" : "AliasRef"
+                           }, {
+                              "name" : "Black or African American",
+                              "type" : "CodeRef"
+                           } ]
+                        } ]
                      }
+                  }
+               }, {
+                  "type" : "First",
+                  "source" : {
+                     "name" : "RaceOMBCategoryCodes",
+                     "type" : "ExpressionRef"
                   }
                } ]
             }
@@ -340,7 +555,7 @@
                      "type" : "ExpressionRef"
                   }, {
                      "name" : "White",
-                     "type" : "ConceptRef"
+                     "type" : "CodeRef"
                   } ]
                },
                "else" : {
@@ -374,7 +589,7 @@
                      "type" : "ExpressionRef"
                   }, {
                      "name" : "Black or African American",
-                     "type" : "ConceptRef"
+                     "type" : "CodeRef"
                   } ]
                },
                "else" : {
@@ -586,14 +801,30 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Observation",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Systolic Blood Pressure",
-                           "type" : "ValueSetRef"
-                        }
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Systolic Blood Pressure",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "codeComparator" : "~",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "path" : "codes",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Blood pressure panel",
+                                 "type" : "ConceptRef"
+                              }
+                           }
+                        } ]
                      }, {
                         "value" : 6,
                         "unit" : "years",
@@ -607,42 +838,106 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "If",
-               "condition" : {
-                  "type" : "Equal",
-                  "operand" : [ {
-                     "path" : "unit",
-                     "type" : "Property",
-                     "source" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "Result",
+                  "expression" : {
+                     "type" : "If",
+                     "condition" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "MostRecentValidSystolicBPReading",
+                                 "type" : "ExpressionRef"
+                              }
+                           } ]
+                        }, {
+                           "name" : "Blood pressure panel",
+                           "type" : "ConceptRef"
+                        } ]
+                     },
+                     "then" : {
+                        "type" : "SingletonFrom",
+                        "operand" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "C",
+                              "expression" : {
+                                 "path" : "component",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "MostRecentValidSystolicBPReading",
+                                    "type" : "ExpressionRef"
+                                 }
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "InValueSet",
+                              "code" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "code",
+                                    "scope" : "C",
+                                    "type" : "Property"
+                                 } ]
+                              },
+                              "valueset" : {
+                                 "name" : "Systolic Blood Pressure",
+                                 "type" : "ValueSetRef"
+                              }
+                           },
+                           "return" : {
+                              "expression" : {
+                                 "name" : "ToQuantity",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "strict" : false,
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "value",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    },
+                                    "asTypeSpecifier" : {
+                                       "name" : "{http://hl7.org/fhir}Quantity",
+                                       "type" : "NamedTypeSpecifier"
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     },
+                     "else" : {
                         "name" : "QuantityValue",
-                        "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "name" : "MostRecentValidSystolicBPReading",
                            "type" : "ExpressionRef"
                         } ]
                      }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Equal",
+                  "operand" : [ {
+                     "path" : "unit",
+                     "scope" : "Result",
+                     "type" : "Property"
                   }, {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
                      "value" : "mm[Hg]",
                      "type" : "Literal"
                   } ]
-               },
-               "then" : {
-                  "name" : "QuantityValue",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "name" : "MostRecentValidSystolicBPReading",
-                     "type" : "ExpressionRef"
-                  } ]
-               },
-               "else" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "As",
-                  "operand" : {
-                     "type" : "Null"
-                  }
                }
             }
          }, {
@@ -742,7 +1037,6 @@
                "type" : "FunctionRef",
                "operand" : [ {
                   "name" : "QuantityValue",
-                  "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
                      "name" : "MostRecentValidTotalCholesterolTest",
@@ -847,7 +1141,6 @@
                "type" : "FunctionRef",
                "operand" : [ {
                   "name" : "QuantityValue",
-                  "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
                      "name" : "MostRecentValidHDLTest",
@@ -1088,7 +1381,7 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                        "codeProperty" : "medicationCodeableConcept",
+                        "codeProperty" : "medication",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
@@ -1100,12 +1393,12 @@
                }, {
                   "type" : "Exists",
                   "operand" : {
-                     "name" : "ActiveMedicationOrder",
+                     "name" : "ActiveMedicationRequest",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                        "codeProperty" : "medicationCodeableConcept",
+                        "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                        "codeProperty" : "medication",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {

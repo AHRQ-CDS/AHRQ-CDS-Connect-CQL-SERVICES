@@ -35,3 +35,6 @@ npm-debug.log
 
 # vscode config
 .vscode
+
+# gradle temp files
+.gradle

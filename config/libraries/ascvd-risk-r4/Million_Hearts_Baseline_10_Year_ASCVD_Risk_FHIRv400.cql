@@ -5,33 +5,35 @@
 // provide enough specificity.  These decisions were made in the context of the CDS Connection Cholesterol Workgroup
 // and are documented in the logic and/or in the CDS Connect artifact metadata.
 //
-// Version 1.0.1 adds a statement to include the FHIRHelpers library.  Although this is not used directly by the logic,
-// it is needed to support implicit conversions from FHIR to CQL types in recent versions of the CQL-to-ELM translator.
+// Version 1.0.0 is a FHIR R4 port of Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv102 version '1.0.2'. In addition
+// to porting the data model, it also leverages new IGs and profiles, resulting in the following additional changes
+// from the DSTU2 version:
+// - Uses US Core v3.1.1 Race extension and associated codes / value sets
+// - Uses US Core v3.1.1 Smokingstatus profile and associated codes / value sets
+// - Uses FHIR core Blood Pressure profile (of which Systolic is a component)
+//   - NOTE: it also retains support for standalone Systolic BP observation
+// Additionally, the new URL-based value set identifier approach is used rather than just using the OIDs.
 //
-// Version 1.0.2 updates the CQL to reflect recent changes in CQL 1.2 Errata and CQL 1.3.  Those versions clarified that:
-// - `null in ValueSet` should result in `false` (previously, it was thought to result in `null`)
-// - `exists` returns `true` if there are any `non-null` elements in the list (previously, some interpreted that exists
-//    returned true if the list length was > 0, even if the list only contained nulls)
-// The updated logic ensures that the CQL results are as expected using the updated definitions (but should still work
-// with earlier versions as well).
+// WARNING: This R4 edition of the ASCVD risk calculator has not been piloted nor has it been formally reviewed.
+// It is provided for educational purposes only, to support the AMIA 2020 CDS Workshop exercises. Implementors
+// should thoroughly review and test this library before using it in a production environment.
 //
 // ## Source: [Estimating Longitudinal Risks and Benefits From Cardiovascular Preventive Therapies Among Medicare Patients: The Million Hearts Longitudinal ASCVD Risk Assessment Tool](http://circ.ahajournals.org/content/early/2016/11/03/CIR.0000000000000467)
 // ## CDS Connect artifact: [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10)
 
-library Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv102 version '1.0.2'
+library Million_Hearts_Baseline_10_Year_ASCVD_Risk_FHIRv400 version '1.0.0'
 
 // # Data model #
-// The FHIR DSTU2 model is preferred by CDS Connect artifacts due to its current adoption in Health IT products.
-using FHIR version '1.0.2'
+using FHIR version '4.0.0'
 
 // # Referenced libraries #
 
-// The CDS Connect Commons for FHIRv102 library provides functions representing commonly used CDS logic and patterns.
-include CDS_Connect_Commons_for_FHIRv102 version '1.0.0' called C3F
+// The CDS Connect Commons for FHIRv400 library provides functions representing commonly used CDS logic and patterns.
+include CDS_Connect_Commons_for_FHIRv400 version '1.0.1' called C3F
 // The CDS Connect Conversions library provides functions for converting between units.
 include CDS_Connect_Conversions version '1.0.1' called Convert
 // Include the FHIRHelpers library needed to assist implicit conversions in CQL-to-ELM translation
-include FHIRHelpers version '1.0.2' called FHIRHelpers
+include FHIRHelpers version '4.0.0' called FHIRHelpers
 
 // # Value sets and codes #
 // ## Code Systems ##
@@ -39,7 +41,7 @@ include FHIRHelpers version '1.0.2' called FHIRHelpers
 // Declare what code systems we are using to directly reference individual codes (not part of a value set)
 
 codesystem "LOINC": 'http://loinc.org' // '2.16.840.1.113883.6.1'
-codesystem "HL7 v3 Race": 'http://hl7.org/fhir/v3/Race' // '2.16.840.1.113883.5.104'
+codesystem "Race & Ethnicity - CDC": 'urn:oid:2.16.840.1.113883.6.238'
 
 // ## Value sets ##
 
@@ -50,24 +52,24 @@ codesystem "HL7 v3 Race": 'http://hl7.org/fhir/v3/Race' // '2.16.840.1.113883.5.
 
 // Using two existing Total-c value sets. Both contain unique LOINC codes that are appropriate to represent Total-c.
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.11.1033/expansion)
-valueset "Total Cholesterol Laboratory Test": '2.16.840.1.113883.3.464.1003.104.11.1033'
+valueset "Total Cholesterol Laboratory Test": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.11.1033'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.877/expansion)
-valueset "Total Cholesterol LOINC": '2.16.840.1.113883.3.600.877'
+valueset "Total Cholesterol LOINC": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.877'
 // Using two existing HDL-c value sets. Both contain unique LOINC codes that are appropriate to represent HDL-c.
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.104.12.1012/expansion)
-valueset "HDL-C Laboratory Test": '2.16.840.1.113883.3.464.1003.104.12.1012'
+valueset "HDL-C Laboratory Test": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.12.1012'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.873/expansion)
-valueset "High Density Lipoprotein (HDL) LOINC": '2.16.840.1.113883.3.600.873'
+valueset "High Density Lipoprotein (HDL) LOINC": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.873'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1104.2/expansion)
-valueset "Systolic Blood Pressure": '2.16.840.1.113762.1.4.1104.2'
+valueset "Systolic Blood Pressure": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1104.2'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.103.12.1001/expansion)
-valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
+valueset "Diabetes": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.9/expansion)
-valueset "Hypertension": '2.16.840.1.113762.1.4.1032.9'
+valueset "Hypertension": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.9'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.1476/expansion)
-valueset "Anti-Hypertensive Pharmacologic Therapy": '2.16.840.1.113883.3.600.1476'
+valueset "Anti-Hypertensive Pharmacologic Therapy": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.1476'
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.2390/expansion)
-valueset "Current Tobacco Smoker": '2.16.840.1.113883.3.600.2390'
+valueset "Current Tobacco Smoker": 'https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.2390'
 
 // ## Individual codes ##
 
@@ -75,25 +77,48 @@ valueset "Current Tobacco Smoker": '2.16.840.1.113883.3.600.2390'
 // a single code from a particular vocabulary standard used to represent a clinical concept. It is considered
 // best-practice not to create value sets containing a single code.
 
-// Using the race codes defined in the DAF valueset for the us-core-race extension
-// <http://hl7.org/fhir/DSTU2/daf/valueset-daf-race.html>
-code "White code": '2106-3' from "HL7 v3 Race" display 'White'
-code "Black or African American code": '2054-5' from "HL7 v3 Race" display 'Black or African American'
+// Using the race codes defined in the US Core Race extension and associated value set
+// <http://www.hl7.org/fhir/us/core/StructureDefinition-us-core-race.html>
+// <http://www.hl7.org/fhir/us/core/ValueSet-omb-race-category.html>
+code "White": '2106-3' from "Race & Ethnicity - CDC" display 'White'
+code "Black or African American": '2054-5' from "Race & Ethnicity - CDC" display 'Black or African American'
 
-// Using the smoking status code defined in the DAF Smoking Status profile
-// <http://hl7.org/fhir/DSTU2/daf/valueset-daf-observation-ccdasmokingstatus.html>
+// Using the smoking status code defined in the US Core Smokingstatus profile and associated value set.
+// <http://www.hl7.org/fhir/us/core/StructureDefinition-us-core-smokingstatus.html>
+// <http://www.hl7.org/fhir/us/core/ValueSet-us-core-smoking-status-observation-codes.html>
 code "Tobacco smoking status code": '72166-2' from "LOINC" display 'Tobacco smoking status'
 
+// Using the blood pressure panel code defined in FHIR Core Vital Signs profiles
+// <http://hl7.org/fhir/R4/bp.html>
+code "Blood pressure panel code": '85354-9' from "LOINC" display 'Blood pressure panel with all children optional'
+// And the one used by R4 patients in the SmartHealthIT FHIR server
+code "Blood pressure panel alternate code": '55284-4' from "LOINC" display 'Blood Pressure'
+
+
 // CQL currently requires concept declarations to contain references to code declarations.
-concept "White": { "White code" } display 'White'
-concept "Black or African American": { "Black or African American code" } display 'Black or African American'
 concept "Tobacco smoking status": { "Tobacco smoking status code" } display 'Tobacco smoking status'
+concept "Blood pressure panel": { "Blood pressure panel code", "Blood pressure panel alternate code" } display 'Blood pressure panel with all children optional'
 
 // # CDS logic #
 
 context Patient
 
 // ## Re-Usable Functions
+
+// The ToQuantity function in FHIRHelpers considers only the Quantity.unit, but we want to also consider the
+// code, since implementations are often encouraged to use the code (and unit is actually optional).
+define function ToQuantity(quantity FHIR.Quantity):
+  if quantity is null then
+    null
+  else
+    System.Quantity { value: quantity.value.value, unit: Coalesce(quantity.unit.value, quantity.code.value) }
+
+// The QuantityValue function in CDS_Connect_Commons uses FHIRHelper's ToQuantity function, which is limited in
+// that it does not consider the Quantity code. This should be updated in CDS_Connect_Commons, but until then we
+// provide our own implementation here that calls our own ToQuantity function.
+define function QuantityValue(Obs Observation):
+  ToQuantity(Obs.value as FHIR.Quantity)
+
 
 // The guideline indicates that for many results (e.g., Systolic BP, Total Cholesterol, etc.), if the actual value
 // is outside a certain range, then the closest boundary should be used.  This function accepts a result and an
@@ -125,27 +150,59 @@ define IsMale: if Patient.gender.value is not null then Patient.gender.value = '
 define IsFemale: if Patient.gender.value is not null then Patient.gender.value = 'female' else null
 define IsOtherGender: if Patient.gender.value is not null then not (IsMale or IsFemale) else null
 
-// Race: Using us-core-race extension as defined in the DAF profile on patient.
-// Allows at-most one race.
-// http://hl7.org/fhir/us/daf/2016Sep/daf-core-patient-definitions.html#daf-core-patient.Patient.race
-define Race:
-	C3F.NullSafeToConcept((singleton from (
+// RaceExtension: Using US Core Race extension as specfied in the US Core Patient profile.
+// Note that US Core allows only a single race extension.
+// <http://www.hl7.org/fhir/us/core/StructureDefinition-us-core-race.html>
+// <http://www.hl7.org/fhir/us/core/StructureDefinition-us-core-patient.html>
+define RaceExtension:
+	singleton from (
 		Patient.extension Ext
-		where Ext.url = 'http://hl7.org/fhir/StructureDefinition/us-core-race'
-	)).valueCodeableConcept)
+    // NOTE: if using CQL-to-ELM 1.3.x versions post 1.3.19, this needs to be Ext.url.value = ...
+		where Ext.url = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'
+	)
+
+// RaceOMBCategoryExtensions: Within the US Core Race Extension, up to five races may be simultaneously listed
+// using ombCategory sub-extensions. This expression finds them and returns their Coding values.
+define RaceOMBCategoryCodes:
+  // NOTE: if using CQL-to-ELM 1.3.x versions post 1.3.19, this needs to be Ext.url.value = ...
+	(RaceExtension.extension) Ext where Ext.url = 'ombCategory' return FHIRHelpers.ToCode(Ext.value as FHIR.Coding)
+
+// Race: Since the US Core extension allows for multiple races, but this logic operates on a single race, and since
+// this logic only branches on "White" and "Black or African American" races specifically, then if the data lists
+// "White" and/or "Black or African American", it will return the first one found; otherwise, it will return the
+// first race found no matter what it is.  If there are no races listed, it will return null.
+define Race:
+	Coalesce(
+    First(RaceOMBCategoryCodes R where R ~ "White" or R ~ "Black or African American"),
+    First(RaceOMBCategoryCodes)
+  )
 
 // The most recent verified (final or amended) systolic BP reading that is no more than six years old. Evaluation of
 // CVD risk is recommended every 4-6 years, along with the data requirements to calculate risk (i.e., lab values).
 // Results older than 6 years may not accurately reflect the patient's current condition.
+// NOTE: This gets blood pressure panels (for which systolic BP is a component value) and systolic observations
+// (for which systolic BP is the primary value). The correct value location needs to be extracted based on the
+// Observation code.  See MostRecentValidSystolicBPResult.
 define MostRecentValidSystolicBPReading:
-  C3F.MostRecent(C3F.Verified(C3F.ObservationLookBack([Observation: "Systolic Blood Pressure"], 6 years)))
+  C3F.MostRecent(
+    C3F.Verified(
+      C3F.ObservationLookBack([Observation: "Systolic Blood Pressure"] union [Observation: "Blood pressure panel"], 6 years)
+    )
+  )
 
-// The most recent verified systolic BP result, in mm Hg, no older than 6 years.
+// The most recent verified systolic BP result, in mm Hg, no older than 6 years, accounting for whether the
+// Observation is a BP observation or Systolic BP observation.
 define MostRecentValidSystolicBPResult:
-  if C3F.QuantityValue(MostRecentValidSystolicBPReading).unit = 'mm[Hg]' then
-    C3F.QuantityValue(MostRecentValidSystolicBPReading)
-  else
-    null
+  (
+    if MostRecentValidSystolicBPReading.code ~ "Blood pressure panel" then
+      singleton from (
+        (MostRecentValidSystolicBPReading.component) C
+        where C.code in "Systolic Blood Pressure"
+        return ToQuantity(C.value as FHIR.Quantity)
+      )
+    else
+      QuantityValue(MostRecentValidSystolicBPReading)
+  ) Result where Result.unit = 'mm[Hg]'
 
 // The allowed range for Systolic BP values, as defined in the guideline's final technical report.
 define AllowedSystolicBPRange:
@@ -169,7 +226,7 @@ define MostRecentValidTotalCholesterolTest:
 // The most recent verified total cholesterol result, converted to mg/dL (if necessary), and no older than 6 years.
 // Conversion from mmol/L uses the formula: 1 mmol/L = 38.66976 mg/dL.
 define MostRecentValidTotalCholesterolResult:
-  Convert.to_mg_per_dL_for_blood_cholesterol(C3F.QuantityValue(MostRecentValidTotalCholesterolTest))
+  Convert.to_mg_per_dL_for_blood_cholesterol(QuantityValue(MostRecentValidTotalCholesterolTest))
 
 // The allowed range for total cholesterol values, as defined in the guideline's final technical report.
 define AllowedTotalCholesterolRange:
@@ -193,7 +250,7 @@ define MostRecentValidHDLTest:
 // The most recent verified HDL result, converted to mg/dL (if necessary), and no older than 6 years.
 // Conversion from mmol/L uses the formula: 1 mmol/L = 38.66976 mg/dL.
 define MostRecentValidHDLResult:
-  Convert.to_mg_per_dL_for_blood_cholesterol(C3F.QuantityValue(MostRecentValidHDLTest))
+  Convert.to_mg_per_dL_for_blood_cholesterol(QuantityValue(MostRecentValidHDLTest))
 
 // The allowed range for HDL values, as defined in the guideline's final technical report.
 define AllowedHDLRange:
@@ -245,7 +302,7 @@ define HasHypertension:
 // sufficient evidence that the patient is on a hyper-tensive medication.
 define OnAntiHypertensiveTherapy:
   Exists(C3F.ActiveMedicationStatement([MedicationStatement: "Anti-Hypertensive Pharmacologic Therapy"]))
-  or Exists(C3F.ActiveMedicationOrder([MedicationOrder: "Anti-Hypertensive Pharmacologic Therapy"]))
+  or Exists(C3F.ActiveMedicationRequest([MedicationRequest: "Anti-Hypertensive Pharmacologic Therapy"]))
 
 // Determine if the patient's blood pressure is currently treated.  The calculation uses different parameters for
 // systolic BP depending on if it is treated or untreated.  As directed by the Cholesterol Workgroup, blood pressure

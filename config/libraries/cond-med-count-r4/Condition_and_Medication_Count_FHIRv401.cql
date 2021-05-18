@@ -10,11 +10,9 @@ concept "Condition Confirmed": { "Condition Confirmed code" } display 'Confirmed
 context Patient
 
 define NumberConfirmedConditions:
-  // Check verification status to prove this is R4 (since it was a 'code' in DSTU2/STU3)
   Count([Condition] C where C.verificationStatus ~ "Condition Confirmed")
 
 define NumberMedicationRequests:
-  // MedicationRequest only exists in STU3/R4
   Count([MedicationRequest])
 
 define HasCount:

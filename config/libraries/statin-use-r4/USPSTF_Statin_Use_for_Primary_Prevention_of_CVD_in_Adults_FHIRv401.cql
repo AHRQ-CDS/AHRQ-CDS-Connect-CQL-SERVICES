@@ -5,26 +5,28 @@
 // CDS Connection Cholesterol Workgroup and are documented in the logic and/or in the CDS Connect artifact metadata.
 //
 // This CDS logic is meant to be used in conjunction with the following CQL library:
-//  - USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv102
+//  - USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv401
 //
-// Version 1.1.0 has been refactored to segment out logic which is shared with the patient-facing version of this 
-// artifact (USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_PatientFacing_FHIRv102). The shared logic can 
-// now be found in an included library called SharedLogic, and it implements a number of updates to the inclusion and 
-// exclusion logic (details can be found in the SharedLogic library).
+// This version is a FHIR R4 port of USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102 version 1.1.0.
+// In addition to porting the data model, In addition to porting the data model, the following additional changes were
+// made based on new capabilities in later versions of the CQL spec and tooling:
+// - URL-based value set identifiers are used rather than plain OIDs
+//
+// NOTE: The R4 port of this artifact has not been piloted in a clinical setting, but has undergone logic testing and review.
 //
 // ## Source guideline: [USPSTF Statin Use for the Primary Prevention of Cardiovascular Disease in Adults: Preventive Medication](http://jamanetwork.com/journals/jama/fullarticle/2584058)
 // ## Published entry on CDS Connect: [Statin Use for the Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults)
 
-library USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102 version '1.1.0'
+library USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv401 version '1.0.0'
 
 // # Data model #
-// The FHIR DSTU2 model is preferred by CDS Connect artifacts due to its current adoption in Health IT products.
-using FHIR version '1.0.2'
+// The FHIR R4 model is now preferred by CDS Connect artifacts due to it being the first normative release of FHIR.
+using FHIR version '4.0.1'
 
 // # Referenced libraries #
 
 // Note: Inclusion and exclusion criteria are implemented in SharedLogic
-include USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv102 version '1.0.0' called SharedLogic
+include USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv401 version '1.0.0' called SharedLogic
 
 // # Parameters #
 

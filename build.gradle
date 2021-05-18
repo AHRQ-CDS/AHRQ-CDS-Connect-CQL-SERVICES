@@ -1,0 +1,17 @@
+plugins {
+  id 'java'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  runtimeOnly 'info.cqframework:cql-to-elm:1.5.3'
+}
+
+task cql2elm(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'org.cqframework.cql.cql2elm.CqlTranslator'
+  args '--input', './config/libraries', '--format', 'JSON'
+}
