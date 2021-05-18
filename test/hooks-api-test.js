@@ -2,6 +2,7 @@ const path = require('path');
 const { expect } = require('chai');
 const request = require('supertest');
 const nock = require('nock');
+const { cloneDeep } = require('lodash');
 const app = require('../app');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
@@ -221,7 +222,7 @@ describe('hooks-api (version-agnostic)', () => {
   });
 });
 
-const getLazyPersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/lazy_person_invocation.json`);
-const getActivePersonInvocation = (version) => require(`./fixtures/hooks-patients/${version}/active_person_invocation.json`);
-const getNullPrefetchValuesInvocation = (version) => require(`./fixtures/hooks-patients/${version}/null_prefetch_values_invocation.json`);
-const getMissingPrefetchKeysInvocation = (version) => require(`./fixtures/hooks-patients/${version}/missing_prefetch_keys_invocation.json`);
+const getLazyPersonInvocation = (version) => cloneDeep(require(`./fixtures/hooks-patients/${version}/lazy_person_invocation.json`));
+const getActivePersonInvocation = (version) => cloneDeep(require(`./fixtures/hooks-patients/${version}/active_person_invocation.json`));
+const getNullPrefetchValuesInvocation = (version) => cloneDeep(require(`./fixtures/hooks-patients/${version}/null_prefetch_values_invocation.json`));
+const getMissingPrefetchKeysInvocation = (version) => cloneDeep(require(`./fixtures/hooks-patients/${version}/missing_prefetch_keys_invocation.json`));
