@@ -145,6 +145,7 @@ async function call(req, res, next) {
         // The prefetch was not provided, so use the FHIR client (if available) to request the data
         if (client == null) {
           res.sendStatus(412);
+          console.error('Could not configure FHIR client; Sending HTTP 412.');
           return;
         }
         let searchURL = hook.prefetch[key];
@@ -152,6 +153,12 @@ async function call(req, res, next) {
         Object.keys(req.body.context || {}).forEach(contextKey => {
           searchURL = searchURL.split(`{{context.${contextKey}}}`).join(req.body.context[contextKey]);
         });
+        if (req.body.extension && Object.keys(req.body.extension).some(k => /^com\.epic\.cdshooks/.test(k))) {
+          if (/^Condition\?/.test(searchURL)) {
+            searchURL += '&category=problem-list-item';
+          }
+        }
+        console.log(`Calling back to ${req.body.fhirServer} with ${searchURL}.`);
         // Perform the search and add the response to the bundle
         const searchRequest = client.request(searchURL, { pageLimit: 0, flat: true })
           .then(result => addResponseToBundle(result, bundle));
@@ -166,6 +173,7 @@ async function call(req, res, next) {
     try {
       await Promise.all(searchRequests);
     } catch(err) {
+      console.error('Error calling back to FHIR server:', err);
       res.sendStatus(412);
       return;
     }
