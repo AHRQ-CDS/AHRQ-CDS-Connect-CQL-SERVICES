@@ -239,7 +239,7 @@ function logError(err) {
     return;
   }
   const errString = err instanceof Error ? `${err.message}\n  ${err.stack}` : `${err}`;
-  console.error((new Date()).toISOString(), 'ERROR:', errString);
+  console.error('ERROR:', errString);
 }
 
 module.exports = router;

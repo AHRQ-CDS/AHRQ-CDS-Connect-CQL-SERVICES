@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 if(app.get('env') !== 'test') {
-  app.use(logger(':date[iso] :remote-addr ":method :url" :status :res[content-length]'));
+  app.use(logger(':remote-addr ":method :url" :status :res[content-length]'));
 }
 app.use(cors());
 app.use(helmet());
@@ -46,7 +46,7 @@ app.use('/cds-services', cdsServices);
 // error handler
 app.use((err, req, res, next) => {
   // Log the error
-  console.error((new Date()).toISOString(), `ERROR: ${err.message}\n  ${err.stack}`);
+  console.error(`ERROR: ${err.message}\n  ${err.stack}`);
 
   // set locals, only providing error in development
   res.locals.message = err.message;

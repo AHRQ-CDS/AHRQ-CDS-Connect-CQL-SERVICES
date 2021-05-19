@@ -209,6 +209,20 @@ $ yarn start
 
 _**NOTE**: This service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
 
+## Debug Logging
+
+CQL Services uses the [debug]() module for logging debugging information.  This is NOT recommended for use in production, as it may have performance implications and it may log sensitive patient data.  This should only be used in development and testing environments with synthetic patient data.
+
+To log general debug information for CDS Hooks (requests, responses, and FHIR server callbacks), set the `DEBUG` environment variable to `cql-exec-services:hooks`:
+```
+DEBUG=cql-exec-services:hooks
+```
+
+Note that the above setting redacts the prefetch data and FHIR server callback responses (providing only resource counts) as well as the FHIR authorization access_token.  For full debug logging, including all FHIR data and FHIR authorization tokens, also include `cql-exec-services:hooks:data`:
+```
+DEBUG=cql-exec-services:hooks,cql-exec-services:hooks:data
+```
+
 ## CQL Services for Docker
 
 CQL Services also includes a `Dockerfile` for building a [Docker](https://www.docker.com/) image that can be used for deploying CQL Services as a container.

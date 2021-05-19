@@ -1,5 +1,7 @@
 'use strict';
 
+const debug = require('debug')('cql-exec-service:hooks');
+const debugData = require('debug')('cql-exec-service:hooks:data');
 const express = require('express');
 const router = express.Router();
 const cql = require('cql-execution');
@@ -7,6 +9,7 @@ const fhir = require('cql-exec-fhir');
 const fhirclient  = require('fhirclient');
 const cloneDeep = require('lodash/cloneDeep');
 const isPlainObject = require('lodash/isPlainObject');
+const os = require('os');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
@@ -44,24 +47,57 @@ function discover(req, res, next) {
  * Puts resulting hook definition and library in `res.locals`.
  */
 function resolver(req, res, next) {
+  // log the request if debug is enabled...
+  if (debug.enabled) {
+    const details = [];
+    details.push(`HOOKS REQUEST: ${req.params.id}`);
+    details.push(`    ip: ${req.ip}`);
+    if (req.headers) {
+      Object.keys(req.headers).forEach(header => {
+        details.push(`    header[${header}]: ${JSON.stringify(req.headers[header])}`);
+      });
+    }
+    if (req.body) {
+      let body = req.body;
+      if (!debugData.enabled && (body.prefetch || body.fhirAuthorization)) {
+        // redact the data from the fhirAuthorization and prefetch
+        body = cloneDeep(body);
+        if (body.fhirAuthorization && body.fhirAuthorization.access_token) {
+          body.fhirAuthorization.access_token = '(redacted)';
+        }
+        Object.keys(body.prefetch || {}).forEach(pf => {
+          const pfVal = body.prefetch[pf];
+          if (pfVal != null) {
+            if (pfVal.resourceType === 'Bundle') {
+              body.prefetch[pf] = `(Bundle w/ ${pfVal.entry ? pfVal.entry.length : 0} entries)`;
+            } else {
+              body.prefetch[pf] = `(${pfVal.resourceType || 'Unknown resourceType'})`;
+            }
+          }
+        });
+      }
+      details.push(`    body: ${JSON.stringify(body, null, 2).split(os.EOL).join(`${os.EOL}    `)}`);
+    }
+    debug(details.join(os.EOL));
+  }
+
   // Check to ensure required properties are present
   if (!req.body.hook || !req.body.hookInstance || !req.body.context) {
-    sendError(res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, context.');
+    sendError(req, res, 400, 'Invalid request. Missing at least one required field from: hook, hookInstance, context.');
     return;
   }
 
   // Load the service definition
   const hook = hooksLoader.get().find(req.params.id);
   if (!hook) {
-    logError(`Hook not found: ${req.params.id}`);
-    res.sendStatus(404);
+    sendError(req, res, 404, `Hook not found: ${req.params.id}`);
     return;
   }
   res.locals.hook = hook;
 
   // Ensure the CQL library is specified in the hook definition
   if (!hook._config || !hook._config.cql || !hook._config.cql.library || !hook._config.cql.library.id) {
-    sendError(res, 500, 'CDS Hook config does not specificy the CQL library to use.');
+    sendError(req, res, 500, 'CDS Hook config does not specificy the CQL library to use.');
     return;
   }
 
@@ -76,7 +112,7 @@ function resolver(req, res, next) {
   if (typeof lib === 'undefined') {
     logError(`Library not found: ${hook._config.cql.library.id} v${hook._config.cql.library.version}`);
     // Set the 500 status and halt the request chain now
-    sendError(res, 500, 'CDS Hook config specified a CQL library, but library could not be located.');
+    sendError(req, res, 500, 'CDS Hook config specified a CQL library, but library could not be located.');
     return;
   }
   // Set the library in the res.locals for use by other middleware and/or routes
@@ -116,7 +152,7 @@ function valuesetter(req, res, next) {
         } else if (Array.isArray(err)) {
           errToSend = err.map(e => e instanceof Error ? e.message : e);
         }
-        sendError(res, 500, errToSend, false);
+        sendError(req, res, 500, errToSend, false);
       }
     });
 }
@@ -144,8 +180,7 @@ async function call(req, res, next) {
       if (typeof pf === 'undefined') {
         // The prefetch was not provided, so use the FHIR client (if available) to request the data
         if (client == null) {
-          res.sendStatus(412);
-          console.error('Could not configure FHIR client; Sending HTTP 412.');
+          sendError(req, res, 412, 'Unable to call back to FHIR server.');
           return;
         }
         let searchURL = hook.prefetch[key];
@@ -158,10 +193,30 @@ async function call(req, res, next) {
             searchURL += '&category=problem-list-item';
           }
         }
-        console.log(`Calling back to ${req.body.fhirServer} with ${searchURL}.`);
+        debug(`HOOKS CALLBACK REQUEST: ${req.body.fhirServer}/${searchURL}`);
         // Perform the search and add the response to the bundle
-        const searchRequest = client.request(searchURL, { pageLimit: 0, flat: true })
-          .then(result => addResponseToBundle(result, bundle));
+        const searchRequest = client.request(searchURL, { pageLimit: 0 })
+          .then(result => {
+            addResponseToBundle(result, bundle);
+            if (debug.enabled) {
+              const details = [];
+              details.push(`HOOKS CALLBACK RESPONSE: ${req.body.fhirServer}/${searchURL}`);
+              const pages = Array.isArray(result) ? result : [result];
+              pages.forEach((page, i) => {
+                if (debugData.enabled) {
+                  details.push(`    page[${i}]: ${JSON.stringify(page, null, 2).split(os.EOL).join(`${os.EOL}    `)}`);
+                } else {
+                  // redact the details of the data from the response
+                  if (page.resourceType === 'Bundle') {
+                    details.push(`    page[${i}]: (Bundle w/ ${page.entry ? page.entry.length : 0} entries)`);
+                  } else {
+                    details.push(`    page[${i}]: (${page.resourceType || 'Unknown resourceType'})`);
+                  }
+                }
+              });
+              debug(details.join(os.EOL));
+            }
+          });
         // Push the promise onto the array so we can await it later
         searchRequests.push(searchRequest);
       } else {
@@ -173,8 +228,8 @@ async function call(req, res, next) {
     try {
       await Promise.all(searchRequests);
     } catch(err) {
-      console.error('Error calling back to FHIR server:', err);
-      res.sendStatus(412);
+      logError(err);
+      sendError(req, res, 412, 'Error calling back to FHIR server.');
       return;
     }
   }
@@ -192,7 +247,7 @@ async function call(req, res, next) {
   case '4.0.1': patientSource = fhir.PatientSource.FHIRv401(); break;
   default:
     logError(`Library does not use any supported data models: ${lib.source.library.usings.def}`);
-    sendError(res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2, 3.0.0, 4.0.0, or 4.0.1`);
+    sendError(req, res, 501, `Not Implemented: Unsupported data model (must be FHIR 1.0.2, 3.0.0, 4.0.0, or 4.0.1`);
     return;
   }
 
@@ -219,15 +274,15 @@ async function call(req, res, next) {
     } else if (Array.isArray(err)) {
       errToSend = err.map(e => e instanceof Error ? e.message : e);
     }
-    sendError(res, responseCode, errToSend, false);
+    sendError(req, res, responseCode, errToSend, false);
   }
 
   const resultIDs = Object.keys(results.patientResults);
   if (resultIDs.length == 0) {
-    sendError(res, 400, 'Insufficient data to provide results.');
+    sendError(req, res, 400, 'Insufficient data to provide results.');
     return;
   } else if (resultIDs.length > 1) {
-    sendError(res, 400, 'Data contained information about more than one patient.');
+    sendError(req, res, 400, 'Data contained information about more than one patient.');
     return;
   }
   const pid = resultIDs[0];
@@ -243,7 +298,7 @@ async function call(req, res, next) {
     if (cardCfg.conditionExpression != null) {
       const hasConditionExpression = Object.prototype.hasOwnProperty.call(pResults, cardCfg.conditionExpression.split('.')[0]);
       if (!hasConditionExpression) {
-        sendError(res, 500, 'Hook configuration refers to non-existent conditionExpression');
+        sendError(req, res, 500, 'Hook configuration refers to non-existent conditionExpression');
         return;
       }
       const condition = resolveExp(pResults, cardCfg.conditionExpression);
@@ -272,6 +327,15 @@ async function call(req, res, next) {
   res.json({
     cards
   });
+
+  if (debug.enabled) {
+    const details = [];
+    details.push(`HOOKS RESPONSE: ${req.params.id}`);
+    details.push(`    ip: ${req.ip}`);
+    details.push('    status: 200');
+    details.push(`    body: ${JSON.stringify({ cards }, null, 2).split(os.EOL).join(`${os.EOL}    `)}`);
+    debug(details.join(os.EOL));
+  }
 }
 
 function getFHIRClient(req, res) {
@@ -301,9 +365,7 @@ function addResponseToBundle(response, bundle) {
   if (response == null) {
     // no results, do nothing
   } else if (Array.isArray(response)) {
-    response.forEach(resource => {
-      bundle.entry.push({ resource });
-    });
+    response.forEach(r => addResponseToBundle(r, bundle));
   } else if (response.resourceType === 'Bundle' && response.type === 'searchset') {
     if (response.entry && response.entry.length > 0) {
       response.entry.forEach(entry => {
@@ -362,9 +424,17 @@ function resolveExp(result, expr) {
   return result == null ? '' : result;
 }
 
-function sendError(res, code, message, logIt = true) {
+function sendError(req, res, code, message, logIt = true) {
   if (logIt) {
     logError(message);
+  }
+  if (debug.enabled) {
+    const details = [];
+    details.push(`HOOKS RESPONSE: ${req.params.id}`);
+    details.push(`    ip: ${req.ip}`);
+    details.push(`    status: ${code}`);
+    details.push(`    body: ${JSON.stringify(message, null, 2).split(os.EOL).join(`${os.EOL}    `)}`);
+    debug(details.join(os.EOL));
   }
   res.type('text/plain');
   res.status(code).send(message);
@@ -378,7 +448,7 @@ function logError(err) {
     return;
   }
   const errString = err instanceof Error ? `${err.message}\n  ${err.stack}` : `${err}`;
-  console.error((new Date()).toISOString(), 'ERROR:', errString);
+  console.error('ERROR:', errString);
 }
 
 module.exports = router;
