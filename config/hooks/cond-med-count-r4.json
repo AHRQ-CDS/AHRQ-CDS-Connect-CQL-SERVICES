@@ -3,6 +3,11 @@
   "hook": "patient-view",
   "title": "Condition and Medication Request Count",
   "description": "Counts the number of confirmed conditions and medication requests",
+  "prefetch": {
+    "Patient": "Patient/{{context.patientId}}",
+    "Condition": "Condition?patient={{context.patientId}}&verification-status=confirmed",
+    "MedicationRequest": "MedicationRequest?patient={{context.patientId}}"
+  },
   "_config": {
     "cards": [{
       "conditionExpression": "HasCount",

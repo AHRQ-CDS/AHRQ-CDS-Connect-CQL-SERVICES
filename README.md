@@ -141,13 +141,14 @@ CQL libraries are associated with CDS Hooks services via configuration files. CQ
 - **hook**: the hook that should trigger this service. This is used directly in the services discovery response.
 - **title**: the title of this service. This is used directly in the services discovery response.
 - **description**: a short description of the service. This is used directly in the services discovery response.
-- **extension**: an _optional_ object to support arbitrary [extensions](https://cds-hooks.org/specification/1.0/#extensions) in the service definition. This is used directly in the services discovery response.
+- **prefetch**: an _optional_ object to override the automatic prefetch extraction with a user-configured [prefetch template](https://cds-hooks.hl7.org/1.0/#prefetch-template). This prefetch _must_ cover _all_ resources needed by the CQL, or the CDS will not function properly. This should be used with caution by experienced implementors only.
+- **extension**: an _optional_ object to support arbitrary [extensions](https://cds-hooks.hl7.org/1.0/#extensions) in the service definition. This is used directly in the services discovery response.
 - **_config**: a configuration object that indicates how cards are generated and the CQL library to use for this service.
   - **cards**: an array of objects describing specific cards to be returned and the conditions under which to return them.
     - **conditionExpression**: the name of an expression in the CQL that should be checked to determine if the card should be returned.  If the expression evaluates to `null`, `false`, `0`, or `''` for the patient, then the card will be supressed; otherwise it will be returned.  If the configuration does not specify a `conditionExpression`, then the card will always be returned.
     - **card**: details about the card to be returned if the `conditionExpression` is truthy (or if no `conditionExpression` is provided).
-      - For details about what fields can go into cards, refer to the [CDS Hooks Card Attributes](http://cds-hooks.hl7.org/ballots/2018May/specification/1.0/#card-attributes) documentation.
-      - Specify [extensions](https://cds-hooks.org/specification/1.0/#extensions) using the reserved `extension` property.
+      - For details about what fields can go into cards, refer to the [CDS Hooks Card Attributes](https://cds-hooks.hl7.org/1.0/#card-attributes) documentation.
+      - Specify [extensions](https://cds-hooks.hl7.org/1.0/#extensions) using the reserved `extension` property.
       - If the CQL has an expression named `Errors`, and if its result is non-empty, the card's `extension` object will contain an `errors` property whose value is the array of errors.
       - If the CQL has an expression named `Warnings`, and if its result is non-empty, the card's `extension` object will contain a `warnings` property whose value is the array of warnings.
       - The CQL Hooks service performs string interpolation on all card values -- allowing you to customize them with the  patient's CQL results.  For example, `${Recommendation}` will be replaced at run-time with the value of the `Recommendation` expression result from the CQL.
