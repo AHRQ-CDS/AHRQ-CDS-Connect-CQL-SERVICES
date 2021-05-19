@@ -10,6 +10,10 @@ module.exports = {
     },
     env_production: {
       NODE_ENV: 'production',
-    }
+    },
+    out_file: 'logs/cql-services.log',
+    error_file: 'logs/cql-services.log',
+    merge_logs: true,
+    log_date_format: 'YYYY-MM-DD HH:mm Z'
   }]
 };

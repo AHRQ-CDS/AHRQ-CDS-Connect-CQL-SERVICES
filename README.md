@@ -218,14 +218,9 @@ To build the CQL Services Docker image:
 $ docker build -t cql-services .
 ```
 
-To ceate and run a `cql-services` container:
+To create and run a `cql-services` container:
 ```
-$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_API_KEY=myKey" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
-```
-
-Alternatively, you may pass UMLS user name and password credentials (deprecated, expires Jan 1 2021):
-```
-$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
+$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_API_KEY=myKey" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config:ro -v /data/cql-services/logs:/usr/src/app/logs cql-services:latest
 ```
 
 * `docker run` creates and runs a new container based on the requested image.
@@ -233,10 +228,9 @@ $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e
 * `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
 * `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
 * `-e "UMLS_API_KEY=apiKey"` passes the UMLS API Key as an environment variable.  This is required, and the preferred credential to download value sets for execution.
-* `-e "UMLS_USER_NAME=myUser"` **DEPRECATED** passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
-* `-e "UMLS_PASSWORD=myPass"` **DEPRECATED** passes the UMLS password as an environment variable.  This is required to download value sets for execution.
 * `-e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb"` passes the max request size allowed as an environment variable.  This flag is optional and defaults to 1mb if not passed in.
-* `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
+* `-v /data/cql-services/config:/usr/src/app/config:ro` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
+* `-v /data/cql-services/logs:/usr/src/app/logs` maps the host's `/data/cql-services/log` folder to the containers log directory.  This allows the CQL Services logs to be persisted on the host system.
 * `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
 
 The following commands may also be helpful:

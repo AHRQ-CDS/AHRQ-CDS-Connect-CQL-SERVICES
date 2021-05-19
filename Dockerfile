@@ -30,6 +30,8 @@ RUN mkdir -p /usr/src/app/config/hooks
 RUN chown node /usr/src/app/config/hooks
 RUN mkdir -p /usr/src/app/.vsac_cache
 RUN chown node /usr/src/app/.vsac_cache
+RUN mkdir -p /usr/src/app/logs
+RUN chown node /usr/src/app/logs
 
 # Clean up a bit to save space
 RUN yarn cache clean
@@ -42,6 +44,8 @@ VOLUME ["/usr/src/app/.vsac_cache"]
 
 # Run using the node user (otherwise runs as root, which is security risk)
 USER node
+
+RUN pm2 install pm2-logrotate
 
 WORKDIR /usr/src/app
 CMD [ "pm2-runtime", "start", "cql-es.config.js", "--env", "production" ]
