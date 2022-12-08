@@ -1,12 +1,13 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.3.0",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-         "version" : "1.1.0"
+         "id" : "USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401",
+         "version" : "2.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -19,14 +20,14 @@
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "1.0.2"
+            "version" : "4.0.1"
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "SharedLogic",
-            "path" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv102",
-            "version" : "1.0.0"
+            "path" : "USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsSharedLogicFHIRv401",
+            "version" : "2.0.0"
          } ]
       },
       "parameters" : {
@@ -53,6 +54,7 @@
                "type" : "SingletonFrom",
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Patient",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/Patient",
                   "type" : "Retrieve"
                }
             }

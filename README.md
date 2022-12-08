@@ -33,10 +33,9 @@ This project was initialized using the [Express application generator](https://e
 To use this project in a development environment, you should perform the following steps:
 
 1. Install [Node.js LTS] (https://nodejs.org/en/download/)
-2. Install [Yarn](https://yarnpkg.com/en/docs/install)
-3. Execute the following from this project's root directory: `yarn`
+2. Execute the following from this project's root directory:
     ```
-    $ yarn
+    $ npm install
     ```
 
 ## Configuration
@@ -47,19 +46,9 @@ The CQL Services require a free Unified Medical Language System (UMLS) account f
 
 Once you have your NLM credentials, you must assign your API Key to the `UMLS_API_KEY` environment variable.  Your API Key may be found in your [UMLS Profile](https://uts.nlm.nih.gov//uts.html#profile).
 
-Alternatively, you may set the `UMLS_USER_NAME` and `UMLS_PASSWORD` environment variables.  If all three environment variables are present, the `UMLS_API_KEY` will be used.
-
-**NOTE:** As of January 1 2021, NLM will no longer accept username and password for authentication.  You MUST use an API Key to download value sets from VSAC after this date.
-
 Mac/Linux:
 ```
 $ export UMLS_API_KEY=myapikey
-```
-
-Alternative Mac/Linux (deprecated, expires Jan 1 2021):
-```
-$ export UMLS_USER_NAME=myusername
-$ export UMLS_PASSWORD=mypassword
 ```
 
 Windows:
@@ -67,13 +56,7 @@ Windows:
 > set UMLS_API_KEY=myapikey
 ```
 
-Alternative Windows (deprecated, expires Jan 1 2021):
-```
-> set UMLS_USER_NAME=myusername
-> set UMLS_PASSWORD=mypassword
-```
-
-If you do not properly set the above environment variables, the CQL Services will fail to download the required value sets from VSAC.
+If you do not properly set the above environment variable, the CQL Services will fail to download the required value sets from VSAC.
 
 ### Ignoring VSAC Errors
 
@@ -121,7 +104,7 @@ Windows:
 
 ## Adding CQL Libraries
 
-This service is packaged with the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL libraries.  You can find their ELM JSON files in subfolders of the _config/libraries_ folder.
+This service is packaged with a simple Condition and Medication Count library as well as the [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults-clinician-facing-cds-intervention) CQL library.  You can find their ELM JSON files in subfolders of the _config/libraries_ folder.
 
 To add other CQL libraries, you must first [translate them to ELM JSON](https://github.com/cqframework/clinical_quality_language/tree/master/Src/java).  You can then add their ELM JSON (and the ELM JSON of any dependencies) to the _config/libraries_ folder or any subfolder within it.
 
@@ -129,7 +112,7 @@ _NOTE: The CQL Services currently supports the FHIR 1.0.2, 3.0.0, 4.0.0, and 4.0
 
 ## Adding CQL Hooks
 
-This service is packaged with example [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults) and [CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk](https://cds.ahrq.gov/cdsconnect/artifact/cmss-million-heartsr-model-longitudinal-ascvd-risk-assessment-tool-baseline-10) CQL Hooks.  You can find the hook configs in the _config/hooks_ folder.  Note that they require the corresponding ELM JSON files in the _localRepsitory_ folder.
+This service is packaged with an example Condition and Medication Count CQL Hook as well as an example [Statin Use for Primary Prevention of CVD in Adults](https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults-clinician-facing-cds-intervention) CQL Hook.  You can find the hook configs in the _config/hooks_ folder.  Note that they require the corresponding ELM JSON files in the _localRepsitory_ folder.
 
 To add other CQL Hooks, add a configuration file for them in the _config/hooks_ folder, and add their ELM JSON to the _config/libraries_ folder, as described in the above section.
 
@@ -175,15 +158,18 @@ The following is an example of the hook configuration for the Statin Use artifac
         "detail": "${Recommendation}",
         "source": {
           "label": "CDS Connect: Statin Use for the Primary Prevention of CVD in Adults",
-          "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults",
-          "icon": "https://cds.ahrq.gov/themes/custom/cds_connect/images/cdsconnect-circle-logo.png"
+          "url": "https://cds.ahrq.gov/cdsconnect/artifact/statin-use-primary-prevention-cvd-adults"
+        },
+        "extension": {
+          "grade": "${RecommendationGrade}",
+          "rationale": "${Rationale}"
         }
       }
     }],
     "cql": {
       "library": {
-        "id": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-        "version": "1.1.0"
+        "id": "USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401",
+        "version": "2.0.0"
       }
     }
   }
@@ -202,9 +188,9 @@ _**Note**: This service does not attempt to decode and validate any JSON Web Tok
 
 ## Running CQL Services
 
-To run the server, simply invoke `yarn start`.
+To run the server, simply invoke `npm start`.
 ```
-$ yarn start
+$ npm start
 ```
 
 _**NOTE**: This service operates on HTTP only.  This means that information between the client and the server is **not** encrypted.  Under this configuration, calls to the CQL Services that contain real patient data should originate from the same host and avoid going over the network._
@@ -223,18 +209,11 @@ To ceate and run a `cql-services` container:
 $ docker run --name cql-services -d -p "3000:3000" -e "UMLS_API_KEY=myKey" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
 ```
 
-Alternatively, you may pass UMLS user name and password credentials (deprecated, expires Jan 1 2021):
-```
-$ docker run --name cql-services -d -p "3000:3000" -e "UMLS_USER_NAME=myUser" -e "UMLS_PASSWORD=myPass" -e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb" -v /data/cql-services/config:/usr/src/app/config cql-services:latest
-```
-
 * `docker run` creates and runs a new container based on the requested image.
 * `--name cql-services` gives the container a name by which it can be referred to via other Docker commands.
 * `-d` indicates that the container should run as a daemon (instead of blocking the current thread).
 * `-p "3000:3000"` indicates that port 3000 of the container should be mapped to port 3000 of the host.  Without this, the service is not accesible outside the container.
 * `-e "UMLS_API_KEY=apiKey"` passes the UMLS API Key as an environment variable.  This is required, and the preferred credential to download value sets for execution.
-* `-e "UMLS_USER_NAME=myUser"` **DEPRECATED** passes the UMLS user name as an environment variable.  This is required to download value sets for execution.
-* `-e "UMLS_PASSWORD=myPass"` **DEPRECATED** passes the UMLS password as an environment variable.  This is required to download value sets for execution.
 * `-e "CQL_SERVICES_MAX_REQUEST_SIZE=2mb"` passes the max request size allowed as an environment variable.  This flag is optional and defaults to 1mb if not passed in.
 * `-v /data/cql-services/config:/usr/src/app/config` maps the host's `/data/cql-services/config` folder as a read-only volume in the container.  This allows the CQL and Hooks configs to be configured on the host and persist across container upgrades.
 * `cql-services:latest` indicates the image name (`cql-services`) and tag (`latest`) to run.
@@ -273,31 +252,38 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 access-control-allow-origin : *
+content-security-policy : default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+cross-origin-embedder-policy : require-corp
+cross-origin-opener-policy : same-origin
+cross-origin-resource-policy : same-origin
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
-x-xss-protection : 1; mode=block
-location : /api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
+origin-agent-cluster : ?1
+x-permitted-cross-domain-policies : none
+referrer-policy : no-referrer
+x-xss-protection : 0
+location : /api/library/USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401/version/2.0.0
 content-type : application/json; charset=utf-8
-content-length : 769
-etag : W/"301-U7SqQJffZDXLckKHLa24ZA"
-date : Thu, 09 Aug 2018 19:45:19 GMT
+content-length : 757
+etag : W/"2f5-aTyQychLXxf71+WuuYgbE9ieyeM"
+date : Wed, 30 Nov 2022 23:02:13 GMT
 connection : close
 --------------- BODY ---------------
 {
   "library": {
-    "name": "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102",
-    "version": "1.1.0"
+    "name": "USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401",
+    "version": "2.0.0"
   },
   "returnExpressions": [
     "Recommendation",
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2018-08-09T19:45:19.154Z",
-  "patientID": "2-1",
+  "timestamp": "2022-11-30T23:02:13.357Z",
+  "patientID": "1",
   "results": {
     "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
     "Rationale": "The USPSTF found adequate evidence that use of low- to moderate-dose statins reduces the probability of CVD events (MI or ischemic stroke) and mortality by at least a moderate amount in adults aged 40 to 75 years who have 1 or more CVD risk factors (dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk of 10% or greater.",
@@ -322,35 +308,40 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 access-control-allow-origin : *
+content-security-policy : default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+cross-origin-embedder-policy : require-corp
+cross-origin-opener-policy : same-origin
+cross-origin-resource-policy : same-origin
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
-x-xss-protection : 1; mode=block
+origin-agent-cluster : ?1
+x-permitted-cross-domain-policies : none
+referrer-policy : no-referrer
+x-xss-protection : 0
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
 access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Requested-With
 content-type : application/json; charset=utf-8
-content-length : 833
-etag : W/"341-t6Nh4DreN5/Hv4V6+WqmKg"
-date : Thu, 09 Aug 2018 19:46:40 GMT
+content-length : 1322
+etag : W/"52a-GSRG9e6IwMJSp3Rwa27vmJWM2AQ"
+date : Wed, 30 Nov 2022 23:03:43 GMT
 connection : close
 --------------- BODY ---------------
 {
   "services": [
-        {
-      "id": "ascvd-risk",
+    {
+      "id": "cond-med-count-r4",
       "hook": "patient-view",
-      "title": "CMS’s Million Hearts® Model Longitudinal ASCVD Risk Assessment Tool for Baseline 10-Year ASCVD Risk",
-      "description": "Provides the ability to calculate a baseline 10-Year ASCVD risk score to support primary prevention of ASCVD. It utilizes the 2013 ACC/AHA pooled cohort equation to calculate the risk of developing a first time \"hard\" ASCVD event, defined as: nonfatal myocardial infarction (MI), coronary heart disease (CHD) death, nonfatal stroke, or fatal stroke.",
+      "title": "Condition and Medication Request Count",
+      "description": "Counts the number of confirmed conditions and medication requests",
       "prefetch": {
         "Patient": "Patient/{{context.patientId}}",
-        "Observation": "Observation?patient={{context.patientId}}",
         "Condition": "Condition?patient={{context.patientId}}",
-        "MedicationStatement": "MedicationStatement?patient={{context.patientId}}",
-        "MedicationOrder": "MedicationOrder?patient={{context.patientId}}"
+        "MedicationRequest": "MedicationRequest?patient={{context.patientId}}"
       }
     },
     {
@@ -363,8 +354,10 @@ connection : close
         "Observation": "Observation?patient={{context.patientId}}",
         "Condition": "Condition?patient={{context.patientId}}",
         "Procedure": "Procedure?patient={{context.patientId}}",
+        "Encounter": "Encounter?patient={{context.patientId}}",
         "MedicationStatement": "MedicationStatement?patient={{context.patientId}}",
-        "MedicationOrder": "MedicationOrder?patient={{context.patientId}}"
+        "MedicationRequest": "MedicationRequest?patient={{context.patientId}}",
+        "MedicationDispense": "MedicationDispense?patient={{context.patientId}}"
       }
     }
   ]
@@ -387,20 +380,27 @@ If successful, you should see something like this:
 STATUS: 200 OK
 --------------- HEADERS ------------
 access-control-allow-origin : *
+content-security-policy : default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+cross-origin-embedder-policy : require-corp
+cross-origin-opener-policy : same-origin
+cross-origin-resource-policy : same-origin
 x-dns-prefetch-control : off
 x-frame-options : SAMEORIGIN
 strict-transport-security : max-age=15552000; includeSubDomains
 x-download-options : noopen
 x-content-type-options : nosniff
-x-xss-protection : 1; mode=block
+origin-agent-cluster : ?1
+x-permitted-cross-domain-policies : none
+referrer-policy : no-referrer
+x-xss-protection : 0
 access-control-allow-methods : GET, POST, OPTIONS
 access-control-allow-credentials : true
 access-control-allow-headers : Content-Type, Authorization
 access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Requested-With
 content-type : application/json; charset=utf-8
 content-length : 815
-etag : W/"1a0-3Nbiql4WsXU2ekDSxxApOg"
-date : Thu, 09 May 2019 21:02:49 GMT
+etag : W/"32f-yEqi/NUi2DfkJvKQJGEPS0NM0dc"
+date : Wed, 30 Nov 2022 23:04:19 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -439,8 +439,8 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Post a JSON message to a library endpoint.  Options can be passed to
   specify the endpoint and message to post.  If not specified, the
   following defaults are used:
-    --endpoint http://localhost:3000/api/library/USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_FHIRv102/version/1.1.0
-    --message test/examples/exec/DSTU2/unhealthy_patient.json
+    --endpoint http://localhost:3000/api/library/USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401/version/2.0.0
+    --message test/examples/exec/R4/unhealthy_patient.json
 
   Options:
 
@@ -469,7 +469,7 @@ For advanced usage, such as using non-default endpoints or specifying other mess
   Call a CDS Hook.  Options can be passed to specify the endpoint and message to post.
   If not specified, the following defaults are used:
     --endpoint http://localhost:3000/cds-services/statin-use
-    --message test/examples/hooks/DSTU2/unhealthy_patient.json
+    --message test/examples/hooks/R4/unhealthy_patient.json
 
   Options:
 
@@ -496,5 +496,5 @@ The general steps to test a CQL Hooks service in the CDS Hooks sandbox is as fol
 
 To encourage quality and consistency within the code base, all code should pass eslint without any warnings.  Many text editors can be configured to automatically flag eslint violations.  We also provide an npm script for running eslint on the project.  To run eslint, execute the following command:
 ```
-$ yarn run lint
+$ npm run lint
 ```

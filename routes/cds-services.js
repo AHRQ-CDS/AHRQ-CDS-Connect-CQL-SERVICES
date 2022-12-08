@@ -10,7 +10,6 @@ const isPlainObject = require('lodash/isPlainObject');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
-const process = require('process');
 
 // Middleware to setup response headers with CORS
 router.use((request, response, next) => {
@@ -100,10 +99,7 @@ function valuesetter(req, res, next) {
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
-  // Use of API Key is preferred, as username/password will not be supported on Jan 1 2021
-  const ensureValueSets = process.env['UMLS_USER_NAME'] && !process.env['UMLS_API_KEY']
-    ? csLoader.get().ensureValueSetsInLibrary(library)
-    : csLoader.get().ensureValueSetsInLibraryWithAPIKey(library);
+  const ensureValueSets = csLoader.get().ensureValueSetsInLibraryWithAPIKey(library);
   ensureValueSets.then(() => next())
     .catch((err) => {
       logError(err);

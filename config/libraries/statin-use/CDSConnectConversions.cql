@@ -4,13 +4,12 @@
  * to separate words and maintain casing.  For example, to convert to "mg/dL", rather than call the function
  * `ToMgPerDL`, we call it `to_mg_per_dL`, in order to maintain casing.
  *
- * Change log:
- * - 1.0.2:
- *  - Rename to_mg_per_dL function and add to_mg_per_dL_for_trigylceride() and 
- *    to_mg_per_dL_for_blood_glucose() functions.
+ * Version 2.0.0 implements several best practices prescribed by FHIR Clinical Guidelines, including:
+ * - Renaming library from CDS_Connect_Conversions to CDSConnectConversions
+ * - Surrounding all library-level identifiers in quotes and using title-case (except units, as noted above)
  *
  */
-library CDS_Connect_Conversions version '1.0.2'
+library CDSConnectConversions version '2.0.0'
 
 /**
  * Converts mmol/L to mg/dL for blood cholesterol, using the formula: 1 mmol/L = 38.66976 mg/dL.  If the unit is
@@ -18,7 +17,7 @@ library CDS_Connect_Conversions version '1.0.2'
  * @param Q - a Quantity
  * @returns {Quantity} a Quantity using mg/dL units or null if null was passed in or unit couldn't be converted
  */
-define function to_mg_per_dL_for_blood_cholesterol (Q Quantity):
+define function "To_mg_per_dL_for_Blood_Cholesterol" (Q Quantity):
   case
     when Q.unit = 'mg/dL' then Q
     when Q.unit = 'mmol/L' then Quantity{value: Q.value * 38.66976, unit: 'mg/dL'}
@@ -31,7 +30,7 @@ define function to_mg_per_dL_for_blood_cholesterol (Q Quantity):
  * @param Q - a Quantity
  * @returns {Quantity} a Quantity using mg/dL units or null if null was passed in or unit couldn't be converted
  */
-define function to_mg_per_dL_for_triglyceride (Q Quantity):
+define function "To_mg_per_dL_for_Triglyceride" (Q Quantity):
   case
     when Q.unit = 'mg/dL' then Q
     when Q.unit = 'mmol/L' then Quantity{value: Q.value * 88.57, unit: 'mg/dL'}
@@ -44,7 +43,7 @@ define function to_mg_per_dL_for_triglyceride (Q Quantity):
  * @param Q - a Quantity
  * @returns {Quantity} a Quantity using mg/dL units or null if null was passed in or unit couldn't be converted
  */
-define function to_mg_per_dL_for_blood_glucose (Q Quantity):
+define function "To_mg_per_dL_for_Blood_Glucose" (Q Quantity):
   case
     when Q.unit = 'mg/dL' then Q
     when Q.unit = 'mmol/L' then Quantity{value: Q.value * 18.02, unit: 'mg/dL'}

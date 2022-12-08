@@ -72,10 +72,7 @@ function valuesetter(req, res, next) {
   // If the calling library has valuesets, crosscheck them with the local
   // codeservice. Any valuesets not found in the local cache will be
   // downloaded from VSAC.
-  // Use of API Key is preferred, as username/password will not be supported on Jan 1 2021
-  const ensureValueSets = process.env['UMLS_USER_NAME'] && !process.env['UMLS_API_KEY']
-    ? csLoader.get().ensureValueSetsInLibrary(library)
-    : csLoader.get().ensureValueSetsInLibraryWithAPIKey(library);
+  const ensureValueSets = csLoader.get().ensureValueSetsInLibraryWithAPIKey(library);
   ensureValueSets.then( () => next() )
     .catch( (err) => {
       logError(err);
@@ -160,7 +157,7 @@ function execute(req, res, next) {
         entry: data.map(r => { return {resource: r}; })
       }]);
     } else {
-      sendError(res, 400, `Data must be in FHIR 1.0.2 (DSTU2) format.`);
+      sendError(res, 400, `Data must be in FHIR format.`);
       return;
     }
   }

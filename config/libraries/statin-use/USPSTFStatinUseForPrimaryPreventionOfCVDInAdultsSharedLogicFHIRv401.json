@@ -1,12 +1,13 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.3.0",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "USPSTF_Statin_Use_for_Primary_Prevention_of_CVD_in_Adults_Shared_Logic_FHIRv102",
-         "version" : "1.0.0"
+         "id" : "USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsSharedLogicFHIRv401",
+         "version" : "2.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -19,22 +20,22 @@
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "1.0.2"
+            "version" : "4.0.1"
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "FHIRHelpers",
             "path" : "FHIRHelpers",
-            "version" : "1.0.2"
+            "version" : "4.0.1"
          }, {
             "localIdentifier" : "C3F",
-            "path" : "CDS_Connect_Commons_for_FHIRv102",
-            "version" : "1.3.3"
+            "path" : "CDSConnectCommonsForFHIRv401",
+            "version" : "2.0.0"
          }, {
             "localIdentifier" : "Convert",
-            "path" : "CDS_Connect_Conversions",
-            "version" : "1.0.2"
+            "path" : "CDSConnectConversions",
+            "version" : "2.0.0"
          } ]
       },
       "codeSystems" : {
@@ -55,133 +56,129 @@
       "valueSets" : {
          "def" : [ {
             "name" : "LDL Test",
-            "id" : "2.16.840.1.113883.3.464.1003.198.11.1029",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.198.11.1029",
             "accessLevel" : "Public"
          }, {
             "name" : "LDL-c",
-            "id" : "2.16.840.1.113883.3.117.1.7.1.215",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.215",
             "accessLevel" : "Public"
          }, {
             "name" : "Diabetes",
-            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.103.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "Hypertension",
-            "id" : "2.16.840.1.113762.1.4.1032.9",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.9",
             "accessLevel" : "Public"
          }, {
             "name" : "Current Tobacco Smoker",
-            "id" : "2.16.840.1.113883.3.600.2390",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.2390",
             "accessLevel" : "Public"
          }, {
             "name" : "Ischemic Vascular Disease",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1003",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.12.1003",
             "accessLevel" : "Public"
          }, {
             "name" : "Carotid Intervention",
-            "id" : "2.16.840.1.113883.3.117.1.7.1.204",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.117.1.7.1.204",
             "accessLevel" : "Public"
          }, {
             "name" : "Familial Hypercholesterolemia",
-            "id" : "2.16.840.1.113762.1.4.1032.15",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.15",
             "accessLevel" : "Public"
          }, {
-            "name" : "Pregnancy",
-            "id" : "2.16.840.1.113883.3.526.3.378",
+            "name" : "CDS Pregnancy",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.264",
             "accessLevel" : "Public"
          }, {
-            "name" : "Pregnancy (New ICD10 codes published in 2018 and 2019)",
-            "id" : "2.16.840.1.113762.1.4.1032.80",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Breastfeeding ICD10",
-            "id" : "2.16.840.1.113762.1.4.1047.67",
+            "name" : "Breastfeeding",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.73",
             "accessLevel" : "Public"
          }, {
             "name" : "End stage renal disease",
-            "id" : "2.16.840.1.113883.3.526.3.353",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.353",
             "accessLevel" : "Public"
          }, {
             "name" : "ESRD Monthly Outpatient Services",
-            "id" : "2.16.840.1.113883.3.464.1003.109.11.1029",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.109.11.1029",
             "accessLevel" : "Public"
          }, {
             "name" : "Dialysis services",
-            "id" : "2.16.840.1.113883.3.464.1003.109.12.1013",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.109.12.1013",
             "accessLevel" : "Public"
          }, {
             "name" : "Dependence on dialysis",
-            "id" : "2.16.840.1.113762.1.4.1032.96",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.96",
             "accessLevel" : "Public"
          }, {
             "name" : "Cirrhosis",
-            "id" : "2.16.840.1.113762.1.4.1032.14",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.14",
             "accessLevel" : "Public"
          }, {
-            "name" : "Rhabdomyolysis",
-            "id" : "2.16.840.1.113762.1.4.1032.97",
+            "name" : "CDS Rhabdomyolysis",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.267",
             "accessLevel" : "Public"
          }, {
             "name" : "Low intensity statin therapy",
-            "id" : "2.16.840.1.113762.1.4.1047.107",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.107",
             "accessLevel" : "Public"
          }, {
             "name" : "Low Intensity Statin Therapy Branded",
-            "id" : "2.16.840.1.113762.1.4.1032.16",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.16",
             "accessLevel" : "Public"
          }, {
             "name" : "Moderate intensity statin therapy",
-            "id" : "2.16.840.1.113762.1.4.1047.98",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.98",
             "accessLevel" : "Public"
          }, {
             "name" : "Moderate Intensity Statin Therapy Branded",
-            "id" : "2.16.840.1.113762.1.4.1032.17",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.17",
             "accessLevel" : "Public"
          }, {
             "name" : "High intensity statin therapy",
-            "id" : "2.16.840.1.113762.1.4.1047.97",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1047.97",
             "accessLevel" : "Public"
          }, {
             "name" : "High Intensity Statin Therapy Branded",
-            "id" : "2.16.840.1.113762.1.4.1032.18",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.18",
             "accessLevel" : "Public"
          }, {
             "name" : "HDL-C Laboratory Test",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1012",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.12.1012",
             "accessLevel" : "Public"
          }, {
             "name" : "High Density Lipoprotein (HDL) LOINC",
-            "id" : "2.16.840.1.113883.3.600.873",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.600.873",
             "accessLevel" : "Public"
          }, {
             "name" : "Myocardial Infarction",
-            "id" : "2.16.840.1.113883.3.526.3.403",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.526.3.403",
             "accessLevel" : "Public"
          }, {
             "name" : "Acute Myocardial Infarction",
-            "id" : "2.16.840.1.113883.3.464.1003.104.12.1001",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.12.1001",
             "accessLevel" : "Public"
          }, {
             "name" : "CABG Surgeries",
-            "id" : "2.16.840.1.113883.3.666.5.694",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.666.5.694",
             "accessLevel" : "Public"
          }, {
             "name" : "Coronary Artery Bypass Graft",
-            "id" : "2.16.840.1.113883.3.464.1003.104.11.1004",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.104.11.1004",
             "accessLevel" : "Public"
          }, {
             "name" : "Percutaneous Coronary Intervention ICD10",
-            "id" : "2.16.840.1.113883.3.3157.2000.1",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.2000.1",
             "accessLevel" : "Public"
          }, {
             "name" : "Percutaneous Coronary Intervention SNOMEDCT",
-            "id" : "2.16.840.1.113883.3.3157.2000.2",
+            "id" : "https://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.3157.2000.2",
             "accessLevel" : "Public"
          } ]
       },
       "codes" : {
          "def" : [ {
-            "name" : "Tobacco smoking status code",
+            "name" : "Tobacco smoking status",
             "id" : "72166-2",
             "display" : "Tobacco smoking status",
             "accessLevel" : "Public",
@@ -189,7 +186,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "CVD 10-year risk code",
+            "name" : "CVD 10-year risk",
             "id" : "79423-0",
             "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
             "accessLevel" : "Public",
@@ -197,7 +194,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "Pregnancy status code",
+            "name" : "Pregnancy status",
             "id" : "82810-3",
             "display" : "Pregnancy status",
             "accessLevel" : "Public",
@@ -205,7 +202,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "Pregnant code",
+            "name" : "Pregnant",
             "id" : "77386006",
             "display" : "Patient currently pregnant (finding)",
             "accessLevel" : "Public",
@@ -213,7 +210,7 @@
                "name" : "SNOMED-CT"
             }
          }, {
-            "name" : "Breastfeeding status code",
+            "name" : "Breastfeeding status",
             "id" : "63895-7",
             "display" : "Breastfeeding status",
             "accessLevel" : "Public",
@@ -221,7 +218,7 @@
                "name" : "LOINC"
             }
          }, {
-            "name" : "Currently breastfeeding code",
+            "name" : "Currently breastfeeding",
             "id" : "169750002",
             "display" : "Mother currently breast-feeding (finding)",
             "accessLevel" : "Public",
@@ -229,95 +226,13 @@
                "name" : "SNOMED-CT"
             }
          }, {
-            "name" : "Dependence on renal dialysis code",
+            "name" : "Dependence on renal dialysis",
             "id" : "Z99.2",
             "display" : "Dependence on renal dialysis",
             "accessLevel" : "Public",
             "codeSystem" : {
                "name" : "ICD-10-CM"
             }
-         }, {
-            "name" : "Familial hypercholesterolemia code",
-            "id" : "E78.01",
-            "display" : "Familial hypercholesterolemia",
-            "accessLevel" : "Public",
-            "codeSystem" : {
-               "name" : "ICD-10-CM"
-            }
-         }, {
-            "name" : "Rhabdomyolysis code",
-            "id" : "M62.82",
-            "display" : "Rhabdomyolysis",
-            "accessLevel" : "Public",
-            "codeSystem" : {
-               "name" : "ICD-10-CM"
-            }
-         } ]
-      },
-      "concepts" : {
-         "def" : [ {
-            "name" : "Tobacco smoking status",
-            "display" : "Tobacco smoking status",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Tobacco smoking status code"
-            } ]
-         }, {
-            "name" : "CVD 10-year risk",
-            "display" : "Cardiovascular disease 10Y risk [Likelihood] ACC-AHA Pooled Cohort by Goff 2013",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "CVD 10-year risk code"
-            } ]
-         }, {
-            "name" : "Dependence on renal dialysis",
-            "display" : "Dependence on renal dialysis",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Dependence on renal dialysis code"
-            } ]
-         }, {
-            "name" : "Pregnancy status",
-            "display" : "Pregnancy status",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Pregnancy status code"
-            } ]
-         }, {
-            "name" : "Pregnant",
-            "display" : "Patient currently pregnant (finding)",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Pregnant code"
-            } ]
-         }, {
-            "name" : "Breastfeeding status",
-            "display" : "Breastfeeding status",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Breastfeeding status code"
-            } ]
-         }, {
-            "name" : "Currently breastfeeding",
-            "display" : "Mother currently breast-feeding (finding)",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Currently breastfeeding code"
-            } ]
-         }, {
-            "name" : "Familial hypercholesterolemia concept",
-            "display" : "Familial hypercholesterolemia",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Familial hypercholesterolemia code"
-            } ]
-         }, {
-            "name" : "Rhabdomyolysis concept",
-            "display" : "Rhabdomyolysis",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "Rhabdomyolysis code"
-            } ]
          } ]
       },
       "contexts" : {
@@ -333,6 +248,7 @@
                "type" : "SingletonFrom",
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Patient",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/Patient",
                   "type" : "Retrieve"
                }
             }
@@ -396,20 +312,24 @@
                      "type" : "Union",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "LDL Test",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      }, {
                         "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "LDL-c",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -436,20 +356,24 @@
                         "type" : "Union",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Observation",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "LDL Test",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         }, {
                            "dataType" : "{http://hl7.org/fhir}Observation",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "LDL-c",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -466,7 +390,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "to_mg_per_dL_for_blood_cholesterol",
+               "name" : "To_mg_per_dL_for_Blood_Cholesterol",
                "libraryName" : "Convert",
                "type" : "FunctionRef",
                "operand" : [ {
@@ -487,20 +411,24 @@
                "type" : "Union",
                "operand" : [ {
                   "dataType" : "{http://hl7.org/fhir}Observation",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                   "codeProperty" : "code",
                   "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "HDL-C Laboratory Test",
+                     "preserve" : true,
                      "type" : "ValueSetRef"
                   }
                }, {
                   "dataType" : "{http://hl7.org/fhir}Observation",
+                  "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
                   "codeProperty" : "code",
                   "codeComparator" : "in",
                   "type" : "Retrieve",
                   "codes" : {
                      "name" : "High Density Lipoprotein (HDL) LOINC",
+                     "preserve" : true,
                      "type" : "ValueSetRef"
                   }
                } ]
@@ -555,7 +483,7 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "name" : "to_mg_per_dL_for_blood_cholesterol",
+               "name" : "To_mg_per_dL_for_Blood_Cholesterol",
                "libraryName" : "Convert",
                "type" : "FunctionRef",
                "operand" : [ {
@@ -584,11 +512,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Diabetes",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -611,11 +541,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Hypertension",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -639,13 +571,18 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationsByConcept",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Tobacco smoking status",
-                           "type" : "ConceptRef"
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                        "codeProperty" : "code",
+                        "codeComparator" : "~",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "Tobacco smoking status",
+                              "type" : "CodeRef"
+                           }
+                        }
                      } ]
                   } ]
                } ]
@@ -671,13 +608,18 @@
                         "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "name" : "ObservationsByConcept",
-                           "libraryName" : "C3F",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "Tobacco smoking status",
-                              "type" : "ConceptRef"
-                           } ]
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                           "codeProperty" : "code",
+                           "codeComparator" : "~",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "type" : "ToList",
+                              "operand" : {
+                                 "name" : "Tobacco smoking status",
+                                 "type" : "CodeRef"
+                              }
+                           }
                         }, {
                            "value" : 6,
                            "unit" : "years",
@@ -715,7 +657,7 @@
                   },
                   "valueset" : {
                      "name" : "Current Tobacco Smoker",
-                     "type" : "ValueSetRef"
+                     "preserve" : true
                   }
                }
             }
@@ -732,13 +674,18 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "name" : "ObservationsByConcept",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "name" : "CVD 10-year risk",
-                        "type" : "ConceptRef"
-                     } ]
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                     "codeProperty" : "code",
+                     "codeComparator" : "~",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "CVD 10-year risk",
+                           "type" : "CodeRef"
+                        }
+                     }
                   } ]
                } ]
             }
@@ -759,13 +706,18 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationsByConcept",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "CVD 10-year risk",
-                           "type" : "ConceptRef"
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                        "codeProperty" : "code",
+                        "codeComparator" : "~",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "CVD 10-year risk",
+                              "type" : "CodeRef"
+                           }
+                        }
                      }, {
                         "value" : 6,
                         "unit" : "years",
@@ -803,11 +755,13 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Condition",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "Myocardial Infarction",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -820,11 +774,13 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Condition",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "Acute Myocardial Infarction",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -838,11 +794,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Ischemic Vascular Disease",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -869,11 +827,13 @@
                               "type" : "FunctionRef",
                               "operand" : [ {
                                  "dataType" : "{http://hl7.org/fhir}Procedure",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                                  "codeProperty" : "code",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
                                     "name" : "CABG Surgeries",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -886,11 +846,13 @@
                               "type" : "FunctionRef",
                               "operand" : [ {
                                  "dataType" : "{http://hl7.org/fhir}Procedure",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                                  "codeProperty" : "code",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
                                     "name" : "Coronary Artery Bypass Graft",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -904,11 +866,13 @@
                            "type" : "FunctionRef",
                            "operand" : [ {
                               "dataType" : "{http://hl7.org/fhir}Procedure",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                               "codeProperty" : "code",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
                                  "name" : "Percutaneous Coronary Intervention ICD10",
+                                 "preserve" : true,
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -922,11 +886,13 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Procedure",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "Percutaneous Coronary Intervention SNOMEDCT",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -940,11 +906,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Procedure",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Carotid Intervention",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -956,51 +924,29 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Or",
-               "operand" : [ {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Confirmed",
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "Confirmed",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "name" : "ActiveCondition",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ActiveCondition",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "dataType" : "{http://hl7.org/fhir}Condition",
-                           "codeProperty" : "code",
-                           "codeComparator" : "in",
-                           "type" : "Retrieve",
-                           "codes" : {
-                              "name" : "Familial Hypercholesterolemia",
-                              "type" : "ValueSetRef"
-                           }
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
+                        "codeProperty" : "code",
+                        "codeComparator" : "in",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "name" : "Familial Hypercholesterolemia",
+                           "preserve" : true,
+                           "type" : "ValueSetRef"
+                        }
                      } ]
-                  }
-               }, {
-                  "type" : "Exists",
-                  "operand" : {
-                     "name" : "Confirmed",
-                     "libraryName" : "C3F",
-                     "type" : "FunctionRef",
-                     "operand" : [ {
-                        "name" : "ActiveCondition",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "ConditionsByConcept",
-                           "libraryName" : "C3F",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "Familial hypercholesterolemia concept",
-                              "type" : "ConceptRef"
-                           } ]
-                        } ]
-                     } ]
-                  }
-               } ]
+                  } ]
+               }
             }
          }, {
             "name" : "MostRecentPregnancyObservation",
@@ -1019,13 +965,18 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationsByConcept",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Pregnancy status",
-                           "type" : "ConceptRef"
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                        "codeProperty" : "code",
+                        "codeComparator" : "~",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "Pregnancy status",
+                              "type" : "CodeRef"
+                           }
+                        }
                      }, {
                         "value" : 42,
                         "unit" : "weeks",
@@ -1051,26 +1002,16 @@
                         "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
-                           "type" : "Union",
-                           "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Pregnancy",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}Condition",
-                              "codeProperty" : "code",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "Pregnancy (New ICD10 codes published in 2018 and 2019)",
-                                 "type" : "ValueSetRef"
-                              }
-                           } ]
+                           "dataType" : "{http://hl7.org/fhir}Condition",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
+                           "codeProperty" : "code",
+                           "codeComparator" : "in",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "CDS Pregnancy",
+                              "preserve" : true,
+                              "type" : "ValueSetRef"
+                           }
                         } ]
                      } ]
                   }
@@ -1085,8 +1026,11 @@
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "Pregnant",
-                     "type" : "ConceptRef"
+                     "type" : "ToConcept",
+                     "operand" : {
+                        "name" : "Pregnant",
+                        "type" : "CodeRef"
+                     }
                   } ]
                } ]
             }
@@ -1107,13 +1051,18 @@
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
-                        "name" : "ObservationsByConcept",
-                        "libraryName" : "C3F",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "Breastfeeding status",
-                           "type" : "ConceptRef"
-                        } ]
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Observation",
+                        "codeProperty" : "code",
+                        "codeComparator" : "~",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "type" : "ToList",
+                           "operand" : {
+                              "name" : "Breastfeeding status",
+                              "type" : "CodeRef"
+                           }
+                        }
                      }, {
                         "value" : 1,
                         "unit" : "year",
@@ -1140,11 +1089,13 @@
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Condition",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "Breastfeeding ICD10",
+                              "name" : "Breastfeeding",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         } ]
@@ -1161,8 +1112,11 @@
                         "type" : "ExpressionRef"
                      } ]
                   }, {
-                     "name" : "Currently breastfeeding",
-                     "type" : "ConceptRef"
+                     "type" : "ToConcept",
+                     "operand" : {
+                        "name" : "Currently breastfeeding",
+                        "type" : "CodeRef"
+                     }
                   } ]
                } ]
             }
@@ -1182,11 +1136,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "End stage renal disease",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -1200,13 +1156,14 @@
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "E",
+                  "alias" : "Encounter",
                   "expression" : {
                      "name" : "EncounterLookBack",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Encounter",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Encounter",
                         "type" : "Retrieve"
                      }, {
                         "value" : 1,
@@ -1223,10 +1180,10 @@
                      "operand" : {
                         "type" : "Query",
                         "source" : [ {
-                           "alias" : "R",
+                           "alias" : "Reason",
                            "expression" : {
-                              "path" : "reason",
-                              "scope" : "E",
+                              "path" : "reasonCode",
+                              "scope" : "Encounter",
                               "type" : "Property"
                            }
                         } ],
@@ -1234,17 +1191,17 @@
                         "where" : {
                            "type" : "InValueSet",
                            "code" : {
-                              "name" : "NullSafeToConcept",
-                              "libraryName" : "C3F",
+                              "name" : "ToConcept",
+                              "libraryName" : "FHIRHelpers",
                               "type" : "FunctionRef",
                               "operand" : [ {
-                                 "name" : "R",
+                                 "name" : "Reason",
                                  "type" : "AliasRef"
                               } ]
                            },
                            "valueset" : {
                               "name" : "ESRD Monthly Outpatient Services",
-                              "type" : "ValueSetRef"
+                              "preserve" : true
                            }
                         }
                      }
@@ -1255,7 +1212,7 @@
                         "type" : "Property",
                         "source" : {
                            "path" : "status",
-                           "scope" : "E",
+                           "scope" : "Encounter",
                            "type" : "Property"
                         }
                      }, {
@@ -1293,18 +1250,20 @@
                "operand" : {
                   "type" : "Query",
                   "source" : [ {
-                     "alias" : "P",
+                     "alias" : "Procedure",
                      "expression" : {
                         "name" : "ProcedureLookBack",
                         "libraryName" : "C3F",
                         "type" : "FunctionRef",
                         "operand" : [ {
                            "dataType" : "{http://hl7.org/fhir}Procedure",
+                           "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
                            "codeProperty" : "code",
                            "codeComparator" : "in",
                            "type" : "Retrieve",
                            "codes" : {
                               "name" : "Dialysis services",
+                              "preserve" : true,
                               "type" : "ValueSetRef"
                            }
                         }, {
@@ -1322,7 +1281,7 @@
                         "type" : "Property",
                         "source" : {
                            "path" : "status",
-                           "scope" : "P",
+                           "scope" : "Procedure",
                            "type" : "Property"
                         }
                      }, {
@@ -1356,24 +1315,26 @@
                      "type" : "Union",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Dependence on dialysis",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      }, {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "~",
                         "type" : "Retrieve",
                         "codes" : {
-                           "path" : "codes",
-                           "type" : "Property",
-                           "source" : {
+                           "type" : "ToList",
+                           "operand" : {
                               "name" : "Dependence on renal dialysis",
-                              "type" : "ConceptRef"
+                              "type" : "CodeRef"
                            }
                         }
                      } ]
@@ -1404,30 +1365,16 @@
                   "libraryName" : "C3F",
                   "type" : "FunctionRef",
                   "operand" : [ {
-                     "type" : "Union",
-                     "operand" : [ {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "in",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "name" : "Rhabdomyolysis",
-                           "type" : "ValueSetRef"
-                        }
-                     }, {
-                        "dataType" : "{http://hl7.org/fhir}Condition",
-                        "codeProperty" : "code",
-                        "codeComparator" : "~",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "path" : "codes",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Rhabdomyolysis concept",
-                              "type" : "ConceptRef"
-                           }
-                        }
-                     } ]
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
+                     "codeProperty" : "code",
+                     "codeComparator" : "in",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "CDS Rhabdomyolysis",
+                        "preserve" : true,
+                        "type" : "ValueSetRef"
+                     }
                   } ]
                } ]
             }
@@ -1458,11 +1405,13 @@
                      "type" : "FunctionRef",
                      "operand" : [ {
                         "dataType" : "{http://hl7.org/fhir}Condition",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
                            "name" : "Cirrhosis",
+                           "preserve" : true,
                            "type" : "ValueSetRef"
                         }
                      } ]
@@ -1476,7 +1425,7 @@
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "M",
+                  "alias" : "Statement",
                   "expression" : {
                      "name" : "MedicationStatementLookBack",
                      "libraryName" : "C3F",
@@ -1488,42 +1437,134 @@
                            "operand" : [ {
                               "type" : "Union",
                               "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low intensity statin therapy",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    }, {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    } ]
+                                 } ]
                               }, {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low Intensity Statin Therapy Branded",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }, {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
                               } ]
                            }, {
                               "type" : "Union",
                               "operand" : [ {
                                  "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate intensity statin therapy",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               }, {
                                  "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate Intensity Statin Therapy Branded",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -1532,20 +1573,24 @@
                            "type" : "Union",
                            "operand" : [ {
                               "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "codeProperty" : "medicationCodeableConcept",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "High intensity statin therapy",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
-                              "codeProperty" : "medicationCodeableConcept",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
                                  "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationStatement",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -1565,7 +1610,7 @@
                      "type" : "Property",
                      "source" : {
                         "path" : "status",
-                        "scope" : "M",
+                        "scope" : "Statement",
                         "type" : "Property"
                      }
                   }, {
@@ -1579,15 +1624,15 @@
                }
             }
          }, {
-            "name" : "StatinMedicationOrders",
+            "name" : "StatinMedicationRequests",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "M",
+                  "alias" : "Request",
                   "expression" : {
-                     "name" : "MedicationOrderLookBack",
+                     "name" : "MedicationRequestLookBack",
                      "libraryName" : "C3F",
                      "type" : "FunctionRef",
                      "operand" : [ {
@@ -1597,42 +1642,134 @@
                            "operand" : [ {
                               "type" : "Union",
                               "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low intensity statin therapy",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    }, {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    } ]
+                                 } ]
                               }, {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low Intensity Statin Therapy Branded",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }, {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
                               } ]
                            }, {
                               "type" : "Union",
                               "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate intensity statin therapy",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               }, {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate Intensity Statin Therapy Branded",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -1640,21 +1777,25 @@
                         }, {
                            "type" : "Union",
                            "operand" : [ {
-                              "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                              "codeProperty" : "medicationCodeableConcept",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "High intensity statin therapy",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationOrder",
-                              "codeProperty" : "medicationCodeableConcept",
+                              "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                              "codeProperty" : "medication",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
                                  "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -1674,7 +1815,7 @@
                      "type" : "Property",
                      "source" : {
                         "path" : "status",
-                        "scope" : "M",
+                        "scope" : "Request",
                         "type" : "Property"
                      }
                   }, {
@@ -1698,7 +1839,7 @@
             "expression" : {
                "type" : "Query",
                "source" : [ {
-                  "alias" : "M",
+                  "alias" : "Dispense",
                   "expression" : {
                      "name" : "MedicationDispenseLookBack",
                      "libraryName" : "C3F",
@@ -1710,42 +1851,134 @@
                            "operand" : [ {
                               "type" : "Union",
                               "operand" : [ {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low intensity statin therapy",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low intensity statin therapy",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    }, {
+                                       "type" : "Union",
+                                       "operand" : [ {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       }, {
+                                          "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                          "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                          "codeProperty" : "medication",
+                                          "codeComparator" : "in",
+                                          "type" : "Retrieve",
+                                          "codes" : {
+                                             "name" : "Low Intensity Statin Therapy Branded",
+                                             "preserve" : true,
+                                             "type" : "ValueSetRef"
+                                          }
+                                       } ]
+                                    } ]
+                                 }, {
+                                    "type" : "Union",
+                                    "operand" : [ {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    }, {
+                                       "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                       "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                       "codeProperty" : "medication",
+                                       "codeComparator" : "in",
+                                       "type" : "Retrieve",
+                                       "codes" : {
+                                          "name" : "Moderate intensity statin therapy",
+                                          "preserve" : true,
+                                          "type" : "ValueSetRef"
+                                       }
+                                    } ]
+                                 } ]
                               }, {
-                                 "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                                 "codeProperty" : "medicationCodeableConcept",
-                                 "codeComparator" : "in",
-                                 "type" : "Retrieve",
-                                 "codes" : {
-                                    "name" : "Low Intensity Statin Therapy Branded",
-                                    "type" : "ValueSetRef"
-                                 }
+                                 "type" : "Union",
+                                 "operand" : [ {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 }, {
+                                    "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                                    "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                    "codeProperty" : "medication",
+                                    "codeComparator" : "in",
+                                    "type" : "Retrieve",
+                                    "codes" : {
+                                       "name" : "Moderate Intensity Statin Therapy Branded",
+                                       "preserve" : true,
+                                       "type" : "ValueSetRef"
+                                    }
+                                 } ]
                               } ]
                            }, {
                               "type" : "Union",
                               "operand" : [ {
                                  "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate intensity statin therapy",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               }, {
                                  "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                                 "codeProperty" : "medicationCodeableConcept",
+                                 "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                                 "codeProperty" : "medication",
                                  "codeComparator" : "in",
                                  "type" : "Retrieve",
                                  "codes" : {
-                                    "name" : "Moderate Intensity Statin Therapy Branded",
+                                    "name" : "High intensity statin therapy",
+                                    "preserve" : true,
                                     "type" : "ValueSetRef"
                                  }
                               } ]
@@ -1754,20 +1987,24 @@
                            "type" : "Union",
                            "operand" : [ {
                               "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "codeProperty" : "medicationCodeableConcept",
-                              "codeComparator" : "in",
-                              "type" : "Retrieve",
-                              "codes" : {
-                                 "name" : "High intensity statin therapy",
-                                 "type" : "ValueSetRef"
-                              }
-                           }, {
-                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
-                              "codeProperty" : "medicationCodeableConcept",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                              "codeProperty" : "medication",
                               "codeComparator" : "in",
                               "type" : "Retrieve",
                               "codes" : {
                                  "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
+                                 "type" : "ValueSetRef"
+                              }
+                           }, {
+                              "dataType" : "{http://hl7.org/fhir}MedicationDispense",
+                              "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+                              "codeProperty" : "medication",
+                              "codeComparator" : "in",
+                              "type" : "Retrieve",
+                              "codes" : {
+                                 "name" : "High Intensity Statin Therapy Branded",
+                                 "preserve" : true,
                                  "type" : "ValueSetRef"
                               }
                            } ]
@@ -1787,7 +2024,7 @@
                      "type" : "Property",
                      "source" : {
                         "path" : "status",
-                        "scope" : "M",
+                        "scope" : "Dispense",
                         "type" : "Property"
                      }
                   }, {
@@ -1821,7 +2058,7 @@
                   }, {
                      "type" : "Exists",
                      "operand" : {
-                        "name" : "StatinMedicationOrders",
+                        "name" : "StatinMedicationRequests",
                         "type" : "ExpressionRef"
                      }
                   } ]

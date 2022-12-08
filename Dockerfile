@@ -1,14 +1,14 @@
-FROM keymetrics/pm2:12-alpine
+FROM keymetrics/pm2:16-alpine
 
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 
-# First copy over the yarn files and install dependencies (multi-stage build optimization)
+# First copy over the npm files and install dependencies (multi-stage build optimization)
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY ./package.json .
-COPY ./yarn.lock .
-RUN yarn install --production
+COPY ./npm-shrinkwrap.json .
+RUN npm install --omit=dev
 
 # Now copy over the remaining relevant files
 COPY ./bin /usr/src/app/bin
@@ -32,7 +32,7 @@ RUN mkdir -p /usr/src/app/.vsac_cache
 RUN chown node /usr/src/app/.vsac_cache
 
 # Clean up a bit to save space
-RUN yarn cache clean
+RUN npm cache clean --force
 
 # Expose the server port
 EXPOSE 3000

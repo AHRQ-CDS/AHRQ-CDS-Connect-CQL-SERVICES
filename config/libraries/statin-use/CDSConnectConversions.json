@@ -1,12 +1,13 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "2.3.0",
          "translatorOptions" : "",
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
-         "id" : "CDS_Connect_Conversions",
-         "version" : "1.0.2"
+         "id" : "CDSConnectConversions",
+         "version" : "2.0.0"
       },
       "schemaIdentifier" : {
          "id" : "urn:hl7-org:elm",
@@ -20,7 +21,7 @@
       },
       "statements" : {
          "def" : [ {
-            "name" : "to_mg_per_dL_for_blood_cholesterol",
+            "name" : "To_mg_per_dL_for_Blood_Cholesterol",
             "context" : "Patient",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
@@ -108,7 +109,7 @@
                }
             } ]
          }, {
-            "name" : "to_mg_per_dL_for_triglyceride",
+            "name" : "To_mg_per_dL_for_Triglyceride",
             "context" : "Patient",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
@@ -196,7 +197,7 @@
                }
             } ]
          }, {
-            "name" : "to_mg_per_dL_for_blood_glucose",
+            "name" : "To_mg_per_dL_for_Blood_Glucose",
             "context" : "Patient",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
