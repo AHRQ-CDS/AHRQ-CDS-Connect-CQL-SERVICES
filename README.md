@@ -268,8 +268,8 @@ x-xss-protection : 0
 location : /api/library/USPSTFStatinUseForPrimaryPreventionOfCVDInAdultsFHIRv401/version/2.0.0
 content-type : application/json; charset=utf-8
 content-length : 757
-etag : W/"2f5-aTyQychLXxf71+WuuYgbE9ieyeM"
-date : Wed, 30 Nov 2022 23:02:13 GMT
+etag : W/"2f5-Lcv5mPo1Lv1gd4Jzz1lwI6dqH5A"
+date : Mon, 01 May 2023 15:18:01 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -282,7 +282,7 @@ connection : close
     "Rationale",
     "Errors"
   ],
-  "timestamp": "2022-11-30T23:02:13.357Z",
+  "timestamp": "2023-05-01T15:18:01.599Z",
   "patientID": "1",
   "results": {
     "Recommendation": "Start low to moderate intensity lipid lowering therapy based on outcome of shared decision making between patient and provider",
@@ -328,7 +328,7 @@ access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Re
 content-type : application/json; charset=utf-8
 content-length : 1322
 etag : W/"52a-GSRG9e6IwMJSp3Rwa27vmJWM2AQ"
-date : Wed, 30 Nov 2022 23:03:43 GMT
+date : Mon, 01 May 2023 15:18:45 GMT
 connection : close
 --------------- BODY ---------------
 {
@@ -400,7 +400,7 @@ access-control-expose-headers : Origin, Accept, Content-Location, Location, X-Re
 content-type : application/json; charset=utf-8
 content-length : 815
 etag : W/"32f-yEqi/NUi2DfkJvKQJGEPS0NM0dc"
-date : Wed, 30 Nov 2022 23:04:19 GMT
+date : Mon, 01 May 2023 15:19:18 GMT
 connection : close
 --------------- BODY ---------------
 {
