@@ -94,7 +94,7 @@ function valuesetter(req, res, next) {
  * Route handler that executes data against the requested library.
  * Requires `resolver` handler to precede it in the handler chain.
  */
-function execute(req, res, next) {
+async function execute(req, res, next) {
   // Get the lib from the res.locals (thanks, middleware!)
   const lib = res.locals.library;
 
@@ -165,7 +165,7 @@ function execute(req, res, next) {
   // Execute it and send the results
   try {
     const executor = new cql.Executor(lib, csLoader.get(), parameters);
-    const results = executor.exec(patientSource);
+    const results = await executor.exec(patientSource);
     sendResults(res, results, parameters, expressions);
   } catch (err) {
     logError(err);

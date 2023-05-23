@@ -191,7 +191,7 @@ async function call(req, res, next) {
   let results;
   try {
     const executor = new cql.Executor(lib, csLoader.get());
-    results = executor.exec(patientSource);
+    results = await executor.exec(patientSource);
   } catch (err) {
     logError(err);
     let errToSend = err;
