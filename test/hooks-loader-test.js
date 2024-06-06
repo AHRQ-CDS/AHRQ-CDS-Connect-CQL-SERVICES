@@ -1,9 +1,14 @@
 const path = require('path');
-const { expect } = require('chai');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
 
+let expect;
+
 describe('hooks-loader', () => {
+  before(async () => {
+    expect = (await import('chai')).expect;
+  });
+
   beforeEach(() => {
     libsLoader.reset();
     libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
@@ -117,6 +122,31 @@ const FULL_HOOK = {
         source: {
           label: 'My Imagination',
           url: 'https://example.org/my/imagination'
+        },
+        suggestions: [
+          {
+            label: 'Prescribe exercise'
+          },
+          {
+            label: 'Refer to local sports recreation league'
+          }
+        ],
+        selectionBehavior: 'any'
+      }
+    }],
+    systemActions: [{
+      conditionExpression: 'InPopulation',
+      action: {
+        type: 'create',
+        description: 'Create a record of this communication',
+        resource: {
+          resourceType: 'Communication',
+          status: 'completed',
+          payload: [
+            {
+              contentString: '${Recommendation}'
+            }
+          ]
         }
       }
     }],

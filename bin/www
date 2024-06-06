@@ -9,6 +9,7 @@ const debug = require('debug')('cql-exec-service:server');
 const libsLoader = require('../lib/libraries-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const csLoader = require('../lib/code-service-loader');
+const cardLogger = require('../lib/card-logger');
 const { mkdirp } = require('mkdirp');
 const http = require('http');
 const path = require('path');
@@ -29,13 +30,17 @@ if (!fs.existsSync(codeServiceCachePath)) {
   mkdirp.sync(codeServiceCachePath);
 }
 csLoader.load(codeServiceCachePath);
-libsLoader.load(path.join(__dirname, '..', 'config', 'libraries'));
+libsLoader.load(path.resolve(__dirname, '..', 'config', 'libraries'));
 console.log(`Loaded ${libsLoader.get().all().length} libraries`);
 libsLoader.get().all().forEach(lib => console.log(`  - ${lib.source.library.identifier.id}:${lib.source.library.identifier.version}`));
-hooksLoader.load(path.join(__dirname, '..', 'config', 'hooks'));
+hooksLoader.load(path.resolve(__dirname, '..', 'config', 'hooks'));
 console.log(`Loaded ${hooksLoader.get().all().length} hooks`);
 hooksLoader.get().all().forEach(hook => console.log(`  - ${hook.id}`));
-
+cardLogger.checkCardLoggingSetting().then((setting) => {
+  console.log(`CDS Hooks Card Logging: ${setting}`);
+}).catch(e => {
+  console.error(e.message || e);
+});
 
 /**
  * Get port from environment and store in Express.

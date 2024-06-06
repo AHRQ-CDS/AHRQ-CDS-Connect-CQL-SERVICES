@@ -3,6 +3,7 @@
   "hook": "patient-view",
   "title": "Condition and Medication Request Count",
   "description": "Counts the number of confirmed conditions and medication requests",
+  "usageRequirements": "If prefetch data is not sent, a FHIR server should be available to support required queries",
   "_config": {
     "cards": [{
       "conditionExpression": "HasCount",

@@ -8,7 +8,7 @@ dependencies are currently fixed to older versions:
 In addition, `overrides` are defined in `package.json` for transitive
 depencies that are locked to vulnerable versions. These overrides are:
 
-* **semver**: Introduced by dependencies of **fhirclient**.
+* N/A at this time
 
 These overrides should be periodically reviewed to determine if they are still
 needed.

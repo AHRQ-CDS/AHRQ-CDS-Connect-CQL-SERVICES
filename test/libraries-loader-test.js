@@ -1,8 +1,13 @@
 const path = require('path');
-const { expect } = require('chai');
 const libsLoader = require('../lib/libraries-loader');
 
+let expect;
+
 describe('libraries-loader', () => {
+  before(async () => {
+    expect = (await import('chai')).expect;
+  });
+
   beforeEach(() => {
     libsLoader.reset();
     libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));

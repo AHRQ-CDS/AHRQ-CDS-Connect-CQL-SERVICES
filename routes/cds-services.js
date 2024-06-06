@@ -7,9 +7,11 @@ const fhir = require('cql-exec-fhir');
 const fhirclient  = require('fhirclient');
 const cloneDeep = require('lodash/cloneDeep');
 const isPlainObject = require('lodash/isPlainObject');
+const uuid = require('../lib/uuid');
 const csLoader = require('../lib/code-service-loader');
 const hooksLoader = require('../lib/hooks-loader');
 const libsLoader = require('../lib/libraries-loader');
+const cardLogger = require('../lib/card-logger');
 
 // Middleware to setup response headers with CORS
 router.use((request, response, next) => {
@@ -27,10 +29,11 @@ router.use((request, response, next) => {
 // Establish the routes
 router.get('/', discover);
 router.post('/:id', resolver, valuesetter, call);
+router.post('/:id/feedback', feedback);
 
 /**
  * Route handler that returns the list of available CDS services.
- * @see {@link https://cds-hooks.org/specification/1.0/#discovery|Discovery}
+ * @see {@link https://cds-hooks.hl7.org/2.0/#discovery|Discovery}
  */
 function discover(req, res, next) {
   res.json({
@@ -119,7 +122,8 @@ function valuesetter(req, res, next) {
 
 /**
  * Route handler that handles a service call.
- * @see {@link https://cds-hooks.org/specification/1.0/#calling-a-cds-service|Calling a CDS Service}
+ * @see {@link https://cds-hooks.hl7.org/2.0/#calling-a-cds-service|Calling a CDS Service}
+ * @see {@link https://cds-hooks.hl7.org/2.0/#cds-service-response|CDS Service Response}
  */
 async function call(req, res, next) {
   const hook = res.locals.hook;
@@ -161,7 +165,7 @@ async function call(req, res, next) {
     // Wait for any open requests to finish, returning if there is an error
     try {
       await Promise.all(searchRequests);
-    } catch(err) {
+    } catch {
       res.sendStatus(412);
       return;
     }
@@ -221,45 +225,99 @@ async function call(req, res, next) {
   const pid = resultIDs[0];
   const pResults = results.patientResults[pid];
 
-  const cards= [];
+  const response = {
+    cards: []
+  };
 
-  // Get the cards from the config and replace the ${...} expressions
-  for (let i = 0; i < hook._config.cards.length; i++) {
-    const cardCfg = cloneDeep(hook._config.cards[i]);
-
-    // Check the condition
-    if (cardCfg.conditionExpression != null) {
-      const hasConditionExpression = Object.prototype.hasOwnProperty.call(pResults, cardCfg.conditionExpression.split('.')[0]);
-      if (!hasConditionExpression) {
-        sendError(res, 500, 'Hook configuration refers to non-existent conditionExpression');
-        return;
-      }
-      const condition = resolveExp(pResults, cardCfg.conditionExpression);
-      if (!condition) {
-        continue;
-      }
+  // Calculate the cards and systemActions for the response
+  const calculate = (itemsLabel, itemLabel) => {
+    if (!Array.isArray(hook._config[itemsLabel])) {
+      return; // not configured
     }
-    const card = interpolateVariables(cardCfg.card, pResults);
-
-    // If there are errors or warnings, report them as extensions
-    const report = (label, items) => {
-      if (items == null || items.length === 0) {
-        return;
-      } else if (!Array.isArray(items)) {
-        items = [items];
+    // Iterate the items from the config and replace the ${...} expressions
+    for (const itemCfg of hook._config[itemsLabel]) {
+      // Check the condition
+      if (itemCfg.conditionExpression != null) {
+        const hasConditionExpression = Object.prototype.hasOwnProperty.call(pResults, itemCfg.conditionExpression.split('.')[0]);
+        if (!hasConditionExpression) {
+          throw new Error(`Hook configuration for ${hook.id} refers to non-existent conditionExpression: ${itemCfg.conditionExpression}`);
+        }
+        const condition = resolveExp(pResults, itemCfg.conditionExpression);
+        if (!condition) {
+          continue;
+        }
       }
-      card.extension = card.extension || {};
-      card.extension[label] = items;
-    };
-    report('errors', pResults['Errors']);
-    report('warnings', pResults['Warnings']);
-
-    cards.push(card);
+      let item = interpolateVariables(itemCfg[itemLabel], pResults);
+      // If it's a card, assign random UUIDs to the card and its suggestions (or keep original uuid if in config)
+      if (itemsLabel === 'cards') {
+        item = Object.assign( { uuid: uuid.v4() }, item );
+        if (Array.isArray(item.suggestions)) {
+          item.suggestions = item.suggestions.map(sug => Object.assign({ uuid: uuid.v4() }, sug));
+        }
+      }
+      response[itemsLabel] = response[itemsLabel] || [];
+      response[itemsLabel].push(item);
+    }
+  };
+  try {
+    calculate('cards', 'card');
+    calculate('systemActions', 'action');
+  } catch (e) {
+    sendError(res, 500, e instanceof Error ? e.message : e);
+    return;
   }
 
-  res.json({
-    cards
-  });
+  // If there are errors or warnings, report them as extensions
+  const report = (label, items) => {
+    if (items == null || items.length === 0) {
+      return;
+    } else if (!Array.isArray(items)) {
+      items = [items];
+    }
+    response.extension = response.extension || {};
+    response.extension[label] = items;
+  };
+  report('errors', pResults['Errors']);
+  report('warnings', pResults['Warnings']);
+
+  // Log the cards, but ignore any errors since we don't want a logging failure to stop the response
+  await Promise.allSettled(response.cards.map(card => cardLogger.logCard(hook.id, card)));
+
+  res.json(response);
+}
+
+/**
+ * Route handler that handles feedback.
+ * @see {@link https://cds-hooks.hl7.org/2.0/#feedback|Feedback}
+ */
+async function feedback(req, res, next) {
+  // Check to ensure required properties are present
+  if (!Array.isArray(req.body.feedback)) {
+    sendError(res, 400, 'Invalid request. Required field \'feedback\' must be an array.');
+    return;
+  } else if (req.body.feedback.some(f => !f.card || !f.outcome || !f.outcomeTimestamp)) {
+    sendError(res, 400, 'Invalid request. Missing at least one of the following required fields from a feedback item: card, outcome, outcomeTimestamp.');
+    return;
+  } else if (req.body.feedback.some(f => f.outcome === 'accepted' && !Array.isArray(f.acceptedSuggestions))) {
+    sendError(res, 400, 'Invalid request. At least one feedback item has outcome \'accepted\' but is missing acceptedSuggestions array.');
+    return;
+  }
+
+  // Load the service definition
+  const hook = hooksLoader.get().find(req.params.id);
+  if (!hook) {
+    logError(`Hook not found: ${req.params.id}`);
+    res.sendStatus(404);
+    return;
+  }
+
+  const results = await Promise.allSettled(req.body.feedback.map(feedback => cardLogger.logFeedback(hook.id, feedback)));
+  if (results.every(r => r.status === 'fulfilled')) {
+    res.sendStatus(200);
+  } else {
+    // If any cards failed to be logged, let the client know since feedback is useless when not logged
+    sendError(res, 500, 'Failed to process feedback');
+  }
 }
 
 function getFHIRClient(req, res) {
@@ -329,11 +387,13 @@ function interpolateVariables(arg, results) {
     // It's an array, so interpolate each item in the array
     return arg.map(a => interpolateVariables(a, results));
   } else if (isPlainObject(arg)) {
+    // Make a clone so we don't modify the original object
+    const obj = cloneDeep(arg);
     // It's a plain object so interpolate the value of each key
-    for (const key of Object.keys(arg)) {
-      arg[key] = interpolateVariables(arg[key], results);
+    for (const key of Object.keys(obj)) {
+      obj[key] = interpolateVariables(obj[key], results);
     }
-    return arg;
+    return obj;
   }
   // Whatever it is, just pass it through
   return arg;

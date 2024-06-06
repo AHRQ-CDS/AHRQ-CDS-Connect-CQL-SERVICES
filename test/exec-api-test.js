@@ -1,12 +1,14 @@
 const path = require('path');
-const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../app');
 const csLoader = require('../lib/code-service-loader');
 const libsLoader = require('../lib/libraries-loader');
 
+let expect;
+
 describe('exec-api (version-agnostic)', () => {
-  before(() => {
+  before(async () => {
+    expect = (await import('chai')).expect;
     csLoader.load(path.resolve(__dirname, 'fixtures', 'code-service'));
     libsLoader.reset();
     libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
