@@ -18,7 +18,7 @@ For more information, please see the 2019 [pilot report](https://cds.ahrq.gov/si
 
 Since these pilots, CQL Services has also been updated to support FHIR STU3 and FHIR R4.  The version of FHIR will automatically be detected from the CQL library.
 
-These prototype services are part of the [CDS Connect](https://cds.ahrq.gov/cdsconnect) project, sponsored by the [Agency for Healthcare Research and Quality](https://www.ahrq.gov/) (AHRQ), and developed under contract with AHRQ by [MITRE's CAMH](https://www.mitre.org/centers/cms-alliances-to-modernize-healthcare/who-we-are) FFRDC.
+These prototype services are part of the [CDS Connect](https://cds.ahrq.gov/cdsconnect) project, sponsored by the [Agency for Healthcare Research and Quality](https://www.ahrq.gov/) (AHRQ), and developed under contract with AHRQ by MITRE's [Health FFRDC](https://www.mitre.org/our-impact/rd-centers/health-ffrdc).
 
 ## Contributions
 
