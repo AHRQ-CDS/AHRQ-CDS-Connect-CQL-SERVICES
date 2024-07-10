@@ -35,13 +35,13 @@
     "pug": "^3.0.3",
     "semver": "^7.6.2",
     "serve-favicon": "^2.5.0",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "chai": "^5.1.1",
-    "eslint": "^9.4.0",
-    "globals": "^15.4.0",
-    "mocha": "^10.4.0",
+    "eslint": "^9.6.0",
+    "globals": "^15.8.0",
+    "mocha": "^10.6.0",
     "nock": "^13.5.4",
     "sinon": "^18.0.0",
     "supertest": "^7.0.0",
