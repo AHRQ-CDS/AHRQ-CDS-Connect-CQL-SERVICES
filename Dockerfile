@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:18-alpine
+FROM --platform=$BUILDPLATFORM keymetrics/pm2:18-alpine
 
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
