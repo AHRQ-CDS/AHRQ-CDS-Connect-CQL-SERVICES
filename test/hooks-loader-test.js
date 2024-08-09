@@ -63,6 +63,66 @@ describe('hooks-loader', () => {
   });
 });
 
+describe('hooks-loader-prefetch-config', () => {
+  before(async () => {
+    expect = (await import('chai')).expect;
+  });
+
+  beforeEach(() => {
+    libsLoader.reset();
+    libsLoader.load(path.resolve(__dirname, 'fixtures', 'cql', 'R4'));
+    hooksLoader.reset();
+    hooksLoader.load(path.resolve(__dirname, 'fixtures', 'hooks-prefetch-config'));
+  });
+
+  it('should return the default extracted prefetch when there is no prefetch config', () => {
+    expect(hooksLoader.get().find('lazy-checker-no-pf-config').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Condition: 'Condition?patient={{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}'
+    });
+  });
+
+  it('should override prefetch keys that are specified in the prefetch config', () => {
+    expect(hooksLoader.get().find('lazy-checker-override-pf').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Condition: 'Condition?patient={{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}&date=ge2018-01-01'
+    });
+  });
+
+  it('should add new prefetch keys that are specified in the prefetch config and do not correspond to extracted prefetch keys', () => {
+    expect(hooksLoader.get().find('lazy-checker-add-pf').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Condition: 'Condition?patient={{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}',
+      AllergyIntolerance: 'AllergyIntolerance?patient={{context.patientId}}'
+    });
+  });
+
+  it('should remove prefetch keys that are specified as null in the prefetch config', () => {
+    expect(hooksLoader.get().find('lazy-checker-remove-pf-null').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}'
+    });
+  });
+
+  it('should remove prefetch keys that are specified as empty string in the prefetch config', () => {
+    expect(hooksLoader.get().find('lazy-checker-remove-pf-empty').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}'
+    });
+  });
+
+  it('should ignore prefetch keys that are specified in the prefetch config with an invalid value', () => {
+    expect(hooksLoader.get().find('lazy-checker-invalid-pf').prefetch).to.eql({
+      Patient: 'Patient/{{context.patientId}}',
+      Condition: 'Condition?patient={{context.patientId}}',
+      Observation: 'Observation?patient={{context.patientId}}'
+    });
+  });
+});
+
 describe('negative-test-hooks', () => {
   beforeEach(() => {
     libsLoader.reset();

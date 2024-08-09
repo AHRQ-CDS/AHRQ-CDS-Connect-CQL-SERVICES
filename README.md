@@ -165,6 +165,7 @@ CQL libraries are associated with CDS Hooks services via configuration files. CQ
 - **title**: the title of this service. This is used directly in the services discovery response.
 - **description**: a short description of the service. This is used directly in the services discovery response.
 - **usageRequirements**: an _optional_ description of any preconditions for the use of the service. This is used directly in the services discovery response.
+- **prefetch**: an _optional_ object to support adding, overriding, or removing prefetch keys in the generated [prefetch template](https://cds-hooks.hl7.org/2.0/#prefetch-template). If a specified key does not exist in the prefetch template generated from the CQL, it will be added. If a specified key matches a key in the generated prefetch template, then if the specified value for that key is a non-empty string, it will override the generated prefetch value for that key. If the specified value for a key is `null` or an empty string (`""`), then that prefetch key will be _removed_ from the prefetch template. Any keys in the generated prefetch template that are _not_ in the `prefetch` configuration object will remain in the prefetch template as-is.
 - **extension**: an _optional_ object to support arbitrary [extensions](https://cds-hooks.hl7.org/2.0/#extensions) in the service definition. This is used directly in the services discovery response.
 - **_config**: a configuration object that indicates how cards are generated and the CQL library to use for this service.
   - **cards**: an array of objects describing specific cards to be returned and the conditions under which to return them.
@@ -196,6 +197,9 @@ The following is an example of the hook configuration for the Statin Use artifac
   "title": "Statin Use for the Primary Prevention of CVD in Adults",
   "description": "Presents a United States Preventive Services Task Force (USPSTF) statin therapy recommendation for adults aged 40 to 75 years without a history of cardiovascular disease (CVD) who have 1 or more CVD risk factors (i.e., dyslipidemia, diabetes, hypertension, or smoking) and a calculated 10-year CVD event risk score of 7.5% or greater.",
   "usageRequirements": "NOTE: This service requires a pre-calculated CVD 10-year risk score stored as an Observation w/ code: LOINC 79423-0",
+  "prefetch": {
+    "Medication": null
+  },
   "_config": {
     "cards": [{
       "conditionExpression": "InPopulation",
@@ -222,6 +226,8 @@ The following is an example of the hook configuration for the Statin Use artifac
   }
 }
 ```
+
+Note that a `prefetch` configuration is provided to _remove_ the `Medication` prefetch key from the generated prefetch template. This means that the CQL will run without any `Medication` resource data. In this specific case, this avoids an unfiltered query for all `Medication` resources, but also means that `MedicationRequest` resources must specify the medication using `medicationCodeableConcept` rather than `medicationReference`.
 
 _**Note**: No checking is performed by CQL Services that any hook configurations are actually valid. It is up to the user to ensure hook configurations used with the service comply with the CDS Hooks specification. This allows for improved compatibility across past and future versions of CDS Hooks._
 

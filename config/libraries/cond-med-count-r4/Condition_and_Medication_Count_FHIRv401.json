@@ -1,8 +1,9 @@
 {
    "library" : {
       "annotation" : [ {
-         "translatorVersion" : "2.3.0",
-         "translatorOptions" : "",
+         "translatorVersion" : "3.10.0",
+         "translatorOptions" : "DisableListDemotion,DisableListPromotion",
+         "signatureLevel" : "Overloads",
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
@@ -16,25 +17,29 @@
       "usings" : {
          "def" : [ {
             "localIdentifier" : "System",
-            "uri" : "urn:hl7-org:elm-types:r1"
+            "uri" : "urn:hl7-org:elm-types:r1",
+            "annotation" : [ ]
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "4.0.1"
+            "version" : "4.0.1",
+            "annotation" : [ ]
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "FHIRHelpers",
             "path" : "FHIRHelpers",
-            "version" : "4.0.1"
+            "version" : "4.0.1",
+            "annotation" : [ ]
          } ]
       },
       "codeSystems" : {
          "def" : [ {
             "name" : "CONDVERSTATUS",
             "id" : "http://terminology.hl7.org/CodeSystem/condition-ver-status",
-            "accessLevel" : "Public"
+            "accessLevel" : "Public",
+            "annotation" : [ ]
          } ]
       },
       "codes" : {
@@ -43,8 +48,10 @@
             "id" : "confirmed",
             "display" : "Confirmed",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "codeSystem" : {
-               "name" : "CONDVERSTATUS"
+               "name" : "CONDVERSTATUS",
+               "annotation" : [ ]
             }
          } ]
       },
@@ -53,59 +60,95 @@
             "name" : "Condition Confirmed",
             "display" : "Confirmed",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "code" : [ {
-               "name" : "Condition Confirmed code"
+               "name" : "Condition Confirmed code",
+               "annotation" : [ ]
             } ]
          } ]
       },
       "contexts" : {
          "def" : [ {
-            "name" : "Patient"
+            "name" : "Patient",
+            "annotation" : [ ]
          } ]
       },
       "statements" : {
          "def" : [ {
             "name" : "Patient",
             "context" : "Patient",
+            "annotation" : [ ],
             "expression" : {
                "type" : "SingletonFrom",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Patient",
                   "templateId" : "http://hl7.org/fhir/StructureDefinition/Patient",
-                  "type" : "Retrieve"
+                  "type" : "Retrieve",
+                  "annotation" : [ ],
+                  "include" : [ ],
+                  "codeFilter" : [ ],
+                  "dateFilter" : [ ],
+                  "otherFilter" : [ ]
                }
             }
          }, {
             "name" : "NumberConfirmedConditions",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Count",
+               "annotation" : [ ],
+               "signature" : [ ],
                "source" : {
                   "type" : "Query",
+                  "annotation" : [ ],
                   "source" : [ {
                      "alias" : "C",
+                     "annotation" : [ ],
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}Condition",
                         "templateId" : "http://hl7.org/fhir/StructureDefinition/Condition",
-                        "type" : "Retrieve"
+                        "type" : "Retrieve",
+                        "annotation" : [ ],
+                        "include" : [ ],
+                        "codeFilter" : [ ],
+                        "dateFilter" : [ ],
+                        "otherFilter" : [ ]
                      }
                   } ],
+                  "let" : [ ],
                   "relationship" : [ ],
                   "where" : {
                      "type" : "Equivalent",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}Concept",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}Concept",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "name" : "ToConcept",
                         "libraryName" : "FHIRHelpers",
                         "type" : "FunctionRef",
+                        "annotation" : [ ],
+                        "signature" : [ ],
                         "operand" : [ {
                            "path" : "verificationStatus",
                            "scope" : "C",
-                           "type" : "Property"
+                           "type" : "Property",
+                           "annotation" : [ ]
                         } ]
                      }, {
                         "name" : "Condition Confirmed",
-                        "type" : "ConceptRef"
+                        "type" : "ConceptRef",
+                        "annotation" : [ ]
                      } ]
                   }
                }
@@ -114,107 +157,214 @@
             "name" : "NumberMedicationRequests",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Count",
+               "annotation" : [ ],
+               "signature" : [ {
+                  "type" : "ListTypeSpecifier",
+                  "annotation" : [ ],
+                  "elementType" : {
+                     "name" : "{http://hl7.org/fhir}MedicationRequest",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  }
+               } ],
                "source" : {
                   "dataType" : "{http://hl7.org/fhir}MedicationRequest",
                   "templateId" : "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-                  "type" : "Retrieve"
+                  "type" : "Retrieve",
+                  "annotation" : [ ],
+                  "include" : [ ],
+                  "codeFilter" : [ ],
+                  "dateFilter" : [ ],
+                  "otherFilter" : [ ]
                }
             }
          }, {
             "name" : "HasCount",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Greater",
+               "annotation" : [ ],
+               "signature" : [ {
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
+               }, {
+                  "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
+               } ],
                "operand" : [ {
                   "type" : "Add",
+                  "annotation" : [ ],
+                  "signature" : [ {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  }, {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  } ],
                   "operand" : [ {
                      "name" : "NumberConfirmedConditions",
-                     "type" : "ExpressionRef"
+                     "type" : "ExpressionRef",
+                     "annotation" : [ ]
                   }, {
                      "name" : "NumberMedicationRequests",
-                     "type" : "ExpressionRef"
+                     "type" : "ExpressionRef",
+                     "annotation" : [ ]
                   } ]
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                   "value" : "0",
-                  "type" : "Literal"
+                  "type" : "Literal",
+                  "annotation" : [ ]
                } ]
             }
          }, {
             "name" : "Summary",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Concatenate",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : [ {
                   "type" : "Concatenate",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : [ {
                      "type" : "Concatenate",
+                     "annotation" : [ ],
+                     "signature" : [ ],
                      "operand" : [ {
                         "type" : "Concatenate",
+                        "annotation" : [ ],
+                        "signature" : [ ],
                         "operand" : [ {
                            "type" : "Concatenate",
+                           "annotation" : [ ],
+                           "signature" : [ ],
                            "operand" : [ {
                               "name" : "ToString",
                               "libraryName" : "FHIRHelpers",
                               "type" : "FunctionRef",
+                              "annotation" : [ ],
+                              "signature" : [ {
+                                 "name" : "{http://hl7.org/fhir}string",
+                                 "type" : "NamedTypeSpecifier",
+                                 "annotation" : [ ]
+                              } ],
                               "operand" : [ {
                                  "type" : "Indexer",
+                                 "annotation" : [ ],
+                                 "signature" : [ {
+                                    "type" : "ListTypeSpecifier",
+                                    "annotation" : [ ],
+                                    "elementType" : {
+                                       "name" : "{http://hl7.org/fhir}string",
+                                       "type" : "NamedTypeSpecifier",
+                                       "annotation" : [ ]
+                                    }
+                                 }, {
+                                    "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "type" : "NamedTypeSpecifier",
+                                    "annotation" : [ ]
+                                 } ],
                                  "operand" : [ {
                                     "path" : "given",
                                     "type" : "Property",
+                                    "annotation" : [ ],
                                     "source" : {
                                        "type" : "Indexer",
+                                       "annotation" : [ ],
+                                       "signature" : [ {
+                                          "type" : "ListTypeSpecifier",
+                                          "annotation" : [ ],
+                                          "elementType" : {
+                                             "name" : "{http://hl7.org/fhir}HumanName",
+                                             "type" : "NamedTypeSpecifier",
+                                             "annotation" : [ ]
+                                          }
+                                       }, {
+                                          "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                                          "type" : "NamedTypeSpecifier",
+                                          "annotation" : [ ]
+                                       } ],
                                        "operand" : [ {
                                           "path" : "name",
                                           "type" : "Property",
+                                          "annotation" : [ ],
                                           "source" : {
                                              "name" : "Patient",
-                                             "type" : "ExpressionRef"
+                                             "type" : "ExpressionRef",
+                                             "annotation" : [ ]
                                           }
                                        }, {
                                           "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                                           "value" : "0",
-                                          "type" : "Literal"
+                                          "type" : "Literal",
+                                          "annotation" : [ ]
                                        } ]
                                     }
                                  }, {
                                     "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                                     "value" : "0",
-                                    "type" : "Literal"
+                                    "type" : "Literal",
+                                    "annotation" : [ ]
                                  } ]
                               } ]
                            }, {
                               "valueType" : "{urn:hl7-org:elm-types:r1}String",
                               "value" : " has ",
-                              "type" : "Literal"
+                              "type" : "Literal",
+                              "annotation" : [ ]
                            } ]
                         }, {
                            "type" : "ToString",
+                           "annotation" : [ ],
+                           "signature" : [ {
+                              "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           } ],
                            "operand" : {
                               "name" : "NumberConfirmedConditions",
-                              "type" : "ExpressionRef"
+                              "type" : "ExpressionRef",
+                              "annotation" : [ ]
                            }
                         } ]
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : " confirmed conditions and ",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   }, {
                      "type" : "ToString",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : {
                         "name" : "NumberMedicationRequests",
-                        "type" : "ExpressionRef"
+                        "type" : "ExpressionRef",
+                        "annotation" : [ ]
                      }
                   } ]
                }, {
                   "valueType" : "{urn:hl7-org:elm-types:r1}String",
                   "value" : " MedicationRequests.",
-                  "type" : "Literal"
+                  "type" : "Literal",
+                  "annotation" : [ ]
                } ]
             }
          } ]

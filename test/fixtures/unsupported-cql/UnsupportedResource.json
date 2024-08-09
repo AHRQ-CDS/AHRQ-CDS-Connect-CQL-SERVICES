@@ -1,6 +1,13 @@
 {
    "library" : {
       "annotation" : [ {
+         "translatorVersion" : "3.10.0",
+         "translatorOptions" : "DisableListDemotion,DisableListPromotion",
+         "signatureLevel" : "Overloads",
+         "type" : "CqlToElmInfo"
+      }, {
+         "libraryId" : "Unsupported",
+         "libraryVersion" : "1.0.0",
          "startLine" : 22,
          "startChar" : 10,
          "endLine" : 22,
@@ -10,6 +17,8 @@
          "errorSeverity" : "warning",
          "type" : "CqlToElmError"
       }, {
+         "libraryId" : "Unsupported",
+         "libraryVersion" : "1.0.0",
          "startLine" : 22,
          "startChar" : 10,
          "endLine" : 22,
@@ -30,28 +39,33 @@
       "usings" : {
          "def" : [ {
             "localIdentifier" : "System",
-            "uri" : "urn:hl7-org:elm-types:r1"
+            "uri" : "urn:hl7-org:elm-types:r1",
+            "annotation" : [ ]
          }, {
             "localIdentifier" : "FHIR",
             "uri" : "http://hl7.org/fhir",
-            "version" : "1.0.2"
+            "version" : "1.0.2",
+            "annotation" : [ ]
          } ]
       },
       "includes" : {
          "def" : [ {
             "localIdentifier" : "FHIRHelpers",
             "path" : "FHIRHelpers",
-            "version" : "1.0.2"
+            "version" : "1.0.2",
+            "annotation" : [ ]
          } ]
       },
       "parameters" : {
          "def" : [ {
             "name" : "AllowInsults",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "default" : {
                "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
                "value" : "false",
-               "type" : "Literal"
+               "type" : "Literal",
+               "annotation" : [ ]
             }
          } ]
       },
@@ -59,76 +73,130 @@
          "def" : [ {
             "name" : "Laziness",
             "id" : "0.0.0.0.0",
-            "accessLevel" : "Public"
+            "accessLevel" : "Public",
+            "annotation" : [ ],
+            "codeSystem" : [ ]
          }, {
             "name" : "Level of Apathethy",
             "id" : "0.0.0.0.1",
-            "accessLevel" : "Public"
+            "accessLevel" : "Public",
+            "annotation" : [ ],
+            "codeSystem" : [ ]
          }, {
             "name" : "Laziness Treatment",
             "id" : "0.0.0.0.2",
-            "accessLevel" : "Public"
+            "accessLevel" : "Public",
+            "annotation" : [ ],
+            "codeSystem" : [ ]
+         } ]
+      },
+      "contexts" : {
+         "def" : [ {
+            "name" : "Patient",
+            "annotation" : [ ]
          } ]
       },
       "statements" : {
          "def" : [ {
             "name" : "Patient",
             "context" : "Patient",
+            "annotation" : [ ],
             "expression" : {
                "type" : "SingletonFrom",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Patient",
-                  "type" : "Retrieve"
+                  "type" : "Retrieve",
+                  "annotation" : [ ],
+                  "include" : [ ],
+                  "codeFilter" : [ ],
+                  "dateFilter" : [ ],
+                  "otherFilter" : [ ]
                }
             }
          }, {
             "name" : "HasLazinessCondition",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Exists",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}Condition",
                   "codeProperty" : "code",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
+                  "annotation" : [ ],
                   "codes" : {
                      "name" : "Laziness",
-                     "type" : "ValueSetRef"
-                  }
+                     "preserve" : true,
+                     "type" : "ValueSetRef",
+                     "annotation" : [ ]
+                  },
+                  "include" : [ ],
+                  "codeFilter" : [ ],
+                  "dateFilter" : [ ],
+                  "otherFilter" : [ ]
                }
             }
          }, {
             "name" : "MostRecentApathyTest",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Last",
+               "annotation" : [ ],
+               "signature" : [ ],
                "source" : {
                   "type" : "Query",
+                  "annotation" : [ ],
                   "source" : [ {
                      "alias" : "O",
+                     "annotation" : [ ],
                      "expression" : {
                         "dataType" : "{http://hl7.org/fhir}Observation",
                         "codeProperty" : "code",
+                        "codeComparator" : "in",
                         "type" : "Retrieve",
+                        "annotation" : [ ],
                         "codes" : {
                            "name" : "Level of Apathethy",
-                           "type" : "ValueSetRef"
-                        }
+                           "preserve" : true,
+                           "type" : "ValueSetRef",
+                           "annotation" : [ ]
+                        },
+                        "include" : [ ],
+                        "codeFilter" : [ ],
+                        "dateFilter" : [ ],
+                        "otherFilter" : [ ]
                      }
                   } ],
+                  "let" : [ ],
                   "relationship" : [ ],
                   "sort" : {
+                     "annotation" : [ ],
                      "by" : [ {
                         "direction" : "asc",
                         "type" : "ByExpression",
+                        "annotation" : [ ],
                         "expression" : {
                            "name" : "ToDateTime",
                            "libraryName" : "FHIRHelpers",
                            "type" : "FunctionRef",
+                           "annotation" : [ ],
+                           "signature" : [ {
+                              "name" : "{http://hl7.org/fhir}instant",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           } ],
                            "operand" : [ {
                               "name" : "issued",
-                              "type" : "IdentifierRef"
+                              "type" : "IdentifierRef",
+                              "annotation" : [ ]
                            } ]
                         }
                      } ]
@@ -139,102 +207,177 @@
             "name" : "UnsupportedResource",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Exists",
+               "annotation" : [ ],
+               "signature" : [ {
+                  "type" : "ListTypeSpecifier",
+                  "annotation" : [ ],
+                  "elementType" : {
+                     "name" : "{http://hl7.org/fhir}ExplanationOfBenefit",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  }
+               } ],
                "operand" : {
                   "dataType" : "{http://hl7.org/fhir}ExplanationOfBenefit",
+                  "codeComparator" : "in",
                   "type" : "Retrieve",
+                  "annotation" : [ ],
                   "codes" : {
                      "name" : "Laziness Treatment",
-                     "type" : "ValueSetRef"
-                  }
+                     "preserve" : true,
+                     "type" : "ValueSetRef",
+                     "annotation" : [ ]
+                  },
+                  "include" : [ ],
+                  "codeFilter" : [ ],
+                  "dateFilter" : [ ],
+                  "otherFilter" : [ ]
                }
             }
          }, {
             "name" : "IsApathetic",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "GreaterOrEqual",
+               "annotation" : [ ],
+               "signature" : [ {
+                  "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
+               }, {
+                  "name" : "{urn:hl7-org:elm-types:r1}Quantity",
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
+               } ],
                "operand" : [ {
                   "name" : "ToQuantity",
                   "libraryName" : "FHIRHelpers",
                   "type" : "FunctionRef",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : [ {
                      "path" : "valueQuantity",
                      "type" : "Property",
+                     "annotation" : [ ],
                      "source" : {
                         "name" : "MostRecentApathyTest",
-                        "type" : "ExpressionRef"
+                        "type" : "ExpressionRef",
+                        "annotation" : [ ]
                      }
                   } ]
                }, {
                   "value" : 80,
                   "unit" : "%",
-                  "type" : "Quantity"
+                  "type" : "Quantity",
+                  "annotation" : [ ]
                } ]
             }
          }, {
             "name" : "MeetsInclusionCriteria",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Or",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : [ {
                   "name" : "HasLazinessCondition",
-                  "type" : "ExpressionRef"
+                  "type" : "ExpressionRef",
+                  "annotation" : [ ]
                }, {
                   "name" : "IsApathetic",
-                  "type" : "ExpressionRef"
+                  "type" : "ExpressionRef",
+                  "annotation" : [ ]
                } ]
             }
          }, {
             "name" : "MeetsExclusionCriteria",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Or",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : [ {
                   "type" : "Less",
+                  "annotation" : [ ],
+                  "signature" : [ {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  }, {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  } ],
                   "operand" : [ {
                      "precision" : "Year",
                      "type" : "CalculateAge",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}Date",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : {
-                        "type" : "ToDate",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
+                        "path" : "birthDate.value",
+                        "type" : "Property",
+                        "annotation" : [ ],
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef",
+                           "annotation" : [ ]
                         }
                      }
                   }, {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                      "value" : "4",
-                     "type" : "Literal"
+                     "type" : "Literal",
+                     "annotation" : [ ]
                   } ]
                }, {
                   "type" : "Greater",
+                  "annotation" : [ ],
+                  "signature" : [ {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  }, {
+                     "name" : "{urn:hl7-org:elm-types:r1}Integer",
+                     "type" : "NamedTypeSpecifier",
+                     "annotation" : [ ]
+                  } ],
                   "operand" : [ {
                      "precision" : "Year",
                      "type" : "CalculateAge",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}Date",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : {
-                        "type" : "ToDate",
-                        "operand" : {
-                           "path" : "birthDate.value",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "Patient",
-                              "type" : "ExpressionRef"
-                           }
+                        "path" : "birthDate.value",
+                        "type" : "Property",
+                        "annotation" : [ ],
+                        "source" : {
+                           "name" : "Patient",
+                           "type" : "ExpressionRef",
+                           "annotation" : [ ]
                         }
                      }
                   }, {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
                      "value" : "69",
-                     "type" : "Literal"
+                     "type" : "Literal",
+                     "annotation" : [ ]
                   } ]
                } ]
             }
@@ -242,16 +385,23 @@
             "name" : "InPopulation",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "And",
+               "annotation" : [ ],
+               "signature" : [ ],
                "operand" : [ {
                   "name" : "MeetsInclusionCriteria",
-                  "type" : "ExpressionRef"
+                  "type" : "ExpressionRef",
+                  "annotation" : [ ]
                }, {
                   "type" : "Not",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : {
                      "name" : "MeetsExclusionCriteria",
-                     "type" : "ExpressionRef"
+                     "type" : "ExpressionRef",
+                     "annotation" : [ ]
                   }
                } ]
             }
@@ -259,42 +409,44 @@
             "name" : "Recommendation",
             "context" : "Patient",
             "accessLevel" : "Public",
+            "annotation" : [ ],
             "expression" : {
                "type" : "If",
+               "annotation" : [ ],
                "condition" : {
-                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                  "type" : "As",
-                  "operand" : {
-                     "name" : "InPopulation",
-                     "type" : "ExpressionRef"
-                  }
+                  "name" : "InPopulation",
+                  "type" : "ExpressionRef",
+                  "annotation" : [ ]
                },
                "then" : {
                   "type" : "If",
+                  "annotation" : [ ],
                   "condition" : {
-                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
-                     "type" : "As",
-                     "operand" : {
-                        "name" : "AllowInsults",
-                        "type" : "ParameterRef"
-                     }
+                     "name" : "AllowInsults",
+                     "type" : "ParameterRef",
+                     "annotation" : [ ]
                   },
                   "then" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
                      "value" : "Get off the couch, you slouch!",
-                     "type" : "Literal"
+                     "type" : "Literal",
+                     "annotation" : [ ]
                   },
                   "else" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}String",
                      "value" : "Get off the couch!",
-                     "type" : "Literal"
+                     "type" : "Literal",
+                     "annotation" : [ ]
                   }
                },
                "else" : {
                   "asType" : "{urn:hl7-org:elm-types:r1}String",
                   "type" : "As",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : {
-                     "type" : "Null"
+                     "type" : "Null",
+                     "annotation" : [ ]
                   }
                }
             }
