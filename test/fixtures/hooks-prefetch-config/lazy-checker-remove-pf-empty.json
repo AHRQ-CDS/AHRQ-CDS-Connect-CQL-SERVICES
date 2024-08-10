@@ -1,0 +1,56 @@
+{
+  "id": "lazy-checker-remove-pf-empty",
+  "hook": "patient-view",
+  "title": "The Lazy Checker",
+  "description": "Checks if a person is potentially lazy, and if so, recommends to get off the couch.",
+  "prefetch": {
+    "Condition": ""
+  },
+  "_config": {
+    "cards": [{
+      "conditionExpression": "InPopulation",
+      "card": {
+        "summary": "Laziness detected",
+        "indicator": "info",
+        "detail": "${Recommendation}",
+        "source": {
+          "label": "My Imagination",
+          "url": "https://example.org/my/imagination"
+        },
+        "suggestions": [
+          {
+            "label": "Prescribe exercise"
+          },
+          {
+            "label": "Refer to local sports recreation league"
+          }
+        ],
+        "selectionBehavior": "any"
+      }
+    }],
+    "systemActions": [
+      {
+        "conditionExpression": "InPopulation",
+        "action": {
+          "type": "create",
+          "description": "Create a record of this communication",
+          "resource": {
+            "resourceType": "Communication",
+            "status": "completed",
+            "payload": [
+              {
+                "contentString": "${Recommendation}"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cql": {
+      "library": {
+        "id": "LazyChecker",
+        "version": "1.0.0"
+      }
+    }
+  }
+}

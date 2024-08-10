@@ -1,8 +1,9 @@
 {
    "library" : {
       "annotation" : [ {
-         "translatorVersion" : "2.3.0",
-         "translatorOptions" : "",
+         "translatorVersion" : "3.10.0",
+         "translatorOptions" : "DisableListDemotion,DisableListPromotion",
+         "signatureLevel" : "Overloads",
          "type" : "CqlToElmInfo"
       } ],
       "identifier" : {
@@ -16,71 +17,117 @@
       "usings" : {
          "def" : [ {
             "localIdentifier" : "System",
-            "uri" : "urn:hl7-org:elm-types:r1"
+            "uri" : "urn:hl7-org:elm-types:r1",
+            "annotation" : [ ]
          } ]
       },
       "statements" : {
          "def" : [ {
             "name" : "To_mg_per_dL_for_Blood_Cholesterol",
-            "context" : "Patient",
+            "context" : "Unfiltered",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Case",
+               "annotation" : [ ],
                "caseItem" : [ {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mg/dL",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "name" : "Q",
-                     "type" : "OperandRef"
+                     "type" : "OperandRef",
+                     "annotation" : [ ]
                   }
                }, {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mmol/L",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
                      "type" : "Instance",
+                     "annotation" : [ ],
                      "element" : [ {
                         "name" : "value",
                         "value" : {
                            "type" : "Multiply",
+                           "annotation" : [ ],
+                           "signature" : [ {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           }, {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           } ],
                            "operand" : [ {
                               "path" : "value",
                               "type" : "Property",
+                              "annotation" : [ ],
                               "source" : {
                                  "name" : "Q",
-                                 "type" : "OperandRef"
+                                 "type" : "OperandRef",
+                                 "annotation" : [ ]
                               }
                            }, {
                               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
                               "value" : "38.66976",
-                              "type" : "Literal"
+                              "type" : "Literal",
+                              "annotation" : [ ]
                            } ]
                         }
                      }, {
@@ -88,7 +135,8 @@
                         "value" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}String",
                            "value" : "mg/dL",
-                           "type" : "Literal"
+                           "type" : "Literal",
+                           "annotation" : [ ]
                         }
                      } ]
                   }
@@ -96,79 +144,129 @@
                "else" : {
                   "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
                   "type" : "As",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : {
-                     "type" : "Null"
+                     "type" : "Null",
+                     "annotation" : [ ]
                   }
                }
             },
             "operand" : [ {
                "name" : "Q",
+               "annotation" : [ ],
                "operandTypeSpecifier" : {
                   "name" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "NamedTypeSpecifier"
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
                }
             } ]
          }, {
             "name" : "To_mg_per_dL_for_Triglyceride",
-            "context" : "Patient",
+            "context" : "Unfiltered",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Case",
+               "annotation" : [ ],
                "caseItem" : [ {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mg/dL",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "name" : "Q",
-                     "type" : "OperandRef"
+                     "type" : "OperandRef",
+                     "annotation" : [ ]
                   }
                }, {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mmol/L",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
                      "type" : "Instance",
+                     "annotation" : [ ],
                      "element" : [ {
                         "name" : "value",
                         "value" : {
                            "type" : "Multiply",
+                           "annotation" : [ ],
+                           "signature" : [ {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           }, {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           } ],
                            "operand" : [ {
                               "path" : "value",
                               "type" : "Property",
+                              "annotation" : [ ],
                               "source" : {
                                  "name" : "Q",
-                                 "type" : "OperandRef"
+                                 "type" : "OperandRef",
+                                 "annotation" : [ ]
                               }
                            }, {
                               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
                               "value" : "88.57",
-                              "type" : "Literal"
+                              "type" : "Literal",
+                              "annotation" : [ ]
                            } ]
                         }
                      }, {
@@ -176,7 +274,8 @@
                         "value" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}String",
                            "value" : "mg/dL",
-                           "type" : "Literal"
+                           "type" : "Literal",
+                           "annotation" : [ ]
                         }
                      } ]
                   }
@@ -184,79 +283,129 @@
                "else" : {
                   "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
                   "type" : "As",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : {
-                     "type" : "Null"
+                     "type" : "Null",
+                     "annotation" : [ ]
                   }
                }
             },
             "operand" : [ {
                "name" : "Q",
+               "annotation" : [ ],
                "operandTypeSpecifier" : {
                   "name" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "NamedTypeSpecifier"
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
                }
             } ]
          }, {
             "name" : "To_mg_per_dL_for_Blood_Glucose",
-            "context" : "Patient",
+            "context" : "Unfiltered",
             "accessLevel" : "Public",
             "type" : "FunctionDef",
+            "annotation" : [ ],
             "expression" : {
                "type" : "Case",
+               "annotation" : [ ],
                "caseItem" : [ {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mg/dL",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "name" : "Q",
-                     "type" : "OperandRef"
+                     "type" : "OperandRef",
+                     "annotation" : [ ]
                   }
                }, {
+                  "annotation" : [ ],
                   "when" : {
                      "type" : "Equal",
+                     "annotation" : [ ],
+                     "signature" : [ {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     }, {
+                        "name" : "{urn:hl7-org:elm-types:r1}String",
+                        "type" : "NamedTypeSpecifier",
+                        "annotation" : [ ]
+                     } ],
                      "operand" : [ {
                         "path" : "unit",
                         "type" : "Property",
+                        "annotation" : [ ],
                         "source" : {
                            "name" : "Q",
-                           "type" : "OperandRef"
+                           "type" : "OperandRef",
+                           "annotation" : [ ]
                         }
                      }, {
                         "valueType" : "{urn:hl7-org:elm-types:r1}String",
                         "value" : "mmol/L",
-                        "type" : "Literal"
+                        "type" : "Literal",
+                        "annotation" : [ ]
                      } ]
                   },
                   "then" : {
                      "classType" : "{urn:hl7-org:elm-types:r1}Quantity",
                      "type" : "Instance",
+                     "annotation" : [ ],
                      "element" : [ {
                         "name" : "value",
                         "value" : {
                            "type" : "Multiply",
+                           "annotation" : [ ],
+                           "signature" : [ {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           }, {
+                              "name" : "{urn:hl7-org:elm-types:r1}Decimal",
+                              "type" : "NamedTypeSpecifier",
+                              "annotation" : [ ]
+                           } ],
                            "operand" : [ {
                               "path" : "value",
                               "type" : "Property",
+                              "annotation" : [ ],
                               "source" : {
                                  "name" : "Q",
-                                 "type" : "OperandRef"
+                                 "type" : "OperandRef",
+                                 "annotation" : [ ]
                               }
                            }, {
                               "valueType" : "{urn:hl7-org:elm-types:r1}Decimal",
                               "value" : "18.02",
-                              "type" : "Literal"
+                              "type" : "Literal",
+                              "annotation" : [ ]
                            } ]
                         }
                      }, {
@@ -264,7 +413,8 @@
                         "value" : {
                            "valueType" : "{urn:hl7-org:elm-types:r1}String",
                            "value" : "mg/dL",
-                           "type" : "Literal"
+                           "type" : "Literal",
+                           "annotation" : [ ]
                         }
                      } ]
                   }
@@ -272,16 +422,21 @@
                "else" : {
                   "asType" : "{urn:hl7-org:elm-types:r1}Quantity",
                   "type" : "As",
+                  "annotation" : [ ],
+                  "signature" : [ ],
                   "operand" : {
-                     "type" : "Null"
+                     "type" : "Null",
+                     "annotation" : [ ]
                   }
                }
             },
             "operand" : [ {
                "name" : "Q",
+               "annotation" : [ ],
                "operandTypeSpecifier" : {
                   "name" : "{urn:hl7-org:elm-types:r1}Quantity",
-                  "type" : "NamedTypeSpecifier"
+                  "type" : "NamedTypeSpecifier",
+                  "annotation" : [ ]
                }
             } ]
          } ]
