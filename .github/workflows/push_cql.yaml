@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Workflow in Another Repository
+      - name: Trigger Workflow Cut Image Workflow
         run: |
           curl -L \
             -X POST \
